@@ -2,10 +2,9 @@
 function NavBar() {
  
 return (
+<div className="w-full h-[20vh] bg-[red]">
 
-    <nav className="">
-      
-    </nav>
+</div>
   );
 }
 export default NavBar;
