@@ -1,15 +1,20 @@
 import { createBrowserRouter } from "react-router-dom";
-import Main from "../src/layouts/Main";
-import App from "../src/App";
+import Index from "../src/pages";
+import PanelAdmin from "../src/pages/panelAdmin";
+import ConsultaPDF from "../src/pages/consultaPDF";
 const router = createBrowserRouter([
     {
-    path:"/",
-    element:<Main/>,
-    children:[            
-        {
-            path:'/',
-            element: <App/>
-        },]
-}
+        path:"/",
+        element:<Index/>
+    },
+    {
+        path:"/panelAdmin",
+        element:<PanelAdmin/>
+    },
+    {
+        path:"/consultaPDF/:cliente_id",
+        element:<ConsultaPDF/>
+    },
+       
 ])
 export default router
