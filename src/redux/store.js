@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import chapterReducer from "./reducers/reducer";
+import usersReducer from "./reducers/userReducer.js";
 
 
 export const store = configureStore({
     reducer: {
-        chapters:chapterReducer
+        users:usersReducer
+        
       },
 })

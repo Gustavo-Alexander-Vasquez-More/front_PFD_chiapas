@@ -1,4 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import userActions from '../redux/actions/userActions.js';
+import Swal from 'sweetalert2';
 
 export default function CrearUsuario() {
   const [password, setPassword] = useState('');
@@ -6,6 +9,7 @@ export default function CrearUsuario() {
   const [folios, setFolios] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [selectedRole, setSelectedRole] = useState(null);
+  const dispatch=useDispatch()
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
@@ -26,14 +30,36 @@ function captureFolios(){
 }
 
 async function crearUsuario(){
+  const datos={
+  usuario:nombre,
+  contraseña:password,
+  folios:folios,
+  rol:selectedRole
+  }
     try {
-        
-    } catch (error) {
-        
-    }
+      if(datos){
+      await dispatch(userActions.create_users(datos))
+      
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Usuario creado con éxito',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      dispatch(userActions.read_users())
+}else{
+  Swal.fire({
+    icon: 'error',
+    title: 'Lo sentimos!',
+    text: 'El usuario no ha podido ser creado.',
+    })
+}} catch (error) {
+console.log(error);
+}
 }
 return (
-    <div className='w-full h-[90vh] bg-[white]'>
+    <div className='w-full h-[90vh] bg-[url("https://static.vecteezy.com/system/resources/previews/002/848/473/non_2x/modern-white-background-with-shiny-gold-geometric-element-abstract-light-clean-silver-background-vector.jpg")] bg-cover'>
       <div className='w-full h-[10vh] flex items-center justify-center text-[2rem] px-[1.5rem] '>
         <p className='font-semibold'>Crea un usuario</p>
       </div>
@@ -99,7 +125,7 @@ return (
         </div>
       </div>
       <div className='w-full h-[12vh] flex  items-center gap-2 px-[7rem]'>
-        <button className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] w-[20%] text-white'>Crear</button>
+        <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] w-[20%] text-white'>Crear</button>
       </div>
     </div>
   );
