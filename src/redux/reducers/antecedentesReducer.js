@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import antecedentes_actions from "../actions/antecedentesActions";
-const {read_antecedentes  } = antecedentes_actions;
+const {read_antecedentes, create_antecedentes  } = antecedentes_actions;
 const initialState = {
 antecedentes: []
 }
@@ -12,6 +12,12 @@ const antecedentesReducer = createReducer(initialState, (builder) => {
         antecedentes:action.payload
         }
    })
+   .addCase(create_antecedentes.fulfilled, (state, action)=>{
+    return{
+    ...state,
+    antecedentes:action.payload
+    }
+})
 })
 
 

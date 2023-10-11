@@ -1,46 +1,91 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import antecedentes_actions from '../redux/actions/antecedentesActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const ConsultaPDF = () => {
-  const pdfUrl = 'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/plantilla.pdf?alt=media&token=ef2df52a-87e6-4ffe-9c0a-e387ab15d164';
-  const imageUrl = 'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/index%2FescudoChiapas.png?alt=media&token=c16974a9-0b80-4011-8ac3-e1c880dab89d';
+  const imageRef = useRef(null);
+  const dispatch = useDispatch();
+  const  folioParam  = useParams();
+  const resultParam=folioParam.folio
+  console.log(resultParam);
+  useEffect(() => {
+    dispatch(antecedentes_actions.read_antecedentes());
+  }, [dispatch]);
 
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
+  const antecedentes = useSelector((store) => store.antecedentes.antecedentes);
+  console.log(antecedentes);
+  const antecedenteFiltrado = Array.isArray(antecedentes)
+  ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
+  : [];
 
-    // Cargar la imagen desde la URL
-    const img = new Image();
-    img.src = imageUrl;
+  console.log(antecedenteFiltrado);
+  const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto.replace(/\\/g, '/') : null;
+  const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr.replace(/\\/g, '/') : null;
+console.log(fotoUrl);
+  
+const generatePDF = () => {
+  const image = imageRef.current;
 
-    // Esperar a que la imagen se cargue antes de agregarla al PDF
-    img.onload = () => {
-      const width = 100; // Ancho de la imagen en el PDF
-      const height = (img.height * width) / img.width; // Calcular la altura proporcional
+  // Ajusta la escala de la imagen para que se ajuste al tamaño de la página
+  const scaleFactor = 2; // Ajusta este valor según sea necesario
+  const imgWidth = image.width * scaleFactor;
+  const imgHeight = image.height * scaleFactor;
 
-      // Agregar la imagen al PDF
-      doc.addImage(imageUrl, 'JPEG', 15, 15, width, height);
+  html2canvas(image, { useCORS: true, scale: scaleFactor })
+    .then((canvas) => {
+      const pdfWidth = 210; // Ancho en mm (A4)
+      const pdfHeight = 320; // Alto en mm (A4)
 
-      // Guardar el PDF
-      doc.save('pdf_con_imagen.pdf');
-    };
-  };
+      const startX = 0; // No se necesita un desplazamiento inicial
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(canvas, 'PNG', startX, 0, pdfWidth, pdfHeight);
+      pdf.save('documento.pdf');
+    })
+    .catch((error) => console.error('Error al capturar imagen:', error));
+};
+
+
 
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center">
-      <div className="w-full h-screen">
-        <iframe
-          title="PDF Viewer"
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`}
-          frameBorder="0"
-          className="w-full h-full"
-        />
+    <div className="w-full h-screen flex flex-col items-center justify-center">
+    
+      <div className="w-[50%] h-full " ref={imageRef}>
+        <img className=' object-cover w-[100vw] h-[90vh]' src="../public/maqueta.jpg" alt="" />
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute top-[15.5%] left-[64%] font-bold'>{antecedente.folio}</p>
+      ))}
+       {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[50%] left-[50%] font-bold'>{antecedente.nombre.toUpperCase()}</p>
+      ))}
+      <img className="w-[7rem] absolute left-[32%] top-[30%] z-0" src={`http://localhost:8085/${fotoUrl}`} alt='' />
+      <div className='absolute top-[78%] left-[60%] w-[8rem] h-auto  flex justify-center items-center py-[1rem]'>
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[90%] left-[65%] text-[0.6rem] font-bold'>{antecedente.folio}</p>
+      ))}
+       {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[90%] text-[0.6rem] left-[33%] font-bold'>{antecedente.folio}</p>
+      ))}
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[90%] text-[0.6rem] left-[2%] font-bold'>{antecedente.folio}</p>
+      ))}
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[70.5%] text-[0.6rem] left-[79%] font-bold rotate-90'>{antecedente.folio}</p>
+      ))}
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[39.8%] text-[0.6rem] left-[79%] font-bold rotate-90'>{antecedente.folio}</p>
+      ))}
+      {antecedenteFiltrado?.map(antecedente=>(
+        <p className='absolute bottom-[9%] text-[0.6rem] left-[79%] font-bold rotate-90'>{antecedente.folio}</p>
+      ))}
+      <img className='w-[6rem] ' src={`http://localhost:8085/${qrUrl}`} alt="" />
       </div>
-
-      <div className="w-full h-[10vh] flex justify-center items-center flex-shrink">
-        <button onClick={handleDownloadPDF} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-          Descargar PDF con Imagen
-        </button>
+      
       </div>
+      <button onClick={generatePDF}>Generar PDF</button>
     </div>
   );
 };

@@ -13,7 +13,7 @@ const router = createBrowserRouter([
         element:<PanelAdmin/>
     },
     {
-        path:"/consultaPDF/:id",
+        path:"/consultaPDF/:folio",
         element:<ConsultaPDF/>
     },
     {
