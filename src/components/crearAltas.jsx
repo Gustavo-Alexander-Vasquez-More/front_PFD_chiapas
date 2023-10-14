@@ -86,6 +86,28 @@ const generateQR = () => {
     });
 };
 const autor=localStorage.getItem('usuario')
+const generatePDF = (componente) => {
+  const image = imageRef.current;
+
+  // Tamaño de la hoja A4 en milímetros
+  const pdfWidth = 210; // Ancho en mm (A4)
+  const pdfHeight = 297; // Alto en mm (A4)
+const scaleFactor=2
+  // Calcula el tamaño de la imagen y el div
+  const imgWidth = pdfWidth / scaleFactor;
+  const imgHeight = pdfHeight / scaleFactor;
+
+  html2canvas(image, { useCORS: true, scale: scaleFactor })
+    .then((canvas) => {
+      const startX = 0; // No se necesita un desplazamiento inicial
+      const startY = 0;
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      pdf.addImage(canvas, 'PNG', startX, startY, pdfWidth, pdfHeight);
+      pdf.save(`Antecedente${folio}.pdf`);
+    })
+    .catch((error) => console.error('Error al capturar imagen:', error));
+};
 async function crearAltas() {
   try {
     const formData = new FormData();

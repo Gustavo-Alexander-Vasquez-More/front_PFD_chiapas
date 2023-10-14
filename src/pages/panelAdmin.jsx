@@ -4,6 +4,7 @@ import CrearUsuario from '../components/crearUsuario';
 import EliminarUsuario from '../components/eliminarUsuario';
 import AsignacionFolios from '../components/asignacionFolios';
 import CrearAltas from '../components/crearAltas';
+import AdmiAltas from '../components/admiAltas';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 export default function panelAdmin() {
@@ -136,6 +137,9 @@ return (
         )}
         {opcionSelect === 'opcion4' && (
         <CrearAltas/>
+        )}
+        {opcionSelect === 'opcion5' && (
+        <AdmiAltas/>
         )}
       </>
     )}
