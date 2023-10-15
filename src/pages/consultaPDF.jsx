@@ -12,10 +12,10 @@ const ConsultaPDF = () => {
   const resultParam=folioParam.folio
   console.log(resultParam);
   useEffect(() => {
-    dispatch(antecedentes_actions.read_antecedentes());
+    dispatch(antecedentes_actions.read_AllAntecedentes());
   }, [dispatch]);
 
-  const antecedentes = useSelector((store) => store.antecedentes.antecedentes);
+  const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
   console.log(antecedentes);
   const antecedenteFiltrado = Array.isArray(antecedentes)
   ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)

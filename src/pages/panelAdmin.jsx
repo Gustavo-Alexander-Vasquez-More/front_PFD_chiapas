@@ -42,6 +42,7 @@ localStorage.removeItem('token');
     localStorage.removeItem('rol');
     localStorage.removeItem('folios')
     localStorage.removeItem('pagina')
+    localStorage.removeItem('folioEdit')
   Swal.fire({
       position: 'center',
       icon: 'success',

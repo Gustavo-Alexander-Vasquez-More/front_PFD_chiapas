@@ -50,12 +50,12 @@ const read_AllAntecedentes = createAsyncThunk(
       const update_antecedentes = createAsyncThunk(
         'update_antecedentes', 
         async (payload) => {
-          const { usuario, folios } = payload;
-          console.log(usuario);
-          console.log(folios);
+          const { parametro, datos } = payload;
+          console.log(parametro);
+          console.log(datos);
             try {
-            const {data}=await axios.put(`http://localhost:8085/api/antecedentes/update/${usuario}`,{
-              folios:folios})
+            const {data}=await axios.put(`http://localhost:8085/api/antecedentes/update/${parametro}`, datos)
+            thunkAPI.dispatch(read_antecedentes());
             return data.response
             } catch (error) {
             }

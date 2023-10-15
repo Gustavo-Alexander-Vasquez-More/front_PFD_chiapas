@@ -13,7 +13,10 @@ const [currentPage, setCurrentPage] = useState(
   parseInt(localStorage.getItem('pagina')) || 1 //le digo que mi estado inicial sea 1 o que sea el numero almacenado en el local storage
 );
 console.log(currentPage);
-
+function openModal(opcion){
+  setOpcionSelect(opcion)
+  setMostrarModal(true)
+}
 const user = localStorage.getItem('usuario');
 function openModal(opcion){
   setOpcionSelect(opcion)
@@ -160,7 +163,6 @@ const pagina=localStorage.setItem('pagina', currentPage)
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>NOMBRE</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>FOLIO</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>CREADOR</th>
-                <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>ESTADO</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>VER/EDITAR/ELIMINAR</th>
                 </tr>
             </thead>
@@ -181,7 +183,7 @@ const pagina=localStorage.setItem('pagina', currentPage)
                     <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.author_id.usuario}</td>
                     
                     <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
-                    <Anchor className='flex ' to={`/validacion/${licencia?.folio}`}>
+                    <Anchor className='flex ' to={`/consultaPDF/${licencia?.folio}`}>
                     <button className=''>
                     <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
                     <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">

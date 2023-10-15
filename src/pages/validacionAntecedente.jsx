@@ -1,7 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import antecedentes_actions from '../redux/actions/antecedentesActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { closePath } from 'pdf-lib';
 
 export default function validacionAntecedente() {
-  return (
+const  folioParam  = useParams();
+const resultParam=folioParam.folio
+const dispatch=useDispatch()
+useEffect(() => {
+dispatch(antecedentes_actions.read_AllAntecedentes())
+}, []);
+const antecedentes=useSelector((store)=>store.antecedentes.AllAntecedentes)
+console.log(antecedentes);
+const antecedenteFiltrado = Array.isArray(antecedentes)
+  ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
+  : [];
+const folio=antecedenteFiltrado.map(antecedente=> antecedente.folio)
+const expedicion=antecedenteFiltrado.map(antecedente=> antecedente.expedicion.split('T')[0])
+console.log(expedicion);
+const expedicionArray = expedicion[0]
+console.log(expedicionArray);
+const creacion = antecedenteFiltrado.map(antecedente => {
+  const [fecha, hora] = antecedente.createdAt.split('T');
+  const [horaSinMilisegundos] = hora.split('.');
+  return horaSinMilisegundos;
+});
+
+console.log(creacion);
+
+
+return (
     <div className='w-full h-screen'>
       <div className='w-full h-[30vh] bg-white flex flex-col'>
         <div className='w-full h-[20vh] flex items-center justify-center gap-[5rem]'>
@@ -42,13 +71,21 @@ export default function validacionAntecedente() {
     <p className='text-[#731b1e] text-[2rem] font-semibold'>Constancia de No Antecedentes Penales</p>
     </div>
     <div className='w-full h-[85vh] flex flex-col items-center'>
-    <div className='w-[40%]  h-auto py-[3rem]'>
-    <p className='text-[1.3rem]'>FOLIO: </p>
-     <p className='text-[1.3rem]'>OFICINA QUE EXPIDIÓ: </p>
-     <p className='text-[1.3rem]'>CONSTANCIA A NOMBRE DE: </p>
-     <p className='text-[1.3rem]'>DE FECHA :</p>
-     <p className='text-[1.3rem]'>CON ANTECEDENTES: </p>
-     <p className='text-[1.3rem]'>CADEA DE CERTIFICACION:</p>
+    <div className='w-[45%]  h-auto py-[3rem]'>
+    {antecedenteFiltrado.map(antecedente=>(
+    <p  className='text-[1.3rem] flex gap-3'>FOLIO: <p className='text-[#731b1e] font-semibold'>{antecedente.folio}</p></p>
+     ))}
+    <p className='text-[1.3rem]  flex gap-3'>OFICINA QUE EXPIDIÓ: <p className='text-[#731b1e] font-semibold'>00000001 PJECH MODULO PALACIO TUXTLA</p></p>
+    {antecedenteFiltrado.map(antecedente=>(
+     <p className='text-[1.3rem] flex gap-3'>CONSTANCIA A NOMBRE DE: <p className='text-[#731b1e] font-semibold'>{antecedente.nombre.toUpperCase()}</p></p>
+      ))}
+     <p className='text-[1.3rem] flex gap-3'>DE FECHA : <p className='text-[#731b1e] font-semibold'>{expedicionArray}</p></p>
+     <p className='text-[1.3rem] flex gap-3'>CON ANTECEDENTES: <p className='text-[#731b1e] font-semibold'>NO</p></p>
+     <p className='text-[1.3rem]'>CADENA DE CERTIFICACION:</p>
+     
+     <p className='text-[#731b1e] font-semibold'>||{folio}|bf1a|{expedicionArray}|{creacion}|HElKFhZJRVJ9NDAyMjg1MTl8FDAwEDAkMzKyMzh8NzMxOLQzOHwyMDIzLTAxLTA2VDE1OjIzOjI4
+SXNXAMVGNDDDAWMXAV3HMADWSCDCCAecdDWSDGGTTRFG66GBUKRFU3xQSkVDSF9NT0RV
+TI9EIE854VGCancOHNIINVGDASARTHBBNCDObohbewASBCBHECfe3nHUI76VVhUTuF8fZ==||</p>
     </div>
     </div>
     <footer className='w-full h-[30vh] bg-[#731b1e] flex items-center justify-center gap-10'>

@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         element:<ConsultaPDF/>
     },
     {
-        path:"/validacionAntecedente/:id",
+        path:"/validacionAntecedente/:folio",
         element:<ValidacionAntecedente/>
     },
        
