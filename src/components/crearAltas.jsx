@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import antecedentesActions from '../redux/actions/antecedentesActions.js'
+import userActions from '../redux/actions/userActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import QRCode from 'qrcode.react'; 
@@ -20,9 +21,21 @@ const inputNombre=useRef()
 const navigate=useNavigate()
 const dispatch=useDispatch()
 useEffect(() => {
-  dispatch(antecedentesActions.read_antecedentes())
+  dispatch(antecedentesActions.read_AllAntecedentes())
   }, [dispatch]);
-  const antecedentes=useSelector((store)=>store.antecedentes?.antecedentes)
+  useEffect(() => {
+    dispatch(userActions.read_users())
+    }, [dispatch]);
+  const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
+  const users=useSelector((store)=>store.users.users)
+  const usuarioo=localStorage.getItem('usuario')
+  const userFilter = Array.isArray(users) ? users.filter(usuario => usuario?.usuario === usuarioo) : [];
+
+  // Resto del código
+  
+  console.log(userFilter);
+  const foliosUser=userFilter?.map(user=> user.folios)
+  console.log(foliosUser);
 function captureNombre(){
   setNombre(inputNombre.current.value)
 }
@@ -86,32 +99,20 @@ const generateQR = () => {
     });
 };
 const autor=localStorage.getItem('usuario')
-const generatePDF = (componente) => {
-  const image = imageRef.current;
 
-  // Tamaño de la hoja A4 en milímetros
-  const pdfWidth = 210; // Ancho en mm (A4)
-  const pdfHeight = 297; // Alto en mm (A4)
-const scaleFactor=2
-  // Calcula el tamaño de la imagen y el div
-  const imgWidth = pdfWidth / scaleFactor;
-  const imgHeight = pdfHeight / scaleFactor;
-
-  html2canvas(image, { useCORS: true, scale: scaleFactor })
-    .then((canvas) => {
-      const startX = 0; // No se necesita un desplazamiento inicial
-      const startY = 0;
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      pdf.addImage(canvas, 'PNG', startX, startY, pdfWidth, pdfHeight);
-      pdf.save(`Antecedente${folio}.pdf`);
-    })
-    .catch((error) => console.error('Error al capturar imagen:', error));
-};
 async function crearAltas() {
   try {
+    if (!nombre || !foto || !qr) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Completa todos los campos',
+        text: 'Asegúrate de completar los campos obligatorios y generar el QR.',
+      });
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('nombre', nombre); // Asegúrate de tener la variable 'nombre' definida
+    formData.append('nombre', nombre);
     formData.append('foto', foto);
     formData.append('huella', huella);
     formData.append('qr', qr);
@@ -119,32 +120,61 @@ async function crearAltas() {
     formData.append('expedicion', expedicion);
     formData.append('vigencia', vigenciaDate);
     formData.append('author_id', autor);
-    if(formData){
+
+    const rolUsuario = parseInt(localStorage.getItem('rol'));
+    const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
+
+    if (tieneFoliosSuficientes) {
+      if (rolUsuario !== 1 && rolUsuario !== 2) {
+        const nuevaCantidadDeFolio = foliosUser - 1;
+        localStorage.setItem('folios', nuevaCantidadDeFolio.toString());
+      }
+
       await dispatch(antecedentesActions.create_antecedentes(formData));
+
       Swal.fire({
         position: 'center',
         icon: 'success',
         title: 'Antecedente creado',
         showConfirmButton: false,
         timer: 1500
-      })
-      navigate(`/consultaPDF/${folio}`)
-  }else{
-    Swal.fire({
-      icon: 'error',
-      title: 'Lo sentimos!',
-      text: 'No se ha podido crear el antecedente',
-      })
-  }
+      });
+
+      navigate(`/consultaPDF/${folio}`);
+
+      if (rolUsuario !== 1 && rolUsuario !== 2) {
+        const nuevaCantidadDeFolio = foliosUser - 1;
+        const nombre = localStorage.getItem('usuario');
+        const payload = {
+          usuario: nombre,
+          folios: nuevaCantidadDeFolio,
+        };
+
+        await dispatch(userActions.update_users(payload));
+      }
+    } else {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: '¡Para seguir agregando licencias pide más folios!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   } catch (error) {
     console.error('Error al crear antecedente:', error);
   }
 }
-
+const rol=localStorage.getItem('rol')
+const numbRol=parseInt(rol)
   return (
     <div className='w-full h-[90vh] '>
-      <div className='w-full h-[20vh]  flex justify-center items-center'>
+      <div className='w-full h-[20vh]  flex flex-col justify-center items-center'>
         <p className='text-[2.5rem]'>Crea tus altas</p>
+        {numbRol !==1 && (
+          <p>Te quedan {foliosUser} folios por usar</p>
+        )}
+        
       </div>
       <div className='flex'>
         <div className='w-[50%] h-[45vh]  flex flex-col gap-4 '>

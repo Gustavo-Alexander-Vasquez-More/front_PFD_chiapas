@@ -137,7 +137,8 @@ async function deleteCliente(folio) {
 
 console.log(filteredLicencias);
 const pagina=localStorage.setItem('pagina', currentPage)
-
+const rol = localStorage.getItem('rol')
+const numbRol=parseInt(rol)
   return (
   <div className='w-full h-screen bg-[url("https://firebasestorage.googleapis.com/v0/b/validacion-de-licencias-c813d.appspot.com/o/pngtree-abstract-white-and-light-gray-wave-modern-soft-luxury-texture-with-image_1379862.jpg?alt=media&token=083e0548-05a8-404f-8bb9-6ac6703d270c")] bg-no-repeat bg-cover'>
       <div className='w-full lg:h-20 h-[5vh] flex justify-center items-center'>
@@ -163,7 +164,7 @@ const pagina=localStorage.setItem('pagina', currentPage)
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>NOMBRE</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>FOLIO</th>
                 <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>CREADOR</th>
-                <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>VER/EDITAR/ELIMINAR</th>
+                <th className='text-center px-[1rem] bg-gray-200 text-[0.5rem] lg:text-[1rem]'>PDF/EDITAR/ELIMINAR</th>
                 </tr>
             </thead>
             <tbody>
@@ -185,12 +186,9 @@ const pagina=localStorage.setItem('pagina', currentPage)
                     <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
                     <Anchor className='flex ' to={`/consultaPDF/${licencia?.folio}`}>
                     <button className=''>
-                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 14">
-                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                    <path d="M10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                    <path d="M10 13c4.97 0 9-2.686 9-6s-4.03-6-9-6-9 2.686-9 6 4.03 6 9 6Z"/>
-                    </g>
-                    </svg>
+                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
+  </svg>
                     </button>
                     </Anchor>
                     <button  onClick={() => {

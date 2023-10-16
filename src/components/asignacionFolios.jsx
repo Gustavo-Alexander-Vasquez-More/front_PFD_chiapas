@@ -71,7 +71,7 @@ export default function AsignacionFolios() {
   return (
     <div className="w-full h-[90vh] bg-[url('https://static.vecteezy.com/system/resources/previews/002/848/473/non_2x/modern-white-background-with-shiny-gold-geometric-element-abstract-light-clean-silver-background-vector.jpg')] bg-cover">
       <div className="w-full h-[15vh] flex justify-center items-center gap-3">
-        <p className="text-[1.5rem]">Añade folios a tus empleados</p>
+        <p className="sm:text-[1.5rem] text-[1rem] font-semibold">Añade folios a tus empleados</p>
         <svg
           className="w-6 h-6 text-gray-800 dark:text-white"
           aria-hidden="true"
@@ -88,14 +88,20 @@ export default function AsignacionFolios() {
           onChange={captureSelect}
           ref={inputSelectUser}
           value={selectUser}
-          className="w-[25%] py-[0.5rem] px-[0.5rem] border-solid border-[1px] border-black"
+          className="lg:w-[25%] w-[70%] sm:w-[35%] py-[0.5rem] px-[0.5rem] border-solid border-[1px] border-black"
         >
           <option value="">Usuarios</option>
-          {usuarios?.map((user) => (
-            <option key={user._id} value={user.usuario}>
-              {user.usuario}
+          {Array.isArray(usuarios) && usuarios.length > 0 ? (
+            usuarios.map((user) => (
+              <option key={user._id} value={user.usuario}>
+                {user.usuario}
+              </option>
+            ))
+          ) : (
+            <option value='' disabled>
+              Loading users...
             </option>
-          ))}
+          )}
         </select>
       </div>
       {selectUser && (
@@ -103,10 +109,10 @@ export default function AsignacionFolios() {
           {usuarioSeleccionado?.map((user) => (
             <p className='font-semibold' key={user._id}>Este usuario tiene actualmente: {user.folios} folios.</p>
           ))}
-          <p className='text-[1.2rem]'>Cuantos folios quieres agregarle?</p>
-          <input ref={AgregarFolio} onChange={capturarValorFolios} className='border-solid border-[1px] border-black rounded-[5px] py-[0.3rem] px-[0.5rem] w-[25%]' placeholder='Escribe un numero' type="number" />
+          <p className='sm:text-[1.2rem] text-[1rem]'>Cuantos folios quieres agregarle?</p>
+          <input ref={AgregarFolio} onChange={capturarValorFolios} className='border-solid border-[1px] border-black rounded-[5px] py-[0.3rem] px-[0.5rem] lg:w-[25%] w-[70%] sm:w-[35%]' placeholder='Escribe un numero' type="number" />
           <div className='w-full h-[10vh]  flex justify-center items-center'>
-        <button onClick={agregarMasFolios} className='w-[15%] px-[1rem] py-[0.5rem] bg-[#17103a] text-white rounded-[15px]'>Agregar!</button>
+        <button onClick={agregarMasFolios} className='lg:w-[15%] w-[50%] sm:w-[35%] px-[1rem] py-[0.5rem] bg-[#17103a] text-white rounded-[15px]'>Agregar!</button>
       </div>
         </div>
       

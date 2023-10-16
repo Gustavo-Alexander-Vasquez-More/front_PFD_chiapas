@@ -8,12 +8,12 @@ export default function eliminarUsuario() {
   const dispatch = useDispatch();
   const inputSelectUser = useRef();
   console.log(selectUser);
-  const usuarios = useSelector((store) => store.users.users);
-  console.log(usuarios);
+  
   useEffect(() => {
     dispatch(userActions?.read_users());
   }, [dispatch]);
-
+  const usuarios = useSelector((store) => store?.users?.users);
+  console.log(usuarios);
   async function deleteUser() {
     try {
       const datitos = {
@@ -67,15 +67,23 @@ export default function eliminarUsuario() {
     <p className='text-[1.4rem]'>Selecciona el usuario</p>
     <select  onChange={captureSelect}
           ref={inputSelectUser}
-          value={selectUser} className='w-[25%] py-[0.5rem] px-[0.5rem] boder-solid border-[1px] border-black'>
+          value={selectUser} className='lg:w-[25%] w-[60%] sm:w-[40%] py-[0.5rem] px-[0.5rem] boder-solid border-[1px] border-black'>
     <option value="">Usuarios</option>
-    {usuarios?.map(user=>(
-    <option key={user._id} value={user.usuario}>{user.usuario}</option>
-    ))}
+    {Array.isArray(usuarios) && usuarios.length > 0 ? (
+            usuarios.map((user) => (
+              <option key={user._id} value={user.usuario}>
+                {user.usuario}
+              </option>
+            ))
+          ) : (
+            <option value='' disabled>
+              Loading users...
+            </option>
+          )}
     </select>
     </div>
     <div className='w-full h-[45vh]  flex justify-center items-start'>
-    <button onClick={deleteUser} className='w-[20%] bg-[#17103a] py-[0.5rem] px-[1rem] text-white rounded-[10px]'>Eliminar Usuario</button>
+    <button onClick={deleteUser} className='lg:w-[20%] w-[50%] sm:w-[30%] bg-[#17103a] py-[0.5rem] px-[1rem] text-white rounded-[10px]'>Eliminar Usuario</button>
     </div> 
     </div>
   );

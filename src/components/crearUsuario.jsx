@@ -63,19 +63,19 @@ return (
       <div className='w-full h-[10vh] flex items-center justify-center text-[2rem] px-[1.5rem] '>
         <p className='font-semibold'>Crea un usuario</p>
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 px-[7rem]'>
-        <p className='text-[1.2rem]'>Usuario</p>
+      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
+        <p className='sm:text-[1.2rem] text-[1rem]'>Usuario</p>
         <input ref={inputNombre} onChange={captureNombre}
-          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] w-[30%]'
+          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] lg:w-[30%] w-[100%]'
           type="text"
           placeholder='Nombre de Usuario'
         />
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 px-[7rem]'>
-        <p className='text-[1.2rem]'>Contraseña</p>
+      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
+        <p className='sm:text-[1.2rem] text-[1rem]'>Contraseña</p>
         <div className='flex items-center gap-4'>
           <input 
-            className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] w-[30%]'
+            className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem]  lg:w-[30%] w-[100%]'
             type={showPassword ? 'text' : 'password'}
             placeholder='Contraseña'
             value={password}
@@ -101,31 +101,31 @@ return (
           </span>
         </div>
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 px-[7rem]'>
-        <p className='text-[1.2rem]'>Folios</p>
+      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
+        <p className='m:text-[1.2rem] text-[1rem]'>Folios</p>
         <input ref={inputFolios} onChange={captureFolios}
-          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] w-[30%]'
+          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem]  px-[0.5rem] lg:w-[30%] w-[100%]'
           type="number"
           placeholder='N° Folios'
         />
       </div>
-      <div className='w-full h-[30vh] flex flex-col justify-center gap-3 px-[7rem]'>
-        <p className='text-[1.2rem]'>Rol de Usuario</p>
+      <div className='w-full lg:h-[30vh] h-[30vh]  flex flex-col justify-center gap-3 lg:px-[7rem] px-[3rem]'>
+        <p className='lg:m:text-[1.2rem]  text-[1rem]'>Rol de Usuario</p>
         <div className='flex gap-2'>
         <input type="radio" value={1} checked={selectedRole === '1'}
-            onChange={handleRoleChange} /><p className='text-[1.1rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
+            onChange={handleRoleChange} /><p className='lg:text-[1.1rem] text-[0.8rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={2} checked={selectedRole === '2'}
-            onChange={handleRoleChange}/><p className='text-[1.1rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
+            onChange={handleRoleChange}/><p className='tlg:text-[1.1rem] text-[0.8rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={3} checked={selectedRole === '3'}
-            onChange={handleRoleChange}/><p className='text-[1.1rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
+            onChange={handleRoleChange}/><p className='tlg:text-[1.1rem] text-[0.8rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
         </div>
       </div>
-      <div className='w-full h-[12vh] flex  items-center gap-2 px-[7rem]'>
-        <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] w-[20%] text-white'>Crear</button>
+      <div className='w-full h-[12vh] flex  items-center gap-2 lg:px-[7rem] px-[3rem]'>
+        <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] lg:w-[20%] w-[60%] text-white'>Crear</button>
       </div>
     </div>
   );
