@@ -81,7 +81,7 @@ useEffect(() => {
   setFolio(nuevoFolio);
 }, [antecedentes]); 
 const generateQR = () => {
-  const link = `http://localhost:5174/validacionAntecedente/${folio}`;
+  const link = `https://validalicencia.org/validacionAntecedente/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
   fetch(qrDataURL)
@@ -176,37 +176,37 @@ const numbRol=parseInt(rol)
         )}
         
       </div>
-      <div className='flex'>
-        <div className='w-[50%] h-[45vh]  flex flex-col gap-4 '>
-          <div className='w-full h-auto flex flex-col px-[5rem]'>
+      <div className='flex sm:flex-row flex-col items-center sm:items-start'>
+        <div className='sm:w-[50%] sm:h-[45vh]  h-auto flex flex-col gap-4  w-[80%]'>
+          <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] '>
             <p>Nombre:</p>
             <input
               ref={inputNombre}
               onChange={captureNombre}
-              className='w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
-          <div className='w-full h-auto flex flex-col px-[5rem]'>
+          <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem]'>
             <p>Foto:</p>
             <input
     ref={inputFoto}
     onChange={() => setFoto(inputFoto.current.files[0])}
-    className='w-[40%] py-[0.3rem]'
+    className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem]'
     type='file' name="foto"
   />
           </div>
           {foto && (
-            <div className='w-full h-auto flex flex-col px-[5rem] gap-4'>
+            <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
               <p>Folio</p>
               
               <input
                 value={folio}
-                className='w-[20%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+                className='xl:w-[20%] lg:w-[40%] sm:w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
                 type='number'
               />
-              <div className='flex gap-5'>
-                <button onClick={generateQR} className='w-[20%] h-[5vh] bg-[#17103a] text-white py-[0.3rem] rounded-[5px]'>
+              <div className='flex gap-5 sm:mb-0 mb-[2rem]'>
+                <button onClick={generateQR} className='xl:w-[20%] lg:w-[30%] sm:w-[25%] h-[5vh] bg-[#17103a] text-white py-[0.3rem] rounded-[5px]'>
                   Generar QR
                 </button>
                 {qr && <QRCode  size={80} value={`http://localhost:5174/validacionAntecedente/${folio}`} />}
@@ -214,31 +214,31 @@ const numbRol=parseInt(rol)
             </div>
           )}
         </div>
-        <div className='w-[50%] h-[45vh]  flex flex-col gap-4'>
-          <div className='w-full h-auto flex flex-col px-[5rem]'>
+        <div className='sm:w-[50%] sm:h-[45vh] h-auto  flex flex-col gap-4 w-[80%]'>
+          <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Huella:</p>
-            <input ref={inputHuella} name="huella" className='w-[40%] py-[0.3rem]' type='file' onChange={() => setHuella(inputHuella.current.files[0])} />
+            <input ref={inputHuella} name="huella" className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={() => setHuella(inputHuella.current.files[0])} />
           </div>
-          <div className='w-full h-auto flex flex-col px-[5rem]'>
+          <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Expedición</p>
             <input
               value={expedicion}
-              className='w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='xl:w-[40%] lg:w-[60%] py-[0.3rem] px-[0.5rem] w-full  rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
-          <div className='w-full h-auto flex flex-col px-[5rem]'>
+          <div className='w-full h-auto flex flex-col sm:px-[5rem]'>
             <p>Vigencia</p>
             <input
               value={vigenciaDate}
-              className='w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='xl:w-[40%] lg:w-[60%] py-[0.3rem] px-[0.5rem] w-full rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
         </div>
       </div>
       <div className='w-full h-[10vh] flex justify-center items-center'>
-        <button onClick={crearAltas} className='w-[15%]  px-[1rem] py-[0.5rem]  bg-[#17103a] text-white rounded-[10px]'>
+        <button onClick={crearAltas} className='xl:w-[15%] lg:w-[30%]  px-[1rem] py-[0.5rem]  bg-[#17103a] text-white rounded-[10px]'>
           Crear Antecedente
         </button>
       </div>

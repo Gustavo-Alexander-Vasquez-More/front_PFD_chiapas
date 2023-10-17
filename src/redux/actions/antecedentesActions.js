@@ -4,7 +4,7 @@ const read_AllAntecedentes = createAsyncThunk(
     'read_AllAntecedentes', 
     async()=>{
         try {
-        const {data}=await axios.get('http://localhost:8085/api/antecedentes/todos')
+        const {data}=await axios.get('https://backpdfchiapas-production.up.railway.app/api/antecedentes/todos')
         console.log(data.response);
       return data.response
         } catch (error) {
@@ -15,7 +15,7 @@ const read_AllAntecedentes = createAsyncThunk(
     'read_antecedentes', 
     async(page)=>{
         try {
-        const {data}=await axios.get(`http://localhost:8085/api/antecedentes?page=${page}`)
+        const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/antecedentes?page=${page}`)
         console.log(data);
       return data
         } catch (error) {
@@ -28,7 +28,7 @@ const read_AllAntecedentes = createAsyncThunk(
           const { author, page } = payload;
           console.log(author);
       try {
-      const {data}=await axios.get(`http://localhost:8085/api/antecedentes/author?author=${author}&page=${page}`)
+      const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/antecedentes/author?author=${author}&page=${page}`)
      console.log(data);
       
       return data
@@ -41,7 +41,7 @@ const read_AllAntecedentes = createAsyncThunk(
       'create_antecedentes', 
       async(datos)=>{
           try {
-          const {data}=await axios.post('http://localhost:8085/api/antecedentes/create', datos)
+          const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/antecedentes/create', datos)
           console.log(data.response);
         return data.response
           } catch (error) {
@@ -52,7 +52,7 @@ const read_AllAntecedentes = createAsyncThunk(
         'delete_antecedentes',
         async (datitos) => {
           try {
-            const { data } = await axios.delete('http://localhost:8085/api/antecedentes/delete', {
+            const { data } = await axios.delete('https://backpdfchiapas-production.up.railway.app/api/antecedentes/delete', {
               data: datitos, 
             });
             thunkAPI.dispatch(read_admins());
@@ -69,7 +69,7 @@ const read_AllAntecedentes = createAsyncThunk(
           console.log(parametro);
           console.log(datos);
             try {
-            const {data}=await axios.put(`http://localhost:8085/api/antecedentes/update/${parametro}`, datos)
+            const {data}=await axios.put(`https://backpdfchiapas-production.up.railway.app/api/antecedentes/update/${parametro}`, datos)
             thunkAPI.dispatch(read_antecedentes());
             return data.response
             } catch (error) {

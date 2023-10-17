@@ -67,7 +67,7 @@ async function deleteCliente(folio) {
         const confirmation = await Swal.fire({
           title: '¿Estás seguro de que deseas eliminar esta licencia?',
           showDenyButton: true,
-          showCancelButton: true,
+          showCancelButton: false,
           confirmButtonText: 'Sí',
           denyButtonText: 'No',
         });
@@ -122,7 +122,7 @@ async function deleteCliente(folio) {
    ? AllAntecedentes?.filter((licencia) => {
        const nombre = licencia?.nombre.toLowerCase();
        const folio = licencia?.folio.toLowerCase();
-       const creador = licencia?.author_id.usuario.toLowerCase();
+       const creador = licencia?.author_id?.usuario.toLowerCase();
        const searchTermLower = searchTerm.toLowerCase();
  
        // Si se está buscando por creador, no aplicar límite de resultados
@@ -132,7 +132,7 @@ async function deleteCliente(folio) {
  
        // Mostrar solo las primeras MAX_RESULTS coincidencias para otras búsquedas
        return nombre.includes(searchTermLower) || folio.includes(searchTermLower);
-     }).slice(0, searchTerm === AllAntecedentes[0]?.author_id.usuario.toLowerCase() ? AllAntecedentes.length : MAX_RESULTS)
+     }).slice(0, searchTerm === AllAntecedentes[0]?.author_id?.usuario.toLowerCase() ? AllAntecedentes?.length : MAX_RESULTS)
    : antecedentes;
 
 console.log(filteredLicencias);
@@ -181,7 +181,7 @@ const numbRol=parseInt(rol)
                   <tr  key={licencia._id}>
                     <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.nombre}</td>
                     <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.folio}</td>
-                    <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.author_id.usuario}</td>
+                    <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.author_id?.usuario}</td>
                     
                     <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
                     <Anchor className='flex ' to={`/consultaPDF/${licencia?.folio}`}>
@@ -214,10 +214,10 @@ const numbRol=parseInt(rol)
           </div>
         <div className='w-full h-[6vh] flex justify-center gap-5 items-center'>
         <button  onClick={handlePrev}
-        disabled={antecedentes?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
+        disabled={antecedente?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
         <p>Página: {currentPage}</p>
         <button  onClick={handleNext}
-          disabled={ antecedentes?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
+          disabled={ antecedente?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
           </div>
         {mostrarModal && (
                       <>

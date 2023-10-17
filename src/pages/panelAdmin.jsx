@@ -6,6 +6,7 @@ import AsignacionFolios from '../components/asignacionFolios';
 import CrearAltas from '../components/crearAltas';
 import AdmiAltas from '../components/admiAltas';
 import AdmiAltasrol3 from '../components/admiAltasrol3';
+import Connecion from '../components/coneccion'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 export default function panelAdmin() {
@@ -35,7 +36,7 @@ const userToken = localStorage.getItem('token');
 async function LogOut() {
 
   try {
-    await axios.post('http://localhost:8085/api/admins/logout', null, {
+    await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/logout', null, {
       headers: { Authorization: `Bearer ${token}` },
     });
 localStorage.removeItem('token');
@@ -111,12 +112,21 @@ return (
           </svg>
           <button className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion5')}>Administrar Altas</button>
           </div>
+
+          <div className='flex gap-5'>
+          <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
+          </svg>
+          <button  className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion7')}>Usuarios conectados</button>
+          </div>
+
           <div className='flex gap-5'>
           <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m13 7-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
           </svg>
           <button  className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={LogOut}>Cerrar sesión</button>
           </div>
+          
           </>
         )}
         {numberRol === 2 && (
@@ -198,6 +208,9 @@ return (
         )}
         {opcionSelect === 'opcion6' && (
         <AdmiAltasrol3/>
+        )}
+        {opcionSelect === 'opcion7' && (
+        <Connecion/>
         )}
       </>
     )}

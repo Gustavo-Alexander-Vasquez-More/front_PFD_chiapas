@@ -4,7 +4,7 @@ const create_users = createAsyncThunk(
     'create_users', 
     async(datos)=>{
         try {
-        const {data}=await axios.post('http://localhost:8085/api/admins/create', datos)
+        const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/create', datos)
         console.log(data.response);
       return data.response
         } catch (error) {
@@ -15,7 +15,7 @@ const create_users = createAsyncThunk(
       'login_users', 
       async(datos)=>{
           try {
-          const {data}=await axios.post('http://localhost:8085/api/admins/login', datos)
+          const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/login', datos)
           console.log(data.response);
           let token = data.response.token;
           localStorage.setItem('token', token);
@@ -31,7 +31,7 @@ const create_users = createAsyncThunk(
         'read_users', 
         async()=>{
             try {
-            const {data}=await axios.get('http://localhost:8085/api/admins')
+            const {data}=await axios.get('https://backpdfchiapas-production.up.railway.app/api/admins')
             console.log(data.response);
           return data.response
             } catch (error) {
@@ -43,7 +43,7 @@ const create_users = createAsyncThunk(
           async(datitos)=>{
             
               try {
-              const {data}=await axios.delete('http://localhost:8085/api/admins/delete', {
+              const {data}=await axios.delete('https://backpdfchiapas-production.up.railway.app/api/admins/delete', {
                 data: datitos, 
               });
               thunkAPI.dispatch(read_admins());
@@ -60,7 +60,7 @@ const create_users = createAsyncThunk(
               console.log(usuario);
               console.log(folios);
                 try {
-                const {data}=await axios.put(`http://localhost:8085/api/admins/update/${usuario}`,{
+                const {data}=await axios.put(`https://backpdfchiapas-production.up.railway.app/api/admins/update/${usuario}`,{
                   folios:folios})
                   thunkAPI.dispatch(read_admins());
                 return data.response
