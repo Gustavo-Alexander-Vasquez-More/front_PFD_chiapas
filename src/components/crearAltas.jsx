@@ -53,7 +53,7 @@ const calculateVigencia = (expedicionDate) => {
   const expedicion = new Date(expedicionDate);
   
   // Añadir 3 meses
-  const vigencia = new Date(expedicion.getFullYear(), expedicion.getMonth() + 3, expedicion.getDate()+1);
+  const vigencia = new Date(expedicion.getFullYear(), expedicion.getMonth() + 6, expedicion.getDate()+1);
 
   // Formatear la fecha para que tenga el formato YYYY-MM-DD
   const year = vigencia.getFullYear();
@@ -81,7 +81,7 @@ useEffect(() => {
   setFolio(nuevoFolio);
 }, [antecedentes]); 
 const generateQR = () => {
-  const link = `https://validalicencia.org/validacionAntecedente/${folio}`;
+  const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
   fetch(qrDataURL)
