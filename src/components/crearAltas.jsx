@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
+ const [loading, setLoading] = useState(false);
+
 console.log(foto);
 const [huella, setHuella]=useState('')
 console.log(huella);
@@ -45,13 +47,22 @@ const getCurrentDate = () => {
   let month = currentDate.getMonth() + 1;
   month = month < 10 ? `0${month}` : `${month}`;
   const day = currentDate.getDate() < 10 ? `0${currentDate.getDate()}` : `${currentDate.getDate()}`;
+
   return `${year}-${month}-${day}`;
 };
+function getHours(){
+  const currentDate = new Date();
+  const hour=currentDate.getHours()
+  const minute=currentDate.getMinutes()
+  return `${hour}:${minute}`
+}
+const [hora, setHora] = useState(getHours());
+console.log(hora);
 const [expedicion, setExpedicion] = useState(getCurrentDate());
-
+console.log(expedicion);
 const calculateVigencia = (expedicionDate) => {
   const expedicion = new Date(expedicionDate);
-  
+ 
   // Añadir 3 meses
   const vigencia = new Date(expedicion.getFullYear(), expedicion.getMonth() + 6, expedicion.getDate()+1);
 
@@ -120,6 +131,7 @@ async function crearAltas() {
     formData.append('expedicion', expedicion);
     formData.append('vigencia', vigenciaDate);
     formData.append('author_id', autor);
+    formData.append('hora', hora);
 
     const rolUsuario = parseInt(localStorage.getItem('rol'));
     const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
@@ -129,30 +141,28 @@ async function crearAltas() {
         const nuevaCantidadDeFolio = foliosUser - 1;
         localStorage.setItem('folios', nuevaCantidadDeFolio.toString());
       }
+await dispatch(antecedentesActions.create_antecedentes(formData));
+Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Antecedente creado',
+          showConfirmButton: false,
+          timer: 1500
+        });
 
-      await dispatch(antecedentesActions.create_antecedentes(formData));
+        navigate(`/consultaPDF/${folio}`);
 
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Antecedente creado',
-        showConfirmButton: false,
-        timer: 1500
-      });
+        if (rolUsuario !== 1 && rolUsuario !== 2) {
+          const nuevaCantidadDeFolio = foliosUser - 1;
+          const nombre = localStorage.getItem('usuario');
+          const payload = {
+            usuario: nombre,
+            folios: nuevaCantidadDeFolio,
+          };
 
-      navigate(`/consultaPDF/${folio}`);
-
-      if (rolUsuario !== 1 && rolUsuario !== 2) {
-        const nuevaCantidadDeFolio = foliosUser - 1;
-        const nombre = localStorage.getItem('usuario');
-        const payload = {
-          usuario: nombre,
-          folios: nuevaCantidadDeFolio,
-        };
-
-        await dispatch(userActions.update_users(payload));
-      }
-    } else {
+          await dispatch(userActions.update_users(payload));
+        }
+} else {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -163,6 +173,7 @@ async function crearAltas() {
     }
   } catch (error) {
     console.error('Error al crear antecedente:', error);
+    setLoading(false); // Asegúrate de desactivar el indicador de carga en caso de error
   }
 }
 const rol=localStorage.getItem('rol')
@@ -201,7 +212,7 @@ const numbRol=parseInt(rol)
               <p>Folio</p>
               
               <input
-                value={folio}
+                value='0000842'
                 className='xl:w-[20%] lg:w-[40%] sm:w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
                 type='number'
               />
@@ -237,9 +248,9 @@ const numbRol=parseInt(rol)
           </div>
         </div>
       </div>
-      <div className='w-full h-[10vh] flex justify-center items-center'>
-        <button onClick={crearAltas} className='xl:w-[15%] lg:w-[30%]  px-[1rem] py-[0.5rem]  bg-[#17103a] text-white rounded-[10px]'>
-          Crear Antecedente
+      <div className="w-full h-[10vh] flex justify-center items-center">
+        <button onClick={crearAltas} className="xl:w-[15%] lg:w-[30%] px-[1rem] py-[0.5rem] bg-[#17103a] text-white rounded-[10px]">
+          {loading ? 'Creando...' : 'Crear Antecedente'}
         </button>
       </div>
     </div>

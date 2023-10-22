@@ -44,26 +44,26 @@ const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huell
 const diaMes=fechaExpedicion.getDate()+1
 function numeroALetras(numero) {
   const unidades = [
-    'Cero', 'Un', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve',
+     'Un', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve',
     'Diez', 'Once', 'Doce', 'Trece', 'Catorce', 'Quince', 'Dieciséis', 'Diecisiete', 'Dieciocho', 'Diecinueve'
   ];
-  const decenas = [
-    '', '', 'Veinte', 'Treinta', 'Cuarenta', 'Cincuenta', 'Sesenta', 'Setenta', 'Ochenta', 'Noventa'
-  ];
+  
 
   if (numero < 20) {
     return unidades[numero];
-  } else if (numero < 30) {
-    return 'Veinti' + unidades[numero - 20];
-  } else {
-    const unidad = numero % 10;
-    const decena = Math.floor(numero / 10);
-    return decenas[decena] + (unidad !== 0 ? ' y ' + unidades[unidad] : '');
+  }if(numero ===20){
+    return 'veinte'
+  }  if (numero < 30 && numero>20) {
+    return 'Veinti y' + unidades[numero - 20];
+  } if(numero ===30) {
+    return 'Treinta'
+  } if(numero === 31){
+return 'Treinta y Un'
   }
 }
 
 const diaEnLetras = numeroALetras(diaMes);
-const dia=diaEnLetras.toUpperCase()  
+const dia=diaEnLetras 
 const vigencia = antecedenteFiltrado.map(antecedente => antecedente.vigencia);
 
 const formattedVigencia = vigencia.map(dateString => {
@@ -154,14 +154,287 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
       left:'67%',
       fontSize:9.5
     },
+    folioSup1: {
+      position:'absolute',
+      top:'16%',
+      left:'86%',
+      fontSize:3
+    },
+    folioSup2: {
+      position:'absolute',
+      top:'16%',
+      left:'88.5%',
+      fontSize:3
+    },
+    folioSup3: {
+      position:'absolute',
+      top:'16%',
+      left:'91.5%',
+      fontSize:3
+    },
+    folioSup4: {
+      position:'absolute',
+      top:'16%',
+      left:'94%',
+      fontSize:3
+    },
+    folioInf1: {
+      position:'absolute',
+      top:'18%',
+      left:'86%',
+      fontSize:3
+    },
+    folioInf2: {
+      position:'absolute',
+      top:'18%',
+      left:'88.5%',
+      fontSize:3
+    },
+    folioInf3: {
+      position:'absolute',
+      top:'18%',
+      left:'91.5%',
+      fontSize:3
+    },
+    folioInf4: {
+      position:'absolute',
+      top:'18%',
+      left:'94%',
+      fontSize:3
+    },
+    folioIzq: {
+      position:'absolute',
+      top:'17%',
+      left:'84.7%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer: {
+      position:'absolute',
+      top:'17%',
+      left:'95.3%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioQRSup1: {
+      position:'absolute',
+      top:'79.5%',
+      left:'76%',
+      fontSize:3
+    },
+    folioQRSup2: {
+      position:'absolute',
+      top:'79.5%',
+      left:'78.7%',
+      fontSize:3
+    },
+    folioQRSup3: {
+      position:'absolute',
+      top:'79.5%',
+      left:'81.7%',
+      fontSize:3
+    },
+    folioQRSup4: {
+      position:'absolute',
+      top:'79.5%',
+      left:'84.7%',
+      fontSize:3
+    },
+    folioQRSup5: {
+      position:'absolute',
+      top:'79.5%',
+      left:'87.7%',
+      fontSize:3
+    },
+    folioQRSup6: {
+      position:'absolute',
+      top:'79.5%',
+      left:'90.4%',
+      fontSize:3
+    },
+    folioQRSup7: {
+      position:'absolute',
+      top:'79.5%',
+      left:'93%',
+      fontSize:3
+    },
+    folioQRInf1: {
+      position:'absolute',
+      top:'95%',
+      left:'76%',
+      fontSize:3
+    },
+    folioQRInf2: {
+      position:'absolute',
+      top:'95%',
+      left:'78.7%',
+      fontSize:3
+    },
+    folioQRInf3: {
+      position:'absolute',
+      top:'95%',
+      left:'81.7%',
+      fontSize:3
+    },
+    folioQRInf4: {
+      position:'absolute',
+      top:'95%',
+      left:'84.7%',
+      fontSize:3
+    },
+    folioQRInf5: {
+      position:'absolute',
+      top:'95%',
+      left:'87.7%',
+      fontSize:3
+    },
+    folioQRInf6: {
+      position:'absolute',
+      top:'95%',
+      left:'90.4%',
+      fontSize:3
+    },
+    folioQRInf7: {
+      position:'absolute',
+      top:'95%',
+      left:'93%',
+      fontSize:3
+    },
+    folioIzq1: {
+      position:'absolute',
+      top:'80.6%',
+      left:'74.55%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq2: {
+      position:'absolute',
+      top:'82.5%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq3: {
+      position:'absolute',
+      top:'84.4%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq4: {
+      position:'absolute',
+      top:'86.4%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq5: {
+      position:'absolute',
+      top:'88.4%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq6: {
+      position:'absolute',
+      top:'90.4%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq7: {
+      position:'absolute',
+      top:'92.1%',
+      left:'74.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq8: {
+      position:'absolute',
+      top:'93.72%',
+      left:'74.55%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer1: {
+      position:'absolute',
+      top:'80.6%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer2: {
+      position:'absolute',
+      top:'82.5%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer3: {
+      position:'absolute',
+      top:'84.4%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer4: {
+      position:'absolute',
+      top:'86.4%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer5: {
+      position:'absolute',
+      top:'88.4%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer6: {
+      position:'absolute',
+      top:'90.4%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer7: {
+      position:'absolute',
+      top:'92.1%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer8: {
+      position:'absolute',
+      top:'93.72%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    Recibo:{
+    position:'absolute',
+    top:'82.7%',
+    fontSize:13,
+    left:'40%'
+    }
   });
+  function generarNumeroAleatorio() {
+    const min = 1000000; // El número mínimo de 7 cifras
+    const max = 9999999; // El número máximo de 7 cifras
+    const numeroAleatorio = Math.floor(Math.random() * (max - min + 1)) + min;
+    return numeroAleatorio;
+  }
+  
+  const numeroRandom = generarNumeroAleatorio();
+
   function generateDownloadLink() {
     return (
       <PDFDownloadLink
         document={<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
           <Page size="A4">
           <View >
-    <Image style={styles.image} src={{ uri:'https://backpdfchiapas-production.up.railway.app/uploads/sinsello.jpg' , method: 'GET'}}/>
+          <Image style={styles.image} src={{ uri:'https://backpdfchiapas-production.up.railway.app/uploads/sinsello.jpg' , method: 'GET'}}/>
     <Image style={styles.foto} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${fotoUrl}` , method: 'GET'}}/>
     <Image style={styles.huella} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${huellaUrl}` , method: 'GET'}}/>
     <Image style={styles.sello} src={{ uri:`https://backpdfchiapas-production.up.railway.app/uploads/sello.png` , method: 'GET'}}/>
@@ -172,8 +445,57 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
     <Text style={styles.nombreMes}>{nombreMes.toUpperCase()}</Text>
-    <Text style={styles.nombreDia}>{diaEnLetras.toUpperCase()}</Text>
-    
+    <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
+    {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
+    <Text style={styles.folioSup1}>{folio}</Text>
+    <Text style={styles.folioSup2}>{folio}</Text>
+    <Text style={styles.folioSup3}>{folio}</Text>
+    <Text style={styles.folioSup4}>{folio}</Text>
+
+    <Text style={styles.folioInf1}>{folio}</Text>
+    <Text style={styles.folioInf2}>{folio}</Text>
+    <Text style={styles.folioInf3}>{folio}</Text>
+    <Text style={styles.folioInf4}>{folio}</Text>
+
+    <Text style={styles.folioIzq}>{folio}</Text>
+    <Text style={styles.folioDer}>{folio}</Text>
+    {/*----------------------------------------*/}
+    {/* ESTO ES PARA LOS MARCOS DEL QR */}
+    <Text style={styles.folioQRSup1}>{folio}</Text>
+    <Text style={styles.folioQRSup2}>{folio}</Text>
+    <Text style={styles.folioQRSup3}>{folio}</Text>
+    <Text style={styles.folioQRSup4}>{folio}</Text>
+    <Text style={styles.folioQRSup5}>{folio}</Text>
+    <Text style={styles.folioQRSup6}>{folio}</Text>
+    <Text style={styles.folioQRSup7}>{folio}</Text>
+
+    <Text style={styles.folioQRInf1}>{folio}</Text>
+    <Text style={styles.folioQRInf2}>{folio}</Text>
+    <Text style={styles.folioQRInf3}>{folio}</Text>
+    <Text style={styles.folioQRInf4}>{folio}</Text>
+    <Text style={styles.folioQRInf5}>{folio}</Text>
+    <Text style={styles.folioQRInf6}>{folio}</Text>
+    <Text style={styles.folioQRInf7}>{folio}</Text>
+
+    <Text style={styles.folioIzq1}>{folio}</Text>
+    <Text style={styles.folioIzq2}>{folio}</Text>
+    <Text style={styles.folioIzq3}>{folio}</Text>
+    <Text style={styles.folioIzq4}>{folio}</Text>
+    <Text style={styles.folioIzq5}>{folio}</Text>
+    <Text style={styles.folioIzq6}>{folio}</Text>
+    <Text style={styles.folioIzq7}>{folio}</Text>
+    <Text style={styles.folioIzq8}>{folio}</Text>
+
+    <Text style={styles.folioDer1}>{folio}</Text>
+    <Text style={styles.folioDer2}>{folio}</Text>
+    <Text style={styles.folioDer3}>{folio}</Text>
+    <Text style={styles.folioDer4}>{folio}</Text>
+    <Text style={styles.folioDer5}>{folio}</Text>
+    <Text style={styles.folioDer6}>{folio}</Text>
+    <Text style={styles.folioDer7}>{folio}</Text>
+    <Text style={styles.folioDer8}>{folio}</Text>
+
+    <Text style={styles.Recibo}>{numeroRandom}</Text>
     </View>
           </Page>
         </Document>}
@@ -188,7 +510,11 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 
 return (
   <>
- {generateDownloadLink()} {/* Renderiza el enlace de descarga */}
+  <button className='bg-[red] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
+   {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
+  </button>
+  
+   
 <PDFViewer className='w-full h-screen'>
 
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
@@ -205,8 +531,57 @@ return (
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
     <Text style={styles.nombreMes}>{nombreMes.toUpperCase()}</Text>
-    <Text style={styles.nombreDia}>{diaEnLetras.toUpperCase()}</Text>
-    
+    <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
+    {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
+    <Text style={styles.folioSup1}>{folio}</Text>
+    <Text style={styles.folioSup2}>{folio}</Text>
+    <Text style={styles.folioSup3}>{folio}</Text>
+    <Text style={styles.folioSup4}>{folio}</Text>
+
+    <Text style={styles.folioInf1}>{folio}</Text>
+    <Text style={styles.folioInf2}>{folio}</Text>
+    <Text style={styles.folioInf3}>{folio}</Text>
+    <Text style={styles.folioInf4}>{folio}</Text>
+
+    <Text style={styles.folioIzq}>{folio}</Text>
+    <Text style={styles.folioDer}>{folio}</Text>
+    {/*----------------------------------------*/}
+    {/* ESTO ES PARA LOS MARCOS DEL QR */}
+    <Text style={styles.folioQRSup1}>{folio}</Text>
+    <Text style={styles.folioQRSup2}>{folio}</Text>
+    <Text style={styles.folioQRSup3}>{folio}</Text>
+    <Text style={styles.folioQRSup4}>{folio}</Text>
+    <Text style={styles.folioQRSup5}>{folio}</Text>
+    <Text style={styles.folioQRSup6}>{folio}</Text>
+    <Text style={styles.folioQRSup7}>{folio}</Text>
+
+    <Text style={styles.folioQRInf1}>{folio}</Text>
+    <Text style={styles.folioQRInf2}>{folio}</Text>
+    <Text style={styles.folioQRInf3}>{folio}</Text>
+    <Text style={styles.folioQRInf4}>{folio}</Text>
+    <Text style={styles.folioQRInf5}>{folio}</Text>
+    <Text style={styles.folioQRInf6}>{folio}</Text>
+    <Text style={styles.folioQRInf7}>{folio}</Text>
+
+    <Text style={styles.folioIzq1}>{folio}</Text>
+    <Text style={styles.folioIzq2}>{folio}</Text>
+    <Text style={styles.folioIzq3}>{folio}</Text>
+    <Text style={styles.folioIzq4}>{folio}</Text>
+    <Text style={styles.folioIzq5}>{folio}</Text>
+    <Text style={styles.folioIzq6}>{folio}</Text>
+    <Text style={styles.folioIzq7}>{folio}</Text>
+    <Text style={styles.folioIzq8}>{folio}</Text>
+
+    <Text style={styles.folioDer1}>{folio}</Text>
+    <Text style={styles.folioDer2}>{folio}</Text>
+    <Text style={styles.folioDer3}>{folio}</Text>
+    <Text style={styles.folioDer4}>{folio}</Text>
+    <Text style={styles.folioDer5}>{folio}</Text>
+    <Text style={styles.folioDer6}>{folio}</Text>
+    <Text style={styles.folioDer7}>{folio}</Text>
+    <Text style={styles.folioDer8}>{folio}</Text>
+
+    <Text style={styles.Recibo}>{numeroRandom}</Text>
     </View>
   </Page>
 </Document>

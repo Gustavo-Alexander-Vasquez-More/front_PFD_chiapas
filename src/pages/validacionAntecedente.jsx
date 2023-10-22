@@ -17,17 +17,12 @@ const antecedenteFiltrado = Array.isArray(antecedentes)
   ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
   : [];
 const folio=antecedenteFiltrado.map(antecedente=> antecedente.folio)
-const expedicion=antecedenteFiltrado.map(antecedente=> antecedente.expedicion.split('T')[0])
+const expedicion=antecedenteFiltrado.map(antecedente=> antecedente.expedicion)
 console.log(expedicion);
-const expedicionArray = expedicion[0]
-console.log(expedicionArray);
-const creacion = antecedenteFiltrado.map(antecedente => {
-  const [fecha, hora] = antecedente.createdAt.split('T');
-  const [horaSinMilisegundos] = hora.split('.');
-  return horaSinMilisegundos;
-});
 
-console.log(creacion);
+
+const hora = antecedenteFiltrado.map(antecedente => antecedente.hora )
+
 
 
 return (
@@ -50,12 +45,12 @@ return (
     {antecedenteFiltrado.map(antecedente=>(
      <p className='text-[1.3rem] sm:flex flex-col gap-3'>CONSTANCIA A NOMBRE DE: <p className='text-[#731b1e] font-semibold'>{antecedente.nombre.toUpperCase()}</p></p>
       ))}
-     <p className='text-[1.3rem] sm:flex flex-col gap-3'>DE FECHA : <p className='text-[#731b1e] font-semibold'>{expedicionArray}</p></p>
+     <p className='text-[1.3rem] sm:flex flex-col gap-3'>DE FECHA : <p className='text-[#731b1e] font-semibold'>{expedicion}</p></p>
      <p className='text-[1.3rem] sm:flex flex-col gap-3'>CON ANTECEDENTES: <p className='text-[#731b1e] font-semibold'>NO</p></p>
      <p className='text-[1.3rem] '>CADENA DE CERTIFICACION:</p>
      
      <p className='text-[#731b1e] font-semibold w-[95%] h-auto  break-words'>
-  ||{folio}|bf1a|{expedicionArray}|{creacion}|HElKFhZJRVJ9NDAyMjg1MTl8FDAwEDAkMzKyMzh8NzMxOLQzOHwyMDIzLTAxLTA2VDE1OjIzOjI4
+  ||{folio}|bf1a|{expedicion}|{hora}|HElKFhZJRVJ9NDAyMjg1MTl8FDAwEDAkMzKyMzh8NzMxOLQzOHwyMDIzLTAxLTA2VDE1OjIzOjI4
   SXNXAMVGNDDDAWMXAV3HMADWSCDCCAecdDWSDGGTTRFG66GBUKRFU3xQSkVDSF9NT0RV
   TI9EIE854VGCancOHNIINVGDASARTHBBNCDObohbewASBCBHECfe3nHUI76VVhUTuF8fZ==||
 </p>
