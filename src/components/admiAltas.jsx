@@ -65,7 +65,7 @@ async function deleteCliente(folio) {
     try {
       if (dato) {
         const confirmation = await Swal.fire({
-          title: '¿Estás seguro de que deseas eliminar esta licencia?',
+          title: '¿Estás seguro de que deseas eliminar este Antecedente?',
           showDenyButton: true,
           showCancelButton: false,
           confirmButtonText: 'Sí',
@@ -77,7 +77,7 @@ async function deleteCliente(folio) {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Cliente eliminado',
+            title: 'Antecedente eliminado',
             showConfirmButton: dispatch(antecedentes_actions.read_antecedentes(currentPage)) ,
             timer: 1500,
           });
@@ -153,7 +153,7 @@ const numbRol=parseInt(rol)
             value={searchTerm}
             onChange={handleSearchChange}
           />
-          <svg class="lg:w-6 lg:h-6 w-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <svg class="lg:w-6 lg:h-6 w-4 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
   </svg>
         </div>
@@ -186,7 +186,7 @@ const numbRol=parseInt(rol)
                     <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
                     <Anchor className='flex ' to={`/consultaPDF/${licencia?.folio}`}>
                     <button className=''>
-                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
   </svg>
                     </button>
@@ -196,12 +196,12 @@ const numbRol=parseInt(rol)
     handleFolioLocal(licencia.folio);
   }} className='hover:bg-[#32b632] p-[0.3rem] rounded-[5px] ' >
                     
-                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white hover:text-[white]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                    <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 hover:text-[white]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.418 17.861 1 20l2.139-6.418m4.279 4.279 10.7-10.7a3.027 3.027 0 0 0-2.14-5.165c-.802 0-1.571.319-2.139.886l-10.7 10.7m4.279 4.279-4.279-4.279m2.139 2.14 7.844-7.844m-1.426-2.853 4.279 4.279"/>
                     </svg>
                     </button>
                      <button className='hover:bg-[#b63232] p-[0.3rem] rounded-[5px] '  onClick={() => handleFolioClick(licencia.folio)} >
-                    <svg  class="lg:w-6 h-6 w-[0.8rem] text-gray-800 dark:text-white hover:text-[white]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                    <svg  class="lg:w-6 h-6 w-[0.8rem] text-gray-800 hover:text-[white]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
                     </svg>
                     </button>

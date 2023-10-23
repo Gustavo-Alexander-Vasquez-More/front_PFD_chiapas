@@ -4,7 +4,7 @@ import { PDFViewer } from '@react-pdf/renderer';
 import antecedentes_actions from '../redux/actions/antecedentesActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
+import { Link as Anchor } from 'react-router-dom';
 
 const consultaPDF= () => {
  
@@ -53,8 +53,10 @@ function numeroALetras(numero) {
     return unidades[numero];
   }if(numero ===20){
     return 'veinte'
-  }  if (numero < 30 && numero>20) {
-    return 'Veinti y' + unidades[numero - 20];
+
+  
+   } if (numero < 30 && numero>21) {
+    return 'Veinti' + unidades[numero - 20];
   } if(numero ===30) {
     return 'Treinta'
   } if(numero === 31){
@@ -91,30 +93,31 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     },
     foto: {
       width: '13%', // Ancho de la imagen
-      height: '13%', 
+      height: '11%', 
       position:'absolute',
-      top:'25%',
+      top:'26%',
       left:'6%'
     },
     sello: {
       width: '15%', // Ancho de la imagen
-      height: '11.5%', 
+      height: '11%', 
       position:'absolute',
       top:'35.5%',
       left:'8%'
     },
     huella: {
-      width: '8%', // Ancho de la imagen
-      height: '7%', 
+      width: '7%', // Ancho de la imagen
+      height: '9%', 
       position:'absolute',
-      top:'49%',
+      top:'47.7%',
       left:'7%'
     },
     nombre: {
       position:'absolute',
       top:'48.5%',
       left:'31%',
-      fontSize:12.5
+      fontSize:12,
+      fontWeight:'extrabold'
     },
     vigencia: {
       position:'absolute',
@@ -212,7 +215,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     folioDer: {
       position:'absolute',
       top:'17%',
-      left:'95.3%',
+      left:'95.4%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
@@ -225,34 +228,46 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     folioQRSup2: {
       position:'absolute',
       top:'79.5%',
-      left:'78.7%',
+      left:'78.2%',
       fontSize:3
     },
     folioQRSup3: {
       position:'absolute',
       top:'79.5%',
-      left:'81.7%',
+      left:'80.4%',
       fontSize:3
     },
     folioQRSup4: {
       position:'absolute',
       top:'79.5%',
-      left:'84.7%',
+      left:'82.5%',
       fontSize:3
     },
     folioQRSup5: {
       position:'absolute',
       top:'79.5%',
-      left:'87.7%',
+      left:'84.5%',
       fontSize:3
     },
     folioQRSup6: {
       position:'absolute',
       top:'79.5%',
-      left:'90.4%',
+      left:'86.5%',
       fontSize:3
     },
     folioQRSup7: {
+      position:'absolute',
+      top:'79.5%',
+      left:'88.7%',
+      fontSize:3
+    },
+    folioQRSup8: {
+      position:'absolute',
+      top:'79.5%',
+      left:'90.8%',
+      fontSize:3
+    },
+    folioQRSup9: {
       position:'absolute',
       top:'79.5%',
       left:'93%',
@@ -267,34 +282,46 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     folioQRInf2: {
       position:'absolute',
       top:'95%',
-      left:'78.7%',
+      left:'78.2%',
       fontSize:3
     },
     folioQRInf3: {
       position:'absolute',
       top:'95%',
-      left:'81.7%',
+      left:'80.4%',
       fontSize:3
     },
     folioQRInf4: {
       position:'absolute',
       top:'95%',
-      left:'84.7%',
+      left:'82.5%',
       fontSize:3
     },
     folioQRInf5: {
       position:'absolute',
       top:'95%',
-      left:'87.7%',
+      left:'84.5%',
       fontSize:3
     },
     folioQRInf6: {
       position:'absolute',
       top:'95%',
-      left:'90.4%',
+      left:'86.5%',
       fontSize:3
     },
     folioQRInf7: {
+      position:'absolute',
+      top:'95%',
+      left:'88.7%',
+      fontSize:3
+    },
+    folioQRInf8: {
+      position:'absolute',
+      top:'95%',
+      left:'90.8%%',
+      fontSize:3
+    },
+    folioQRInf9: {
       position:'absolute',
       top:'95%',
       left:'93%',
@@ -309,49 +336,63 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     },
     folioIzq2: {
       position:'absolute',
-      top:'82.5%',
-      left:'74.5%',
+      top:'82.1%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq3: {
       position:'absolute',
-      top:'84.4%',
-      left:'74.5%',
+      top:'83.7%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq4: {
       position:'absolute',
-      top:'86.4%',
-      left:'74.5%',
+      top:'85.3%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq5: {
       position:'absolute',
-      top:'88.4%',
-      left:'74.5%',
+      top:'86.8%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq6: {
       position:'absolute',
-      top:'90.4%',
-      left:'74.5%',
+      top:'88.4%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq7: {
       position:'absolute',
-      top:'92.1%',
-      left:'74.5%',
+      top:'90%',
+      left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioIzq8: {
       position:'absolute',
-      top:'93.72%',
+      top:'91.5%',
+      left:'74.55%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq9: {
+      position:'absolute',
+      top:'92.5%',
+      left:'74.55%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioIzq10: {
+      position:'absolute',
+      top:'93.9%',
       left:'74.55%',
       fontSize:3,
       transform: 'rotate(90deg)'
@@ -365,49 +406,63 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     },
     folioDer2: {
       position:'absolute',
-      top:'82.5%',
+      top:'82.1%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer3: {
       position:'absolute',
-      top:'84.4%',
+      top:'83.7%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer4: {
       position:'absolute',
-      top:'86.4%',
+      top:'85.3%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer5: {
       position:'absolute',
-      top:'88.4%',
+      top:'86.8%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer6: {
       position:'absolute',
-      top:'90.4%',
+      top:'88.4%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer7: {
       position:'absolute',
-      top:'92.1%',
+      top:'90%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
     },
     folioDer8: {
       position:'absolute',
-      top:'93.72%',
+      top:'91.5%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer9: {
+      position:'absolute',
+      top:'92.5%',
+      left:'94.5%',
+      fontSize:3,
+      transform: 'rotate(90deg)'
+    },
+    folioDer10: {
+      position:'absolute',
+      top:'93.9%',
       left:'94.5%',
       fontSize:3,
       transform: 'rotate(90deg)'
@@ -468,6 +523,8 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioQRSup5}>{folio}</Text>
     <Text style={styles.folioQRSup6}>{folio}</Text>
     <Text style={styles.folioQRSup7}>{folio}</Text>
+    <Text style={styles.folioQRSup8}>{folio}</Text>
+    <Text style={styles.folioQRSup9}>{folio}</Text>
 
     <Text style={styles.folioQRInf1}>{folio}</Text>
     <Text style={styles.folioQRInf2}>{folio}</Text>
@@ -476,6 +533,8 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioQRInf5}>{folio}</Text>
     <Text style={styles.folioQRInf6}>{folio}</Text>
     <Text style={styles.folioQRInf7}>{folio}</Text>
+    <Text style={styles.folioQRInf8}>{folio}</Text>
+    <Text style={styles.folioQRInf9}>{folio}</Text>
 
     <Text style={styles.folioIzq1}>{folio}</Text>
     <Text style={styles.folioIzq2}>{folio}</Text>
@@ -485,6 +544,9 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioIzq6}>{folio}</Text>
     <Text style={styles.folioIzq7}>{folio}</Text>
     <Text style={styles.folioIzq8}>{folio}</Text>
+    <Text style={styles.folioIzq9}>{folio}</Text>
+    <Text style={styles.folioIzq10}>{folio}</Text>
+    
 
     <Text style={styles.folioDer1}>{folio}</Text>
     <Text style={styles.folioDer2}>{folio}</Text>
@@ -494,6 +556,8 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioDer6}>{folio}</Text>
     <Text style={styles.folioDer7}>{folio}</Text>
     <Text style={styles.folioDer8}>{folio}</Text>
+    <Text style={styles.folioDer9}>{folio}</Text>
+    <Text style={styles.folioDer10}>{folio}</Text>
 
     <Text style={styles.Recibo}>{numeroRandom}</Text>
     </View>
@@ -510,6 +574,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 
 return (
   <>
+  <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
   <button className='bg-[red] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
    {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
   </button>
@@ -554,6 +619,8 @@ return (
     <Text style={styles.folioQRSup5}>{folio}</Text>
     <Text style={styles.folioQRSup6}>{folio}</Text>
     <Text style={styles.folioQRSup7}>{folio}</Text>
+    <Text style={styles.folioQRSup8}>{folio}</Text>
+    <Text style={styles.folioQRSup9}>{folio}</Text>
 
     <Text style={styles.folioQRInf1}>{folio}</Text>
     <Text style={styles.folioQRInf2}>{folio}</Text>
@@ -562,6 +629,8 @@ return (
     <Text style={styles.folioQRInf5}>{folio}</Text>
     <Text style={styles.folioQRInf6}>{folio}</Text>
     <Text style={styles.folioQRInf7}>{folio}</Text>
+    <Text style={styles.folioQRInf8}>{folio}</Text>
+    <Text style={styles.folioQRInf9}>{folio}</Text>
 
     <Text style={styles.folioIzq1}>{folio}</Text>
     <Text style={styles.folioIzq2}>{folio}</Text>
@@ -571,6 +640,9 @@ return (
     <Text style={styles.folioIzq6}>{folio}</Text>
     <Text style={styles.folioIzq7}>{folio}</Text>
     <Text style={styles.folioIzq8}>{folio}</Text>
+    <Text style={styles.folioIzq9}>{folio}</Text>
+    <Text style={styles.folioIzq10}>{folio}</Text>
+    
 
     <Text style={styles.folioDer1}>{folio}</Text>
     <Text style={styles.folioDer2}>{folio}</Text>
@@ -580,6 +652,8 @@ return (
     <Text style={styles.folioDer6}>{folio}</Text>
     <Text style={styles.folioDer7}>{folio}</Text>
     <Text style={styles.folioDer8}>{folio}</Text>
+    <Text style={styles.folioDer9}>{folio}</Text>
+    <Text style={styles.folioDer10}>{folio}</Text>
 
     <Text style={styles.Recibo}>{numeroRandom}</Text>
     </View>
