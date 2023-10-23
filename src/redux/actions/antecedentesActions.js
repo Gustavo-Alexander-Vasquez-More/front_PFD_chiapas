@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
+
 const read_AllAntecedentes = createAsyncThunk(
     'read_AllAntecedentes', 
     async()=>{
@@ -43,10 +45,22 @@ const read_AllAntecedentes = createAsyncThunk(
           try {
           const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/antecedentes/create', datos)
           console.log(data.response);
-        return data.response
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Antecedente creado',
+            showConfirmButton: false,
+            timer: 1500
+          });
+          return data.response
           } catch (error) {
-          }
-      } 
+            Swal.fire({
+              icon: 'error',
+              title: 'Genere un nuevo folio!',
+              text: 'El folio ya existe o se usó recientemente.Para evitar conflictos por favor genera un nuevo folio.',
+            });
+      }
+    }
       )
       const delete_antecedentes = createAsyncThunk(
         'delete_antecedentes',

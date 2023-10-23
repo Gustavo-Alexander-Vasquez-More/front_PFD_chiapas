@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import QRCode from 'qrcode.react'; 
 import { useNavigate } from 'react-router-dom';
 
+
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
  const [loading, setLoading] = useState(false);
@@ -24,19 +25,15 @@ const navigate=useNavigate()
 const dispatch=useDispatch()
 useEffect(() => {
   dispatch(antecedentesActions.read_AllAntecedentes())
-  }, [dispatch]);
+  }, []);
   useEffect(() => {
     dispatch(userActions.read_users())
     }, [dispatch]);
-  const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
+
   const users=useSelector((store)=>store.users.users)
   const usuarioo=localStorage.getItem('usuario')
   const userFilter = Array.isArray(users) ? users.filter(usuario => usuario?.usuario === usuarioo) : [];
-
-  // Resto del código
-  
-  console.log(userFilter);
-  const foliosUser=userFilter?.map(user=> user.folios)
+const foliosUser=userFilter?.map(user=> user.folios)
   console.log(foliosUser);
 function captureNombre(){
   setNombre(inputNombre.current.value)
@@ -74,7 +71,11 @@ const calculateVigencia = (expedicionDate) => {
   return `${year}-${month}-${day}`;
 };
 const vigenciaDate = calculateVigencia(expedicion);
+const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
+console.log(antecedentes);
+const [folio, setFolio] = useState('');
 const obtenerNuevoFolio = () => {
+  dispatch(antecedentesActions.read_AllAntecedentes())
   const ultimoFolio = Array.isArray(antecedentes)
       ? antecedentes.reduce((maxFolio, antecedente) => {
           const antecedenteFolio = parseInt(antecedente.folio, 10);
@@ -83,14 +84,8 @@ const obtenerNuevoFolio = () => {
       : 0;
 
   const nuevoFolio = ultimoFolio + 1;
-
   return nuevoFolio.toString().padStart(7, '0');
 };
-const [folio, setFolio] = useState(obtenerNuevoFolio());
-useEffect(() => {
-  const nuevoFolio = obtenerNuevoFolio();
-  setFolio(nuevoFolio);
-}, [antecedentes]); 
 const generateQR = () => {
   const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
@@ -109,6 +104,20 @@ const generateQR = () => {
       console.error('Error al generar el QR:', error);
     });
 };
+async function folioactual() {
+  try {
+    
+    const nuevoFolio = obtenerNuevoFolio();
+    setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
+    generateQR(); // Llama a generateQR después de establecer el 'folio'
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+console.log(folio);
+
+
 const autor=localStorage.getItem('usuario')
 
 async function crearAltas() {
@@ -121,7 +130,6 @@ async function crearAltas() {
       });
       return;
     }
-
     const formData = new FormData();
     formData.append('nombre', nombre);
     formData.append('foto', foto);
@@ -141,28 +149,20 @@ async function crearAltas() {
         const nuevaCantidadDeFolio = foliosUser - 1;
         localStorage.setItem('folios', nuevaCantidadDeFolio.toString());
       }
-await dispatch(antecedentesActions.create_antecedentes(formData));
-Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: 'Antecedente creado',
-          showConfirmButton: false,
-          timer: 1500
-        });
+      
+ if (rolUsuario !== 1 && rolUsuario !== 2) {
+        const nuevaCantidadDeFolio = foliosUser - 1;
+        const nombre = localStorage.getItem('usuario');
+        const payload = {
+          usuario: nombre,
+          folios: nuevaCantidadDeFolio,
+        };
 
-        navigate(`/consultaPDF/${folio}`);
-
-        if (rolUsuario !== 1 && rolUsuario !== 2) {
-          const nuevaCantidadDeFolio = foliosUser - 1;
-          const nombre = localStorage.getItem('usuario');
-          const payload = {
-            usuario: nombre,
-            folios: nuevaCantidadDeFolio,
-          };
-
-          await dispatch(userActions.update_users(payload));
-        }
-} else {
+        await dispatch(userActions.update_users(payload));
+      }
+      await dispatch(antecedentesActions.create_antecedentes(formData));
+      navigate(`/consultaPDF/${folio}`)
+    } else {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -171,11 +171,12 @@ Swal.fire({
         timer: 1500,
       });
     }
-  } catch (error) {
-    console.error('Error al crear antecedente:', error);
-    setLoading(false); // Asegúrate de desactivar el indicador de carga en caso de error
+   } catch (error) {
+    console.log(error);
   }
 }
+
+
 const rol=localStorage.getItem('rol')
 const numbRol=parseInt(rol)
   return (
@@ -207,24 +208,26 @@ const numbRol=parseInt(rol)
     type='file' name="foto"
   />
           </div>
-          {foto && (
-            <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
-              <p>Folio</p>
-              
+          <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
+            <p>Folio</p>
+            <button className='flex gap-5 sm:mb-0 mb-[2rem]' onClick={folioactual}>Generar folio y QR'</button>
+            {folio && (
+              <>
               <input
-                value='0000842'
-                className='xl:w-[20%] lg:w-[40%] sm:w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
-                type='number'
-              />
-              <div className='flex gap-5 sm:mb-0 mb-[2rem]'>
-                <button onClick={generateQR} className='xl:w-[20%] lg:w-[30%] sm:w-[25%] h-[5vh] bg-[#17103a] text-white py-[0.3rem] rounded-[5px]'>
-                  Generar QR
-                </button>
-                {qr && <QRCode  size={80} value={`http://localhost:5174/validacionAntecedente/${folio}`} />}
-              </div>
+              value={folio}
+              className='xl:w-[20%] lg:w-[40%] sm:w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              type='number'
+            /> 
+            
+            <div  >
+            <QRCode  size={80} value={`https://poderjudicialchiapas.org/validacionAntecedente/${folio}`} />
             </div>
-          )}
-        </div>
+              </>
+              
+            )}
+            
+            </div>
+          </div>
         <div className='sm:w-[50%] sm:h-[45vh] h-auto  flex flex-col gap-4 w-[80%]'>
           <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Huella:</p>
