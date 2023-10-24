@@ -15,6 +15,7 @@ console.log(foto);
 const [huella, setHuella]=useState('')
 console.log(huella);
 const [qr, setQr]=useState('')
+console.log(qr);
 const[qrVisualizer, setQrVisualizer]=useState('')
 console.log(qr);
 const [nombre, setNombre]=useState('')
@@ -86,7 +87,9 @@ const obtenerNuevoFolio = () => {
   const nuevoFolio = ultimoFolio + 1;
   return nuevoFolio.toString().padStart(7, '0');
 };
-const generateQR = () => {
+
+
+const generateQR = (folio) => {
   const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
@@ -108,13 +111,12 @@ async function folioactual() {
   try {
     
     const nuevoFolio = obtenerNuevoFolio();
-    setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
-    generateQR(); // Llama a generateQR después de establecer el 'folio'
+  await  setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
+  await  generateQR(nuevoFolio); // Llama a generateQR después de establecer el 'folio'
   } catch (error) {
     console.log(error);
   }
 }
-
 console.log(folio);
 
 
