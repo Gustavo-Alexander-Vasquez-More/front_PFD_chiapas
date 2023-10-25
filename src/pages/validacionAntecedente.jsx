@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import antecedentes_actions from '../redux/actions/antecedentesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { closePath } from 'pdf-lib';
+
 
 export default function validacionAntecedente() {
 const  folioParam  = useParams();
@@ -12,7 +12,7 @@ useEffect(() => {
 dispatch(antecedentes_actions.read_AllAntecedentes())
 }, []);
 const antecedentes=useSelector((store)=>store.antecedentes.AllAntecedentes)
-console.log(antecedentes);
+
 const antecedenteFiltrado = Array.isArray(antecedentes)
   ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
   : [];

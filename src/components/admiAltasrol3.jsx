@@ -29,11 +29,11 @@ export default function admiAltasrol3() {
   dispatch(antecedentes_actions.read_AllAntecedentes())
   }, [dispatch]);
   const Antecedente = useSelector((store) => store.antecedentes?.AntecedentesAuth);
-  console.log(Antecedente);
+ 
   const Antecedentes = Antecedente?.response || [];
   const AllAntecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
   const AntecedentesAuth=AllAntecedentes?.filter(licencia=> licencia.author_id.usuario === user)
-  console.log(AntecedentesAuth);
+  
   
 
   const handleNext = () => {

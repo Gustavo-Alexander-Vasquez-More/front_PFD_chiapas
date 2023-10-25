@@ -12,13 +12,12 @@ const consultaPDF= () => {
   const dispatch = useDispatch();
   const  folioParam  = useParams();
   const resultParam=folioParam.folio
-  console.log(resultParam);
-  useEffect(() => {
+   useEffect(() => {
     dispatch(antecedentes_actions.read_AllAntecedentes());
   }, [dispatch]);
 
   const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
-  console.log(antecedentes);
+  
   const antecedenteFiltrado = Array.isArray(antecedentes)
   ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
   : [];
@@ -30,16 +29,15 @@ const consultaPDF= () => {
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ];
 
-console.log(nombre);
+
     return nombresMeses[numeroMes - 1] || '';
   };
 const expedicion=antecedenteFiltrado.map(antecedente=>antecedente.expedicion)
-console.log(expedicion);
+
 const fechaExpedicion = new Date(expedicion);
 const numeroMes = fechaExpedicion.getMonth() + 1; 
 const nombreMes = obtenerNombreMes(numeroMes);
 const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto.replace(/\\/g, '/') : null;
-console.log(fotoUrl);
 const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella?.replace(/\\/g, '/') : null;
 const diaMes=fechaExpedicion.getDate()
 function numeroALetras(numero) {
@@ -75,9 +73,6 @@ const formattedVigencia = vigencia.map(dateString => {
   }
   return dateString; // Si no es un formato válido, se mantiene igual
 });
-
-console.log(formattedVigencia);
-
 const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr.replace(/\\/g, '/') : null;
 const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 

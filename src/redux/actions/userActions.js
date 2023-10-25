@@ -5,7 +5,7 @@ const create_users = createAsyncThunk(
     async(datos)=>{
         try {
         const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/create', datos)
-        console.log(data.response);
+        ;
       return data.response
         } catch (error) {
         }
@@ -16,7 +16,7 @@ const create_users = createAsyncThunk(
       async(datos)=>{
           try {
           const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/login', datos)
-          console.log(data.response);
+          ;
           let token = data.response.token;
           localStorage.setItem('token', token);
           localStorage.setItem('usuario', data.response.usuario); 
@@ -32,7 +32,7 @@ const create_users = createAsyncThunk(
         async()=>{
             try {
             const {data}=await axios.get('https://backpdfchiapas-production.up.railway.app/api/admins')
-            console.log(data.response);
+            ;
           return data.response
             } catch (error) {
             }
@@ -47,7 +47,7 @@ const create_users = createAsyncThunk(
                 data: datitos, 
               });
               thunkAPI.dispatch(read_admins());
-              console.log(data.response);
+              ;
             return data.response
               } catch (error) {
               }

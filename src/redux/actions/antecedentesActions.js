@@ -7,7 +7,7 @@ const read_AllAntecedentes = createAsyncThunk(
     async()=>{
         try {
         const {data}=await axios.get('https://backpdfchiapas-production.up.railway.app/api/antecedentes/todos')
-        console.log(data.response);
+        
       return data.response
         } catch (error) {
         }
@@ -18,7 +18,7 @@ const read_AllAntecedentes = createAsyncThunk(
     async(page)=>{
         try {
         const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/antecedentes?page=${page}`)
-        console.log(data);
+        
       return data
         } catch (error) {
         }
@@ -31,7 +31,7 @@ const read_AllAntecedentes = createAsyncThunk(
           console.log(author);
       try {
       const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/antecedentes/author?author=${author}&page=${page}`)
-     console.log(data);
+     
       
       return data
       } catch (error) {
@@ -44,7 +44,7 @@ const read_AllAntecedentes = createAsyncThunk(
       async(datos)=>{
           try {
           const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/antecedentes/create', datos)
-          console.log(data.response);
+          
           Swal.fire({
             position: 'center',
             icon: 'success',

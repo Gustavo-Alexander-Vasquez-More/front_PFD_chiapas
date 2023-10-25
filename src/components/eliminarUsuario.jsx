@@ -7,13 +7,13 @@ export default function eliminarUsuario() {
     const [selectUser, setSelectUser] = useState('');
   const dispatch = useDispatch();
   const inputSelectUser = useRef();
-  console.log(selectUser);
+  
   
   useEffect(() => {
     dispatch(userActions?.read_users());
   }, [dispatch]);
   const usuarios = useSelector((store) => store?.users?.users);
-  console.log(usuarios);
+  
   async function deleteUser() {
     try {
       const datitos = {

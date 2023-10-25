@@ -12,7 +12,7 @@ const [opcionSelect, setOpcionSelect]=useState(null)
 const [currentPage, setCurrentPage] = useState(
   parseInt(localStorage.getItem('pagina')) || 1 //le digo que mi estado inicial sea 1 o que sea el numero almacenado en el local storage
 );
-console.log(currentPage);
+
 function openModal(opcion){
   setOpcionSelect(opcion)
   setMostrarModal(true)
@@ -23,10 +23,10 @@ function openModal(opcion){
   setMostrarModal(true)
 }
 const antecedente = useSelector((store) => store.antecedentes?.antecedentes);
-console.log(antecedente);
+
 const AllAntecedentes = useSelector((store) => store.antecedentes?.AllAntecedentes);
 const antecedentes=antecedente?.response
-console.log(antecedentes);
+
 const page=currentPage
 useEffect(() => {
   localStorage.setItem('pagina', currentPage);
@@ -135,7 +135,7 @@ async function deleteCliente(folio) {
      }).slice(0, searchTerm === AllAntecedentes[0]?.author_id?.usuario.toLowerCase() ? AllAntecedentes?.length : MAX_RESULTS)
    : antecedentes;
 
-console.log(filteredLicencias);
+
 const pagina=localStorage.setItem('pagina', currentPage)
 const rol = localStorage.getItem('rol')
 const numbRol=parseInt(rol)

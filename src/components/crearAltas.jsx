@@ -11,13 +11,13 @@ export default function crearAltas() {
 const [foto, setFoto]=useState('')
  const [loading, setLoading] = useState(false);
 
-console.log(foto);
+
 const [huella, setHuella]=useState('')
-console.log(huella);
+
 const [qr, setQr]=useState('')
-console.log(qr);
+
 const[qrVisualizer, setQrVisualizer]=useState('')
-console.log(qr);
+
 const [nombre, setNombre]=useState('')
 const inputFoto=useRef()
 const inputHuella=useRef()
@@ -35,7 +35,7 @@ useEffect(() => {
   const usuarioo=localStorage.getItem('usuario')
   const userFilter = Array.isArray(users) ? users.filter(usuario => usuario?.usuario === usuarioo) : [];
 const foliosUser=userFilter?.map(user=> user.folios)
-  console.log(foliosUser);
+  
 function captureNombre(){
   setNombre(inputNombre.current.value)
 }
@@ -55,9 +55,9 @@ function getHours(){
   return `${hour}:${minute}`
 }
 const [hora, setHora] = useState(getHours());
-console.log(hora);
+
 const [expedicion, setExpedicion] = useState(getCurrentDate());
-console.log(expedicion);
+
 const calculateVigencia = (expedicionDate) => {
   const expedicion = new Date(expedicionDate);
  
@@ -73,7 +73,7 @@ const calculateVigencia = (expedicionDate) => {
 };
 const vigenciaDate = calculateVigencia(expedicion);
 const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
-console.log(antecedentes);
+
 const [folio, setFolio] = useState('');
 const obtenerNuevoFolio = () => {
   dispatch(antecedentesActions.read_AllAntecedentes())
@@ -117,7 +117,7 @@ async function folioactual() {
     console.log(error);
   }
 }
-console.log(folio);
+
 
 
 const autor=localStorage.getItem('usuario')

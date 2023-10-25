@@ -21,7 +21,7 @@ const param=localStorage.getItem('folioEdit')
             [opcionSelect]: inputValue
           }
         }
-        console.log(payload);
+        
     try {
         if(payload){
         await dispatch(antecedentes_actions.update_antecedentes(payload)) 
