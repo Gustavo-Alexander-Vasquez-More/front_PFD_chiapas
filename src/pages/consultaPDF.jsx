@@ -41,7 +41,7 @@ const nombreMes = obtenerNombreMes(numeroMes);
 const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto.replace(/\\/g, '/') : null;
 console.log(fotoUrl);
 const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella?.replace(/\\/g, '/') : null;
-const diaMes=fechaExpedicion.getDate()+1
+const diaMes=fechaExpedicion.getDate()
 function numeroALetras(numero) {
   const unidades = [
      'Un', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve',
