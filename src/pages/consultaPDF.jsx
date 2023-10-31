@@ -23,47 +23,153 @@ const consultaPDF= () => {
   : [];
   const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
   
-  const obtenerNombreMes = (numeroMes) => {
-    const nombresMeses = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
+ 
+  const expedicion = antecedenteFiltrado.map(antecedente => antecedente.expedicion).toLocaleString()
+const partes=expedicion.split('-')
+const dia=partes[2]
+const mes=partes[1]
 
-
-    return nombresMeses[numeroMes - 1] || '';
-  };
-const expedicion=antecedenteFiltrado.map(antecedente=>antecedente.expedicion)
-
-const fechaExpedicion = new Date(expedicion);
-const numeroMes = fechaExpedicion.getMonth() + 1; 
-const nombreMes = obtenerNombreMes(numeroMes);
 const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto.replace(/\\/g, '/') : null;
 const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella?.replace(/\\/g, '/') : null;
-const diaMes=fechaExpedicion.getDate()
-function numeroALetras(numero) {
-  const unidades = [
-     'Un', 'Dos', 'Tres', 'Cuatro', 'Cinco', 'Seis', 'Siete', 'Ocho', 'Nueve',
-    'Diez', 'Once', 'Doce', 'Trece', 'Catorce', 'Quince', 'Dieciséis', 'Diecisiete', 'Dieciocho', 'Diecinueve'
-  ];
-  
 
-  if (numero < 20) {
-    return unidades[numero];
-  }if(numero ===20){
-    return 'veinte'
 
-  
-   } if (numero < 30 && numero>21) {
-    return 'Veinti' + unidades[numero - 20];
-  } if(numero ===30) {
-    return 'Treinta'
-  } if(numero === 31){
-return 'Treinta y Un'
+  function numeroALetras(numero) {
+  if(numero === '01'){
+    return 'Un'
+  }
+  if(numero === '02'){
+    return 'dos'
+  }
+  if(numero === '03'){
+    return 'tres'
+  }
+  if(numero === '04'){
+    return 'cuatro'
+  }
+  if(numero === '05'){
+    return 'cinco'
+  }
+  if(numero === '06'){
+    return 'seis'
+  }
+  if(numero === '07' ){
+    return 'siete'
+  }
+  if(numero === '08'){
+    return 'ocho'
+      }
+  if(numero === '09'){
+return 'nueve'
+  }
+  if(numero === '10'){
+return 'diez'
+  }
+  if(numero === '11'){
+    return 'once'
+  }
+  if(numero === '12'){
+    return 'doce'
+  }
+  if(numero === '13'){
+    return 'trece'
+  }
+  if(numero === '14'){
+    return 'catorce'
+  }
+  if(numero ==='15'){
+    return 'quince'
+  }
+  if(numero === '16'){
+    return 'dieciséis'
+  }
+  if(numero === '17'){
+    return 'Diecisiete'
+  }
+  if(numero === '18'){
+ return 'dieciocho'
+  }
+  if(numero === '19'){
+ return 'diecinueve'
+  }
+  if(numero === '20'){
+return 'veinte'
+  }
+  if(numero === '21'){
+return 'veintiun'
+  }
+  if(numero === '22'){
+return 'veintidos'
+  }
+  if(numero === '23'){
+ return 'veintitres'
+  }
+  if(numero === '24'){
+return 'veinticuatro'
+  }
+  if(numero === '25'){
+return 'veinticinco'
+  }
+  if(numero === '26'){
+return 'veintiséis'
+  }
+  if(numero === '27'){
+return 'veintisiete'
+  }
+  if(numero === '28'){
+return 'veintiocho'
+  }
+  if(numero === '29'){
+return 'veintinueve'
+  }
+  if(numero === '30'){
+return 'treinta'
+  }
+  if(numero === '31'){
+return 'treinta y un'
   }
 }
 
-const diaEnLetras = numeroALetras(diaMes);
-const dia=diaEnLetras 
+function mesALetras(numero) {
+  if(numero === '01'){
+    return 'Enero'
+    }
+    if(numero === '02'){
+      return 'Febrero'
+      }
+      if(numero === '03'){
+        return 'Marzo'
+        }
+        if(numero === '04'){
+          return 'Abril'
+          }
+          if(numero === '05'){
+            return 'Mayo'
+            }
+            if(numero === '06'){
+              return 'Junio'
+              }
+              if(numero === '07'){
+                return 'Julio'
+                }
+                if(numero === '08'){
+                  return 'Agosto'
+                  }
+                  if(numero === '09'){
+                    return 'Septiembre'
+                    }
+                    if(numero === '10'){
+                      return 'Octubre'
+                      }
+                      if(numero === '11'){
+                        return 'Noviembre'
+                        }
+                        if(numero === '12'){
+                          return 'Diciembre'
+                          }
+
+}
+const nombreMes=mesALetras(mes)
+const diaEnLetras=numeroALetras(dia)
 const vigencia = antecedenteFiltrado.map(antecedente => antecedente.vigencia);
 
 const formattedVigencia = vigencia.map(dateString => {
@@ -494,7 +600,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Image style={styles.qr} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${qrUrl}` , method: 'GET'}}/>
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
-    <Text style={styles.nombreMes}>{nombreMes.toUpperCase()}</Text>
+    <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
     <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
@@ -590,7 +696,7 @@ return (
     <Image style={styles.qr} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${qrUrl}` , method: 'GET'}}/>
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
-    <Text style={styles.nombreMes}>{nombreMes.toUpperCase()}</Text>
+    <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
     <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
