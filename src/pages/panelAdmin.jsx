@@ -19,6 +19,7 @@ const navigate=useNavigate()
 function openModal(opcion){
 setOpcionSelect(opcion)
 setMostrarModal(true)
+setMenu(false)
 }
 function openMenu() {
 setMenu(true);

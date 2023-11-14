@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch} from 'react-redux';
 import Swal from 'sweetalert2';
+import QRCode from 'qrcode.react'; 
+import {uploadQr} from '../qr.js'
 import antecedentes_actions from '../redux/actions/antecedentesActions';
 export default function editarAntecedente() {
   const [opcionSelect, setOpcionSelect] = useState('');
 const [inputValue, setInputValue] = useState('');
+
   const dispatch=useDispatch()
   function handleSelectChange(event) {
     setOpcionSelect(event.target.value);
@@ -14,6 +17,28 @@ const [inputValue, setInputValue] = useState('');
     setInputValue(event.target.value);
 }
 const param=localStorage.getItem('folioEdit')
+const generateQR = async (folio) => {
+  const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
+  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
+
+  try {
+    const response = await fetch(qrDataURL);
+    const blob = await response.blob();
+
+    // Crear un objeto File a partir del Blob
+    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+
+    // Subir el archivo del QR a Firebase
+    const qrDownloadURL = await uploadQr(qrImageFile);
+
+    // Almacenar la URL de descarga en el estado u otro lugar según tus necesidades
+    setInputValue(qrDownloadURL);
+
+    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
+  } catch (error) {
+    console.error('Error al generar y subir el QR:', error);
+  }
+};
   async function editarLicencia(){
     const payload={
         parametro:param,
@@ -66,6 +91,7 @@ const param=localStorage.getItem('folioEdit')
             <select className='rounded-[5px] py-[0.3rem] px-[0.5rem] border-solid border-[2px] border-gray-400'  name='' id='' onChange={handleSelectChange}>
               <option  value=''>Selecciona el dato</option>
               <option  value='nombre'>Nombre</option>
+              <option  value='qr'>QR</option>
               </select>
           </div>
           <div>
@@ -78,6 +104,18 @@ const param=localStorage.getItem('folioEdit')
                 onChange={handleInputChange}
               />
             )}
+           {opcionSelect === 'qr' && (
+  <button className='flex gap-5 sm:mb-0 mb-[2rem]' onClick={generateQR(param)}>
+    Generar QR
+  </button>
+)}
+
+{inputValue && (
+  <div>
+    <QRCode size={80} value={`https://poderjudicialchiapas.org/validacionAntecedente/${param}`} />
+  </div>
+)}
+
           </div>
             <div className='w-full flex justify-center'>
 

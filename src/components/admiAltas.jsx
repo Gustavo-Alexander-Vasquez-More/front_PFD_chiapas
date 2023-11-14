@@ -26,7 +26,7 @@ const antecedente = useSelector((store) => store.antecedentes?.antecedentes);
 
 const AllAntecedentes = useSelector((store) => store.antecedentes?.AllAntecedentes);
 const antecedentes=antecedente?.response
-
+console.log(antecedente);
 const page=currentPage
 useEffect(() => {
   localStorage.setItem('pagina', currentPage);
@@ -214,10 +214,10 @@ const numbRol=parseInt(rol)
           </div>
         <div className='w-full h-[6vh] flex justify-center gap-5 items-center'>
         <button  onClick={handlePrev}
-        disabled={antecedente?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
+        disabled={antecedente?.prevPage === null}  className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
         <p>Página: {currentPage}</p>
         <button  onClick={handleNext}
-          disabled={ antecedente?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
+          disabled={ antecedente?.response === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
           </div>
         {mostrarModal && (
                       <>

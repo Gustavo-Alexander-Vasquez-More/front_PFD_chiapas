@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Page, Document, Image, StyleSheet, View, Text, PDFDownloadLink } from '@react-pdf/renderer';
 import { PDFViewer } from '@react-pdf/renderer';
 import antecedentes_actions from '../redux/actions/antecedentesActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link as Anchor } from 'react-router-dom';
-
+import axios from 'axios';
 const consultaPDF= () => {
  
   const imageRef = useRef(null);
@@ -29,8 +29,8 @@ const partes=expedicion.split('-')
 const dia=partes[2]
 const mes=partes[1]
 
-const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto.replace(/\\/g, '/') : null;
-const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella?.replace(/\\/g, '/') : null;
+const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto : null;
+const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella : null;
 
 
   function numeroALetras(numero) {
@@ -179,7 +179,8 @@ const formattedVigencia = vigencia.map(dateString => {
   }
   return dateString; // Si no es un formato válido, se mantiene igual
 });
-const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr.replace(/\\/g, '/') : null;
+const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr : null;
+console.log(qrUrl);
 const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 
   const styles = StyleSheet.create({
@@ -573,7 +574,13 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     top:'82.7%',
     fontSize:13,
     left:'40%'
-    }
+    },
+    a:{
+      position:'absolute',
+      top:'82.7%',
+      fontSize:13,
+      left:'40%'
+      }
   });
   function generarNumeroAleatorio() {
     const min = 1000000; // El número mínimo de 7 cifras
@@ -686,14 +693,14 @@ return (
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
 <Page size="A4"  >
     <View >
-    <Image style={styles.image} src={{ uri:'https://backpdfchiapas-production.up.railway.app/uploads/sinsello.jpg' , method: 'GET'}}/>
-    <Image style={styles.foto} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${fotoUrl}` , method: 'GET'}}/>
-    <Image style={styles.huella} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${huellaUrl}` , method: 'GET'}}/>
-    <Image style={styles.sello} src={{ uri:`https://backpdfchiapas-production.up.railway.app/uploads/sello.png` , method: 'GET'}}/>
+    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello.jpg?alt=media&token=43b71237-cf09-4239-af13-26ba2f209662' , method: 'GET'}}/>
+    <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
+    <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
+    <Image style={styles.sello} src={{ uri:`hhttps://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
     <Text style={styles.nombre}>{nombre}</Text>
     <Text style={styles.vigencia}>{formattedVigencia}</Text>
     <View style={styles.qrContainer}>
-    <Image style={styles.qr} src={{ uri:`https://backpdfchiapas-production.up.railway.app/${qrUrl}` , method: 'GET'}}/>
+    <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
     <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
@@ -757,6 +764,7 @@ return (
     <Text style={styles.folioDer10}>{folio}</Text>
 
     <Text style={styles.Recibo}>{numeroRandom}</Text>
+    
     </View>
   </Page>
 </Document>

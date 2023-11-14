@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import QRCode from 'qrcode.react'; 
 import { useNavigate } from 'react-router-dom';
-
-
+import {uploadFoto} from '../foto.js'
+import {uploadHuella} from '../huellas.js'
+import {uploadQr} from '../qr.js'
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
+console.log(foto);
  const [loading, setLoading] = useState(false);
 
 
@@ -87,26 +89,52 @@ const obtenerNuevoFolio = () => {
   const nuevoFolio = ultimoFolio + 1;
   return nuevoFolio.toString().padStart(7, '0');
 };
+const FileFotos = async (e) => {
+  try {
+  const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
+  if (selectedFile) {
+  const downloadURL = await uploadFoto(selectedFile); // Subir el archivo y obtener la URL de descarga
+  console.log('URL de descarga:', downloadURL);
+setFoto(downloadURL);
+}
+} catch (error) {
+  console.error('Error al cargar el archivo:', error);
+}};
+const FileHuellas = async (e) => {
+  try {
+  const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
+  if (selectedFile) {
+  const downloadURL = await uploadHuella(selectedFile); // Subir el archivo y obtener la URL de descarga
+  console.log('URL de descarga:', downloadURL);
+setHuella(downloadURL);
+}
+} catch (error) {
+  console.error('Error al cargar el archivo:', error);
+}};
 
-
-const generateQR = (folio) => {
+const generateQR = async (folio) => {
   const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
-  fetch(qrDataURL)
-    .then(response => response.blob())
-    .then(blob => {
-      // Crear un objeto File a partir del Blob
-      const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+  try {
+    const response = await fetch(qrDataURL);
+    const blob = await response.blob();
 
-      // Almacenar la imagen del QR en el estado
-      setQr(qrImageFile);
-      console.log('Imagen del QR:', qrImageFile);
-    })
-    .catch(error => {
-      console.error('Error al generar el QR:', error);
-    });
+    // Crear un objeto File a partir del Blob
+    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+
+    // Subir el archivo del QR a Firebase
+    const qrDownloadURL = await uploadQr(qrImageFile);
+
+    // Almacenar la URL de descarga en el estado u otro lugar según tus necesidades
+    setQr(qrDownloadURL);
+
+    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
+  } catch (error) {
+    console.error('Error al generar y subir el QR:', error);
+  }
 };
+
 async function folioactual() {
   try {
     
@@ -132,17 +160,18 @@ async function crearAltas() {
       });
       return;
     }
-    const formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('foto', foto);
-    formData.append('huella', huella);
-    formData.append('qr', qr);
-    formData.append('folio', folio);
-    formData.append('expedicion', expedicion);
-    formData.append('vigencia', vigenciaDate);
-    formData.append('author_id', autor);
-    formData.append('hora', hora);
-
+    const data={
+    nombre:nombre,
+    foto:foto,
+    huella:huella,
+    qr:qr,
+    folio:folio,
+    expedicion:expedicion,
+    vigencia:vigenciaDate,
+    author_id:autor,
+    hora:hora
+    }
+    
     const rolUsuario = parseInt(localStorage.getItem('rol'));
     const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
 
@@ -162,7 +191,7 @@ async function crearAltas() {
 
         await dispatch(userActions.update_users(payload));
       }
-      await dispatch(antecedentesActions.create_antecedentes(formData));
+      await dispatch(antecedentesActions.create_antecedentes(data));
       navigate(`/consultaPDF/${folio}`)
     } else {
       Swal.fire({
@@ -177,7 +206,6 @@ async function crearAltas() {
     console.log(error);
   }
 }
-
 
 const rol=localStorage.getItem('rol')
 const numbRol=parseInt(rol)
@@ -205,9 +233,9 @@ const numbRol=parseInt(rol)
             <p>Foto:</p>
             <input
     ref={inputFoto}
-    onChange={() => setFoto(inputFoto.current.files[0])}
+    onChange={FileFotos}
     className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem]'
-    type='file' name="foto"
+    type='file' 
   />
           </div>
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
@@ -233,7 +261,7 @@ const numbRol=parseInt(rol)
         <div className='sm:w-[50%] sm:h-[45vh] h-auto  flex flex-col gap-4 w-[80%]'>
           <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Huella:</p>
-            <input ref={inputHuella} name="huella" className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={() => setHuella(inputHuella.current.files[0])} />
+            <input ref={inputHuella}  className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={FileHuellas} />
           </div>
           <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Expedición</p>
