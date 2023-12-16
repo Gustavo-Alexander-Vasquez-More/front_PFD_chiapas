@@ -12,10 +12,14 @@ export default function crearAltas() {
 const [foto, setFoto]=useState('')
 console.log(foto);
  const [loading, setLoading] = useState(false);
+ const [huellaLoading, setHuellaLoading] = useState(false);
+ const [fotoLoading, setFotoLoading] = useState(false);
+ const [fotoCargada, setFotoCargada] = useState(false);
 
+ const [archivoCargado, setArchivoCargado] = useState(false);
 
 const [huella, setHuella]=useState('')
-
+console.log(huella);
 const [qr, setQr]=useState('')
 
 const[qrVisualizer, setQrVisualizer]=useState('')
@@ -91,26 +95,38 @@ const obtenerNuevoFolio = () => {
 };
 const FileFotos = async (e) => {
   try {
-  const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
-  if (selectedFile) {
-  const downloadURL = await uploadFoto(selectedFile); // Subir el archivo y obtener la URL de descarga
-  console.log('URL de descarga:', downloadURL);
-setFoto(downloadURL);
-}
-} catch (error) {
-  console.error('Error al cargar el archivo:', error);
-}};
+    const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
+    if (selectedFile) {
+      setFotoLoading(true)
+      const downloadURL = await uploadFoto(selectedFile); // Subir el archivo y obtener la URL de descarga
+      console.log('URL de descarga:', downloadURL);
+      setFoto(downloadURL);
+      setFotoLoading(false)
+      setFotoCargada(true); // Establecer fotoCargada en true después de cargar la foto
+    }
+  } catch (error) {
+    console.error('Error al cargar el archivo:', error);
+  }
+};
+
 const FileHuellas = async (e) => {
   try {
-  const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
-  if (selectedFile) {
-  const downloadURL = await uploadHuella(selectedFile); // Subir el archivo y obtener la URL de descarga
-  console.log('URL de descarga:', downloadURL);
-setHuella(downloadURL);
-}
-} catch (error) {
-  console.error('Error al cargar el archivo:', error);
-}};
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setHuellaLoading(true);
+      const downloadURL = await uploadHuella(selectedFile);
+      console.log('URL de descarga:', downloadURL);
+      setHuella(downloadURL);
+      setHuellaLoading(false);
+      setArchivoCargado(true); // Establecer archivoCargado en true después de cargar la huella
+    }
+  } catch (error) {
+    console.error('Error al cargar el archivo:', error);
+    setHuellaLoading(false);
+  }
+};
+
+
 
 const generateQR = async (folio) => {
   const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
@@ -188,7 +204,7 @@ async function crearAltas() {
           usuario: nombre,
           folios: nuevaCantidadDeFolio,
         };
-
+        
         await dispatch(userActions.update_users(payload));
       }
       await dispatch(antecedentesActions.create_antecedentes(data));
@@ -230,14 +246,20 @@ const numbRol=parseInt(rol)
             />
           </div>
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem]'>
-            <p>Foto:</p>
-            <input
-    ref={inputFoto}
-    onChange={FileFotos}
-    className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem]'
-    type='file' 
-  />
-          </div>
+  <p>Foto:</p>
+  {fotoLoading? (
+    <p>Cargando foto...</p>
+  ) : (
+    <>
+      {fotoCargada ? (
+        <p>Foto cargada</p>
+      ) : (
+        <input ref={inputFoto} className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem]' type='file' onChange={FileFotos} />
+      )}
+    </>
+  )}
+</div>
+
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
             <p>Folio</p>
             <button className='flex gap-5 sm:mb-0 mb-[2rem]' onClick={folioactual}>Generar folio y QR'</button>
@@ -259,10 +281,21 @@ const numbRol=parseInt(rol)
             </div>
           </div>
         <div className='sm:w-[50%] sm:h-[45vh] h-auto  flex flex-col gap-4 w-[80%]'>
-          <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
-            <p>Huella:</p>
-            <input ref={inputHuella}  className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={FileHuellas} />
-          </div>
+        <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
+  <p>Huella:</p>
+  {huellaLoading ? (
+    <p>Cargando huella...</p>
+  ) : (
+    <>
+      {archivoCargado ? (
+        <p>Archivo cargado</p>
+      ) : (
+        <input ref={inputHuella} className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={FileHuellas} />
+      )}
+    </>
+  )}
+</div>
+
           <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
             <p>Expedición</p>
             <input

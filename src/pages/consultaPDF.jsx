@@ -600,7 +600,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
           <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello.jpg?alt=media&token=43b71237-cf09-4239-af13-26ba2f209662' , method: 'GET'}}/>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
     <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
-    <Image style={styles.sello} src={{ uri:`hhttps://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
+    <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
     <Text style={styles.nombre}>{nombre}</Text>
     <Text style={styles.vigencia}>{formattedVigencia}</Text>
     <View style={styles.qrContainer}>
@@ -697,7 +697,7 @@ return (
     <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello.jpg?alt=media&token=43b71237-cf09-4239-af13-26ba2f209662' , method: 'GET'}}/>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
     <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
-    <Image style={styles.sello} src={{ uri:`hhttps://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
+    <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
     <Text style={styles.nombre}>{nombre}</Text>
     <Text style={styles.vigencia}>{formattedVigencia}</Text>
     <View style={styles.qrContainer}>

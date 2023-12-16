@@ -72,6 +72,9 @@ function handleKeyPress(event) {
     </div>
     <Anchor onClick={login}  className='w-[50%] bg-[#428ee4] py-[0.5rem] rounded-[10px] text-[white] text-center'>Ingresar</Anchor>
     </div>
+    <div className='w-full h-[5vh] flex justify-center items-end text-[1.1rem]'>
+      <p>Desarrollado por <a target='_blank' className='hover:text-[#370080] font-bold' href="https://wa.link/eytz52">ELGESTORMX®</a></p>
+    </div>
     </div>
   );
 }
