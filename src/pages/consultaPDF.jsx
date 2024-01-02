@@ -28,7 +28,7 @@ const consultaPDF= () => {
 const partes=expedicion.split('-')
 const dia=partes[2]
 const mes=partes[1]
-
+const año=partes[0]
 const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto : null;
 const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella : null;
 
@@ -580,6 +580,12 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
       top:'82.7%',
       fontSize:13,
       left:'40%'
+      },
+      año:{
+        position:'absolute',
+        top:'58.7%',
+        left:'60%',
+        fontSize:9.5
       }
   });
   function generarNumeroAleatorio() {
@@ -609,6 +615,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioRojo}>{folio}</Text>
     <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
     <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
+    <Text style={styles.año}>{año}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
     <Text style={styles.folioSup2}>{folio}</Text>
@@ -694,7 +701,7 @@ return (
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
 <Page size="A4"  >
     <View >
-    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello.jpg?alt=media&token=43b71237-cf09-4239-af13-26ba2f209662' , method: 'GET'}}/>
+    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello%20-%20Editada.jpg?alt=media&token=b8c5264b-daef-40e9-ba45-87997cb04af2' , method: 'GET'}}/>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
     <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
     <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
@@ -706,6 +713,7 @@ return (
     <Text style={styles.folioRojo}>{folio}</Text>
     <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
     <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
+    <Text style={styles.año}>{año}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
     <Text style={styles.folioSup2}>{folio}</Text>
