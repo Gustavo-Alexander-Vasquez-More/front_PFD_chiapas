@@ -32,10 +32,7 @@ export default function admiAltasrol3() {
  
   const Antecedentes = Antecedente?.response || [];
   const AllAntecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
-  const AntecedentesAuth=AllAntecedentes?.filter(licencia=> licencia.author_id.usuario === user)
-  
-  
-
+  const AntecedentesAuth=AllAntecedentes?.filter(licencia=> licencia.author_id?.usuario === user)
   const handleNext = () => {
     setCurrentPage((prevPage) => prevPage + 1);
   };
