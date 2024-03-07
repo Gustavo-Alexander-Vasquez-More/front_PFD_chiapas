@@ -796,21 +796,17 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         document={<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
           <Page size="LETTER">
           <View >
-    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatoLimpio.png?alt=media&token=9489f59f-7e2b-45d4-bfe1-d36f0ccb6027' , method: 'GET'}}/>
+    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
     <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
     <View style={styles.gray}></View>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
-  <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
+    <View style={styles.conthuella}><Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/></View>
     <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
     <View style={styles.nombre}><Text >{nombre}</Text></View>
-    <Text style={styles.vigencia}>{formattedVigencia}</Text>
     <View style={styles.qrContainer}>
     <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
-    <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
-    <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
-    <Text style={styles.año}>{año}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
     <Text style={styles.folioSup2}>{folio}</Text>
@@ -881,6 +877,23 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.t10}>NO EXISTEN</Text>
     <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
     <Text style={styles.t12}>del (la):</Text>
+    <Text style={styles.t13}>Cuya fotografía y huella dactilar aparece al margen superior izquierdo, a</Text>
+    <Text style={styles.t14}>solicitud de la parte interesada y para los usos legales a que haya lugar,</Text>
+    <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
+    <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
+    <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
+    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firmaCalidad.png?alt=media&token=95192cc0-7f39-4c7e-a13b-63b998a11b09` , method: 'GET'}}/>
+    <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
+    <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
+    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firma1.png?alt=media&token=af18360a-be46-4dcb-8da7-9778e3d6995b` , method: 'GET'}}/>
+    <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
+    <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
+    <Text style={styles.mrta3}>de la Judicatura</Text>
+    <Text style={styles.dere}>Derechos pagados con recibo oficial no: </Text>
+    <Text style={styles.impor}>IMPORTANTE:</Text>
+    <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
+    <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
+    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo2-removebg-preview.png?alt=media&token=fc287ce7-4fee-44bc-a170-c477ba6ffc49` , method: 'GET'}}/>
     </View>
           </Page>
         </Document>}
