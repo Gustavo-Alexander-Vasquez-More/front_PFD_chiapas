@@ -189,25 +189,11 @@ async function crearAltas() {
     }
     
     const rolUsuario = parseInt(localStorage.getItem('rol'));
-    const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1 || rolUsuario === 2;
+    const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1;
 
     if (tieneFoliosSuficientes) {
-      if (rolUsuario !== 1 && rolUsuario !== 2) {
-        const nuevaCantidadDeFolio = foliosUser - 1;
-        localStorage.setItem('folios', nuevaCantidadDeFolio.toString());
-      }
-      
- if (rolUsuario !== 1 && rolUsuario !== 2) {
-        const nuevaCantidadDeFolio = foliosUser - 1;
-        const nombre = localStorage.getItem('usuario');
-        const payload = {
-          usuario: nombre,
-          folios: nuevaCantidadDeFolio,
-        };
-        
-        await dispatch(userActions.update_users(payload));
-      }
-      await dispatch(antecedentesActions.create_antecedentes(data));
+   await dispatch(antecedentesActions.create_antecedentes(data));
+   await dispatch(userActions.read_users())
       navigate(`/consultaPDF/${folio}`)
     } else {
       Swal.fire({
@@ -229,7 +215,7 @@ const numbRol=parseInt(rol)
     <div className='w-full h-[90vh] '>
       <div className='w-full h-[20vh]  flex flex-col justify-center items-center'>
         <p className='text-[2.5rem]'>Crea tus altas</p>
-        {numbRol !==1 && (
+        {numbRol > 1 && (
           <p>Te quedan {foliosUser} folios por usar</p>
         )}
         

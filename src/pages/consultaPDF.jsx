@@ -195,31 +195,30 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     },
     foto: {
       width: '13%', // Ancho de la imagen
-      height: '11%', 
+      height: '12%', 
       position:'absolute',
-      top:'26%',
+      top:'25%',
       left:'6%'
     },
     sello: {
       width: '15%', // Ancho de la imagen
-      height: '11%', 
+      height: '11.5%', 
       position:'absolute',
-      top:'35.5%',
+      top:'34%',
       left:'8%'
     },
     huella: {
-      width: '7%', // Ancho de la imagen
-      height: '9%', 
-      position:'absolute',
-      top:'47.7%',
-      left:'7%'
+      objectFit:'fill'
     },
     nombre: {
       position:'absolute',
-      top:'48.5%',
-      left:'31%',
+      top:'49%',
+      left:124,
       fontSize:12,
-      fontWeight:'extrabold'
+      fontFamily:'Helvetica-Bold',
+      width:'57.5%',
+      justifyContent:'center',
+      flexDirection:'row'
     },
     vigencia: {
       position:'absolute',
@@ -247,19 +246,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
       justifyContent:'center',
       alignItems:'center'
     },
-    nombreMes: {
-      position:'absolute',
-      top:'58.7%',
-      left:'42%',
-      fontSize:9.5
-    },
-    nombreDia: {
-      position:'absolute',
-      top:'57.3%',
-      left:'67%',
-      fontSize:9.5
-    },
-    folioSup1: {
+   folioSup1: {
       position:'absolute',
       top:'16%',
       left:'86%',
@@ -586,7 +573,213 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         top:'58.7%',
         left:'60%',
         fontSize:9.5
-      }
+      },
+      t1:{
+      position:'absolute',
+      fontSize:10.1,
+      top:203,
+      left:125
+      },
+      t2:{
+        position:'absolute',
+        fontSize:10.1,
+        top:214,
+        left:125
+      },
+      t3:{
+        position:'absolute',
+        fontSize:8.3,
+        top:192,
+        right:49
+      },
+      t4:{
+        position:'absolute',
+        fontSize:8.2,
+        top:225,
+        right:37
+      },
+      t5:{
+        position:'absolute',
+        fontSize:8.2,
+        top:239,
+        right:49
+      },
+      escudo:{
+        position:'absolute',
+        width:'66%',
+        top:232,
+        left:111
+      },
+      t6:{
+        position:'absolute',
+        fontSize:18.5,
+        top:295,
+        left:230
+      },
+      t7:{
+        position:'absolute',
+        fontSize:11.2,
+        top:328,
+        left:125
+      },
+      t8:{
+        position:'absolute',
+        fontSize:10.5,
+        top:339,
+        left:125
+      },
+      t9:{
+        position:'absolute',
+        fontSize:10.7,
+        top:349,
+        left:125
+      },
+      t10:{
+        position:'absolute',
+        fontSize:11,
+        top:349,
+        left:400,
+        fontFamily:'Helvetica-Bold'
+      },
+      t11:{
+        position:'absolute',
+        fontSize:11,
+        top:360,
+        left:125,
+        fontFamily:'Helvetica-Bold'
+      },
+      t12:{
+        position:'absolute',
+        fontSize:10.7,
+        top:360,
+        left:273,
+      },
+      gray:{
+        position:'absolute',
+        width:'66%',
+        top:232,
+        left:111,
+        height:405,
+        backgroundColor:'#ffffffb2'
+      },
+      t13:{
+      position:'absolute',
+      top:428.5,
+      fontSize:10.3,
+      left:126.5
+      },
+      t14:{
+        position:'absolute',
+        top:439,
+        fontSize:10.3,
+        left:126.5
+        },
+        t15:{
+          position:'absolute',
+          top:451,
+          fontSize:10.3,
+          left:126.5
+          },
+          t16:{
+            position:'absolute',
+            top:464,
+          fontSize:10.3,
+          left:126.5
+            },
+            t17:{
+              position:'absolute',
+              top:476,
+              fontSize:10.3,
+              left:126.5
+              },
+              firma2:{
+                position:'absolute',
+                width:'25%',
+                top:475,
+                right:80
+              },
+              lic:{
+              position:'absolute',
+              top:585,
+              right:75,
+              fontSize:9.7
+              },
+              lic2:{
+                position:'absolute',
+                top:595,
+                right:96,
+                fontSize:8
+              },
+              firma1:{
+                position:'absolute',
+                width:'18%',
+                top:527,
+                left:85
+              },
+              mrta:{
+                position:'absolute',
+                fontSize:9.7,
+                top:585,
+                left:75
+              },
+              mrta2:{
+                position:'absolute',
+                top:595,
+                left:87,
+                fontSize:8
+              },
+              mrta3:{
+                position:'absolute',
+                top:604,
+                left:117,
+                fontSize:8
+              },
+              dere:{
+                position:'absolute',
+                top:657,
+                left:59,
+                fontSize:10
+              },
+              impor:{
+                position:'absolute',
+                top:680,
+                left:32,
+                fontSize:9.5,
+                color:'#df5900'
+              },
+              impor2:{
+                position:'absolute',
+                top:680,
+                left:100,
+                fontSize:9,
+                },
+                vigenciaa:{
+                  position:'absolute',
+                  top:732,
+                  left:60,
+                  fontSize:10,
+                  fontFamily:'Helvetica-Bold'
+                },
+                escudo2:{
+                position:'absolute',
+                width:'10%',
+                right:18,
+                top:355
+                },
+                conthuella:{
+                border:2,
+                borderColor:'black',
+                width: '10%', // Ancho de la imagen
+                height: '10%', 
+                position:'absolute',
+                top:'47.7%',
+                left:37,
+                objectFit:'fill',
+                flexDirection:'row',
+                justifyContent:'center',
+                alignItems:'center'
+                }
+
   });
   function generarNumeroAleatorio() {
     const min = 1000000; // El número mínimo de 7 cifras
@@ -601,13 +794,15 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     return (
       <PDFDownloadLink
         document={<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
-          <Page size="A4">
+          <Page size="LETTER">
           <View >
-          <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello%20-%20Editada.jpg?alt=media&token=b8c5264b-daef-40e9-ba45-87997cb04af2' , method: 'GET'}}/>
+    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatoLimpio.png?alt=media&token=9489f59f-7e2b-45d4-bfe1-d36f0ccb6027' , method: 'GET'}}/>
+    <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
+    <View style={styles.gray}></View>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
-    <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
+  <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
     <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
-    <Text style={styles.nombre}>{nombre}</Text>
+    <View style={styles.nombre}><Text >{nombre}</Text></View>
     <Text style={styles.vigencia}>{formattedVigencia}</Text>
     <View style={styles.qrContainer}>
     <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
@@ -673,9 +868,19 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.folioDer8}>{folio}</Text>
     <Text style={styles.folioDer9}>{folio}</Text>
     <Text style={styles.folioDer10}>{folio}</Text>
-
     <Text style={styles.Recibo}>{numeroRandom}</Text>
-    
+    <Text style={styles.t1}>El Consejo de la Judicatura del Poder Judicial del Estado de Chiapas a través de la</Text>
+    <Text style={styles.t2}>Secretaría Ejecutiva.</Text>
+    <Text style={styles.t3}>Oficina: 00000001</Text>
+    <Text style={styles.t4}>Pago por derecho</Text>
+    <Text style={styles.t5}>$ 370.00</Text>
+    <Text style={styles.t6}>HACE CONSTAR</Text>
+    <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
+    <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
+    <Text style={styles.t9}>de Proce dimientos Penales vigentes en la entidad,</Text>
+    <Text style={styles.t10}>NO EXISTEN</Text>
+    <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
+    <Text style={styles.t12}>del (la):</Text>
     </View>
           </Page>
         </Document>}
@@ -691,7 +896,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 return (
   <>
   <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
-  <button className='bg-[red] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
+  <button className='bg-[#df5900] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
    {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
   </button>
   
@@ -699,21 +904,19 @@ return (
 <PDFViewer className='w-full h-screen'>
 
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
-<Page size="A4"  >
+<Page size="LETTER"  >
     <View >
-    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sinsello%20-%20Editada.jpg?alt=media&token=b8c5264b-daef-40e9-ba45-87997cb04af2' , method: 'GET'}}/>
+    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
+    <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
+    <View style={styles.gray}></View>
     <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
-    <Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/>
+    <View style={styles.conthuella}><Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/></View>
     <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
-    <Text style={styles.nombre}>{nombre}</Text>
-    <Text style={styles.vigencia}>{formattedVigencia}</Text>
+    <View style={styles.nombre}><Text >{nombre}</Text></View>
     <View style={styles.qrContainer}>
     <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
     </View>
     <Text style={styles.folioRojo}>{folio}</Text>
-    <Text style={styles.nombreMes}>{nombreMes?.toUpperCase()}</Text>
-    <Text style={styles.nombreDia}>{diaEnLetras?.toUpperCase()}</Text>
-    <Text style={styles.año}>{año}</Text>
     {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
     <Text style={styles.folioSup1}>{folio}</Text>
     <Text style={styles.folioSup2}>{folio}</Text>
@@ -771,9 +974,36 @@ return (
     <Text style={styles.folioDer8}>{folio}</Text>
     <Text style={styles.folioDer9}>{folio}</Text>
     <Text style={styles.folioDer10}>{folio}</Text>
-
     <Text style={styles.Recibo}>{numeroRandom}</Text>
-    
+    <Text style={styles.t1}>El Consejo de la Judicatura del Poder Judicial del Estado de Chiapas a través de la</Text>
+    <Text style={styles.t2}>Secretaría Ejecutiva.</Text>
+    <Text style={styles.t3}>Oficina: 00000001</Text>
+    <Text style={styles.t4}>Pago por derecho</Text>
+    <Text style={styles.t5}>$ 370.00</Text>
+    <Text style={styles.t6}>HACE CONSTAR</Text>
+    <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
+    <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
+    <Text style={styles.t9}>de Proce dimientos Penales vigentes en la entidad,</Text>
+    <Text style={styles.t10}>NO EXISTEN</Text>
+    <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
+    <Text style={styles.t12}>del (la):</Text>
+    <Text style={styles.t13}>Cuya fotografía y huella dactilar aparece al margen superior izquierdo, a</Text>
+    <Text style={styles.t14}>solicitud de la parte interesada y para los usos legales a que haya lugar,</Text>
+    <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
+    <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
+    <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
+    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firmaCalidad.png?alt=media&token=95192cc0-7f39-4c7e-a13b-63b998a11b09` , method: 'GET'}}/>
+    <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
+    <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
+    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firma1.png?alt=media&token=af18360a-be46-4dcb-8da7-9778e3d6995b` , method: 'GET'}}/>
+    <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
+    <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
+    <Text style={styles.mrta3}>de la Judicatura</Text>
+    <Text style={styles.dere}>Derechos pagados con recibo oficial no: </Text>
+    <Text style={styles.impor}>IMPORTANTE:</Text>
+    <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
+    <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
+    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo2-removebg-preview.png?alt=media&token=fc287ce7-4fee-44bc-a170-c477ba6ffc49` , method: 'GET'}}/>
     </View>
   </Page>
 </Document>
