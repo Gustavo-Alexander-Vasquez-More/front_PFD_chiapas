@@ -913,28 +913,25 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
       html: "Espera mientras se genera el PDF",
       timer: 15000,
       timerProgressBar: true,
-      showLoaderOnConfirm:true,
+      
       imageWidth:'100%',
       color:'white',
       background:'#0C0C0C',
     showConfirmButton:false,
       didOpen: () => {
         Swal.showLoading();
-        const timer = Swal.getPopup().querySelector("b");
-        timerInterval = setInterval(() => {
-          timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 100);
+       
       },
       willClose: () => {
         clearInterval(timerInterval);
-        setFinish(true)
+       
       },
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
         console.log("I was closed by the timer");
       }
     });
-  }, [finish]);
+  }, []);
 return (
   <>
   <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
