@@ -911,7 +911,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     Swal.fire({
       title: "Generando PDF",
       html: "Espera mientras se genera el PDF",
-      timer: 15000,
+      timer: 20000,
       timerProgressBar: true,
       
       imageWidth:'100%',
