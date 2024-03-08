@@ -915,7 +915,7 @@ useEffect(() => {
       },
       willClose: () => {
         clearInterval(timerInterval);
-        setFinish(true)
+        
       },
      }).then((result) => {
        if (result.dismiss === Swal.DismissReason.timer) {
