@@ -908,11 +908,15 @@ useEffect(() => {
       background:'#0C0C0C',
     showConfirmButton:false,
        didOpen: () => {
+        const timer = Swal.getPopup().querySelector("b");
+        timerInterval = setInterval(() => {
+          timer.textContent = `${Swal.getTimerLeft()}`;
+        }, 100);
       },
-       willClose: () => {
-         clearInterval(timerInterval);
-         
-       },
+      willClose: () => {
+        clearInterval(timerInterval);
+        setFinish(true)
+      },
      }).then((result) => {
        if (result.dismiss === Swal.DismissReason.timer) {
          console.log("I was closed by the timer");
