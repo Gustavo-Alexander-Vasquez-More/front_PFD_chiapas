@@ -8,12 +8,15 @@ import { Link as Anchor } from 'react-router-dom';
 import Swal from 'sweetalert2';
 const consultaPDF= () => {
 const [finish, setFinish]=useState(false)
+const [load, setLoad]=useState(false)
  const dispatch = useDispatch();
 const  folioParam  = useParams();
 const resultParam=folioParam.folio
-   useEffect(() => {
-    dispatch(antecedentes_actions.read_AllAntecedentes());
-  }, []);
+useEffect(() => {
+  dispatch(antecedentes_actions.read_AllAntecedentes())
+}, []);
+const inputPDF=useRef()
+console.log(inputPDF.current);
 const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
 const antecedenteFiltrado = Array.isArray(antecedentes) ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam): [];
 const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
@@ -893,40 +896,39 @@ function generateDownloadLink() {
     );
 }
 useEffect(() => {
-    let timerInterval;
-    Swal.fire({
+     let timerInterval;
+     Swal.fire({
       title: "Generando PDF",
-      html: "Espera mientras se genera el PDF",
-      timer: 10000,
+      html: "Espera mientras se genera el PDF, Esto puede tardar unos segundos...",
+      timer: 5000,
       timerProgressBar: true,
-      
+      imageUrl:'https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-5468d589f84e.gif',
       imageWidth:'100%',
       color:'white',
       background:'#0C0C0C',
     showConfirmButton:false,
-      didOpen: () => {
-        Swal.showLoading();
-       setFinish(true)
+       didOpen: () => {
       },
-      willClose: () => {
-        clearInterval(timerInterval);
-       
-      },
-    }).then((result) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-        console.log("I was closed by the timer");
-      }
-    });
-  }, []);
+       willClose: () => {
+         clearInterval(timerInterval);
+         
+       },
+     }).then((result) => {
+       if (result.dismiss === Swal.DismissReason.timer) {
+         console.log("I was closed by the timer");
+    }
+     });
+}, []);
+
 return (
   <>
   <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
   <button className='bg-[#df5900] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
    {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
   </button>
-  
+ 
   {antecedenteFiltrado && fotoUrl && folio && qrUrl && (  
-<PDFViewer className='w-full h-screen'>
+<PDFViewer  className='w-full h-screen'>
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
 
   <Page size="LETTER"  >
@@ -934,7 +936,7 @@ return (
     <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
     <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
     <View style={styles.gray}></View>
-    <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
+    <Image style={styles.foto}  src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
     <View style={styles.conthuella}><Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/></View>
     <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
     <View style={styles.nombre}><Text >{nombre}</Text></View>
