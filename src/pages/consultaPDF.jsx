@@ -900,7 +900,7 @@ useEffect(() => {
      Swal.fire({
       title: "Generando PDF",
       html: "Espera mientras se genera el PDF, Esto puede tardar unos segundos...",
-      timer: 5000,
+      timer: 10000,
       timerProgressBar: true,
       imageUrl:'https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-5468d589f84e.gif',
       imageWidth:'100%',
