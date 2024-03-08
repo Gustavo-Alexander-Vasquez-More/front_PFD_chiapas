@@ -8,7 +8,7 @@ import { Link as Anchor } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const consultaPDF= () => {
- 
+  const [finish, setFinish]=useState(false)
   const imageRef = useRef(null);
   const dispatch = useDispatch();
   const  folioParam  = useParams();
@@ -923,18 +923,19 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         const timer = Swal.getPopup().querySelector("b");
         timerInterval = setInterval(() => {
           timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 1000);
+        }, 1500);
       },
       willClose: () => {
         clearInterval(timerInterval);
         setFinish(true)
+        generateDownloadLink()
       },
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
         console.log("I was closed by the timer");
       }
     });
-  }, []);
+  }, [finish]);
 return (
   <>
   <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
