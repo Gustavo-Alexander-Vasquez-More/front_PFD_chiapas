@@ -6,35 +6,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link as Anchor } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
 const consultaPDF= () => {
-  const [finish, setFinish]=useState(false)
-  const imageRef = useRef(null);
-  const dispatch = useDispatch();
-  const  folioParam  = useParams();
-  const resultParam=folioParam.folio
+const [finish, setFinish]=useState(false)
+ const dispatch = useDispatch();
+const  folioParam  = useParams();
+const resultParam=folioParam.folio
    useEffect(() => {
     dispatch(antecedentes_actions.read_AllAntecedentes());
-  }, [dispatch]);
-
-  const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
-  
-  const antecedenteFiltrado = Array.isArray(antecedentes)
-  ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam)
-  : [];
-  const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
-  
- 
-  const expedicion = antecedenteFiltrado.map(antecedente => antecedente.expedicion).toLocaleString()
+  }, []);
+const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
+const antecedenteFiltrado = Array.isArray(antecedentes) ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam): [];
+const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
+const expedicion = antecedenteFiltrado.map(antecedente => antecedente.expedicion).toLocaleString()
 const partes=expedicion.split('-')
 const dia=partes[2]
 const mes=partes[1]
 const año=partes[0]
 const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto : null;
 const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella : null;
-
-
-  function numeroALetras(numero) {
+function numeroALetras(numero) {
   if(numero === '01'){
     return 'Un'
   }
@@ -172,7 +162,6 @@ function mesALetras(numero) {
 const nombreMes=mesALetras(mes)
 const diaEnLetras=numeroALetras(dia)
 const vigencia = antecedenteFiltrado.map(antecedente => antecedente.vigencia);
-
 const formattedVigencia = vigencia.map(dateString => {
   const parts = dateString.split("-");
   if (parts.length === 3) {
@@ -183,8 +172,7 @@ const formattedVigencia = vigencia.map(dateString => {
 const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr : null;
 console.log(qrUrl);
 const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
-
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
      page: {
     flexDirection: 'row',
     backgroundColor: 'white',
@@ -788,10 +776,8 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     const numeroAleatorio = Math.floor(Math.random() * (max - min + 1)) + min;
     return numeroAleatorio;
   }
-  
-  const numeroRandom = generarNumeroAleatorio();
-
-  function generateDownloadLink() {
+const numeroRandom = generarNumeroAleatorio();
+function generateDownloadLink() {
     return (
       <PDFDownloadLink
         document={<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
@@ -905,13 +891,13 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         }
       </PDFDownloadLink>
     );
-  }
-  useEffect(() => {
+}
+useEffect(() => {
     let timerInterval;
     Swal.fire({
       title: "Generando PDF",
       html: "Espera mientras se genera el PDF",
-      timer: 20000,
+      timer: 10000,
       timerProgressBar: true,
       
       imageWidth:'100%',
@@ -920,7 +906,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     showConfirmButton:false,
       didOpen: () => {
         Swal.showLoading();
-       
+       setFinish(true)
       },
       willClose: () => {
         clearInterval(timerInterval);
@@ -939,11 +925,11 @@ return (
    {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
   </button>
   
-   
+  {antecedenteFiltrado && fotoUrl && folio && qrUrl && (  
 <PDFViewer className='w-full h-screen'>
-
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
-<Page size="LETTER"  >
+
+  <Page size="LETTER"  >
 <View >
     <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
     <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
@@ -1048,6 +1034,7 @@ return (
 </Document>
        
 </PDFViewer>
+)}
   
  
   </>
