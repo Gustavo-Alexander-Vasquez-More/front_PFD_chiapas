@@ -5,7 +5,8 @@ import antecedentes_actions from '../redux/actions/antecedentesActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Link as Anchor } from 'react-router-dom';
-import axios from 'axios';
+import Swal from 'sweetalert2';
+
 const consultaPDF= () => {
  
   const imageRef = useRef(null);
@@ -695,7 +696,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
               firma2:{
                 position:'absolute',
                 width:'25%',
-                top:475,
+                top:510,
                 right:80
               },
               lic:{
@@ -905,7 +906,35 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
       </PDFDownloadLink>
     );
   }
-
+  useEffect(() => {
+    let timerInterval;
+    Swal.fire({
+      title: "Generando PDF",
+      html: "Espera mientras se genera el PDF",
+      timer: 10000,
+      timerProgressBar: true,
+      showLoaderOnConfirm:true,
+      imageWidth:'100%',
+      color:'white',
+      background:'#0C0C0C',
+    showConfirmButton:false,
+      didOpen: () => {
+        Swal.showLoading();
+        const timer = Swal.getPopup().querySelector("b");
+        timerInterval = setInterval(() => {
+          timer.textContent = `${Swal.getTimerLeft()}`;
+        }, 1000);
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+        setFinish(true)
+      },
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+        console.log("I was closed by the timer");
+      }
+    });
+  }, []);
 return (
   <>
   <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
@@ -918,7 +947,7 @@ return (
 
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
 <Page size="LETTER"  >
-    <View >
+<View >
     <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
     <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
     <View style={styles.gray}></View>
@@ -1005,10 +1034,10 @@ return (
     <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
     <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
     <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
-    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firmaCalidad.png?alt=media&token=95192cc0-7f39-4c7e-a13b-63b998a11b09` , method: 'GET'}}/>
+    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%203.png?alt=media&token=e71bcce0-66b4-4bef-bbd9-05b02ed939a6` , method: 'GET'}}/>
     <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
     <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
-    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firma1.png?alt=media&token=af18360a-be46-4dcb-8da7-9778e3d6995b` , method: 'GET'}}/>
+    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%202.png?alt=media&token=eb38f9ba-58ce-466d-99bc-8c3e75c272de` , method: 'GET'}}/>
     <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
     <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
     <Text style={styles.mrta3}>de la Judicatura</Text>
@@ -1016,7 +1045,7 @@ return (
     <Text style={styles.impor}>IMPORTANTE:</Text>
     <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
     <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
-    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo2-removebg-preview.png?alt=media&token=fc287ce7-4fee-44bc-a170-c477ba6ffc49` , method: 'GET'}}/>
+    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
     </View>
   </Page>
 </Document>
