@@ -923,7 +923,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         const timer = Swal.getPopup().querySelector("b");
         timerInterval = setInterval(() => {
           timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 15000);
+        }, 100);
       },
       willClose: () => {
         clearInterval(timerInterval);
