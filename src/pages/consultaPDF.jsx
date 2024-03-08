@@ -882,10 +882,10 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
     <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
     <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
-    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firmaCalidad.png?alt=media&token=95192cc0-7f39-4c7e-a13b-63b998a11b09` , method: 'GET'}}/>
+    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%203.png?alt=media&token=e71bcce0-66b4-4bef-bbd9-05b02ed939a6` , method: 'GET'}}/>
     <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
     <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
-    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/firma1.png?alt=media&token=af18360a-be46-4dcb-8da7-9778e3d6995b` , method: 'GET'}}/>
+    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%202.png?alt=media&token=eb38f9ba-58ce-466d-99bc-8c3e75c272de` , method: 'GET'}}/>
     <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
     <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
     <Text style={styles.mrta3}>de la Judicatura</Text>
@@ -893,7 +893,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     <Text style={styles.impor}>IMPORTANTE:</Text>
     <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
     <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
-    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudo2-removebg-preview.png?alt=media&token=fc287ce7-4fee-44bc-a170-c477ba6ffc49` , method: 'GET'}}/>
+    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
     </View>
           </Page>
         </Document>}
