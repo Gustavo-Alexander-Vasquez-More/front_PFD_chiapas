@@ -911,7 +911,7 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
     Swal.fire({
       title: "Generando PDF",
       html: "Espera mientras se genera el PDF",
-      timer: 10000,
+      timer: 15000,
       timerProgressBar: true,
       showLoaderOnConfirm:true,
       imageWidth:'100%',
@@ -923,12 +923,11 @@ const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
         const timer = Swal.getPopup().querySelector("b");
         timerInterval = setInterval(() => {
           timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 1500);
+        }, 15000);
       },
       willClose: () => {
         clearInterval(timerInterval);
         setFinish(true)
-        generateDownloadLink()
       },
     }).then((result) => {
       if (result.dismiss === Swal.DismissReason.timer) {
