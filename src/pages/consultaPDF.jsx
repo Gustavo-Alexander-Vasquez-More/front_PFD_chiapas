@@ -630,7 +630,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         fontSize:11,
         top:349,
-        left:400,
+        left:408,
         fontFamily:'Helvetica-Bold'
       },
       t11:{
@@ -863,7 +863,7 @@ function generateDownloadLink() {
     <Text style={styles.t6}>HACE CONSTAR</Text>
     <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
     <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
-    <Text style={styles.t9}>de Proce dimientos Penales vigentes en la entidad,</Text>
+    <Text style={styles.t9}>de   Procedimientos   Penales   vigentes    en    la   entidad,</Text>
     <Text style={styles.t10}>NO EXISTEN</Text>
     <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
     <Text style={styles.t12}>del (la):</Text>
@@ -1014,7 +1014,7 @@ return (
     <Text style={styles.t6}>HACE CONSTAR</Text>
     <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
     <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
-    <Text style={styles.t9}>de Proce dimientos Penales vigentes en la entidad,</Text>
+    <Text style={styles.t9}>de   Procedimientos   Penales   vigentes    en    la   entidad,</Text>
     <Text style={styles.t10}>NO EXISTEN</Text>
     <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
     <Text style={styles.t12}>del (la):</Text>
