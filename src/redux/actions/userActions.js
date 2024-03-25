@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import Swal from "sweetalert2";
 const create_users = createAsyncThunk(
     'create_users', 
     async(datos)=>{
@@ -68,5 +69,30 @@ const create_users = createAsyncThunk(
                 }
             } 
           )
-const userActions = {create_users, login_users,read_users, delete_users, update_users}
+          const update_passrowds = createAsyncThunk(
+            'update_passrowds', 
+            async (payload) => {
+              const { usuario, contraseña } = payload;
+              console.log(usuario);
+              console.log(contraseña);
+              try {
+                const {data}=await axios.put(`https://backpdfchiapas-production.up.railway.app/api/admins/updatePassword/${usuario}`,{
+                  contraseña:contraseña})
+                  
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `La contraseña ha sido actualizada con éxito!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  window.location.reload()
+                  thunkAPI.dispatch(read_users());
+                  
+                return data.response
+                } catch (error) {
+                }
+            } 
+          )
+const userActions = {create_users, login_users,read_users, delete_users, update_users,update_passrowds}
 export default userActions
