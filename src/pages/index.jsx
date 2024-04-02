@@ -11,13 +11,7 @@ const inputUsuario=useRef()
 const inputConstraseña=useRef()
 const [type, setType]=useState('password')
 const navigate=useNavigate()
-useEffect(() => {
-  const userToken = localStorage.getItem('token');
-  if (userToken) {
-    // Si existe un token, redirige al panel de administrador
-    navigate('/panelAdmin');
-  }
-}, [navigate]);
+
 function captureUsuario(){
 setUsuario(inputUsuario.current.value)
 }
@@ -41,13 +35,6 @@ try {
         timer: 3500
       })
       navigate('/panelAdmin')
-}else{
-  Swal.fire({
-    icon: 'error',
-    title: 'Oops...',
-    text: 'Usuario o contraseña incorrectos',
-})
-  navigate('/')
 }
 } catch (error) {
   console.log(error);

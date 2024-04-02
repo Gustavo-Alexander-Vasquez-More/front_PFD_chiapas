@@ -28,13 +28,7 @@ setMenu(true);
 function closeMenu() {
 setMenu(false);
 }
-useEffect(() => {
-const userToken = localStorage.getItem('token');
-  
-  if (!userToken) {
-  navigate('/');
-  }
-  }, [navigate]);
+
 async function LogOut() {
 
   try {

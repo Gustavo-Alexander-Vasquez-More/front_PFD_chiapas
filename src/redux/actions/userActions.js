@@ -25,6 +25,10 @@ const create_users = createAsyncThunk(
           localStorage.setItem('folios', data.response.folios)
         return data.response
           } catch (error) {
+            Swal.fire({
+              icon: "error",
+              text: error.response.data.message,
+            });
           }
       } 
       )
