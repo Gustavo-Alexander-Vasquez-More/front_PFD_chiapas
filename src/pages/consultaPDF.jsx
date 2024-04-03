@@ -770,6 +770,18 @@ const styles = StyleSheet.create({
                 flexDirection:'row',
                 justifyContent:'center',
                 alignItems:'center'
+                },
+                hu1:{
+                  position:'absolute',
+                  fontSize:7,
+                  top:460,
+                  left:42
+                },
+                hu2:{
+                  position:'absolute',
+                  fontSize:7,
+                  top:468,
+                  left:41.5
                 }
 
   });
@@ -884,6 +896,8 @@ function generateDownloadLink() {
     <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
     <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
     <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
+    <Text style={styles.hu1}>Huella Digital de</Text>
+    <Text style={styles.hu2}> Índice Derecho</Text>
     </View>
           </Page>
         </Document>}
@@ -1035,6 +1049,8 @@ return (
     <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
     <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
     <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
+    <Text style={styles.hu1}>Huella Digital de</Text>
+    <Text style={styles.hu2}> Índice Derecho</Text>
     </View>
   </Page>
 </Document>
