@@ -1,22 +1,50 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { Link as Anchor, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import CrearUsuario from '../components/crearUsuario';
 import EliminarUsuario from '../components/eliminarUsuario';
 import AsignacionFolios from '../components/asignacionFolios';
 import CrearAltas from '../components/crearAltas';
 import AdmiAltas from '../components/admiAltas';
 import AdmiAltasrol3 from '../components/admiAltasrol3';
-import Connecion from '../components/coneccion'
 import UpdatePassword from '../components/updatePassword';
+import Connecion from '../components/coneccion'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import userActions from '../redux/actions/userActions';
+function useUserRoleVerification(usersLoaded, userss, Admin, usuario, LogOut) {
+  useEffect(() => {
+    if (usersLoaded) {
+      const userFilter = userss?.find((user) => user?.usuario === usuario) || {};
+      const rolFilter = userFilter?.rol;
+
+      if (parseInt(Admin) !== rolFilter) {
+        LogOut();
+        alert("Las credenciales del usuario actual no coinciden con la base de datos!. Vuelve a iniciar sesión para reinciar las credenciales.");
+      }
+    }
+  }, [usersLoaded, userss, Admin, usuario, LogOut]);
+}
 export default function panelAdmin() {
 const [menu, setMenu] = useState(false);
 const [mostrarModal, setMostrarModal]=useState(false)
 const [opcionSelect, setOpcionSelect]=useState(null)
+const [usersLoaded, setUsersLoaded] = useState(false);
+const dispatch = useDispatch();
+const Admin = localStorage.getItem('rol');
+const userss = useSelector((store) => store?.users?.users);
 const token=localStorage.getItem('token')
 const user=localStorage.getItem('usuario')
 const navigate=useNavigate()
+useEffect(() => {
+  dispatch(userActions.read_users())
+    .then(() => {
+      setUsersLoaded(true);
+    })
+    .catch((error) => {
+      console.error('Error al cargar usuarios:', error);
+    });
+}, [dispatch]);
 function openModal(opcion){
 setOpcionSelect(opcion)
 setMostrarModal(true)
@@ -60,10 +88,10 @@ navigate('/');
     });
   }
 };
-
+const usuario = localStorage.getItem('usuario');
+  useUserRoleVerification(usersLoaded, userss, Admin, usuario, LogOut);
 const rol= localStorage.getItem('rol')
 const numberRol=parseInt(rol)
-
 
 return (
 <div className='w-full h-full'>
