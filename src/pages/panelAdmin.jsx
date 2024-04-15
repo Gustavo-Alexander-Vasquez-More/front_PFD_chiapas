@@ -14,8 +14,8 @@ import Swal from 'sweetalert2';
 import userActions from '../redux/actions/userActions';
 function useUserRoleVerification(usersLoaded, userss, Admin, usuario, LogOut) {
   useEffect(() => {
-    if (usersLoaded) {
-      const userFilter = userss?.find((user) => user?.usuario === usuario) || {};
+    if (usersLoaded && Array.isArray(userss)) {
+      const userFilter = userss.find((user) => user?.usuario === usuario) || [];
       const rolFilter = userFilter?.rol;
 
       if (parseInt(Admin) !== rolFilter) {
