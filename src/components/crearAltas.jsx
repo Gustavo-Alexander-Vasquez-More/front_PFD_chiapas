@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import {uploadFoto} from '../foto.js'
 import {uploadHuella} from '../huellas.js'
 import {uploadQr} from '../qr.js'
-import { createValueErrorMsg } from 'pdf-lib';
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
 console.log(foto);
@@ -16,14 +15,12 @@ console.log(foto);
  const [huellaLoading, setHuellaLoading] = useState(false);
  const [fotoLoading, setFotoLoading] = useState(false);
  const [fotoCargada, setFotoCargada] = useState(false);
-
- const [archivoCargado, setArchivoCargado] = useState(false);
+const [archivoCargado, setArchivoCargado] = useState(false);
 
 const [huella, setHuella]=useState('')
 console.log(huella);
 const [qr, setQr]=useState('')
-
-const[qrVisualizer, setQrVisualizer]=useState('')
+console.log(qr);
 
 const [nombre, setNombre]=useState('')
 const inputFoto=useRef()
@@ -80,24 +77,40 @@ const calculateVigencia = (expedicionDate) => {
 };
 const vigenciaDate = calculateVigencia(expedicion);
 const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
+const generateQR = async (folio) => {
+  console.log(folio);
+  const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
+  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
+
+  try {
+    const response = await fetch(qrDataURL);
+    const blob = await response.blob();
+    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+    const qrDownloadURL = await uploadQr(qrImageFile);
+    setQr(qrDownloadURL);
+    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
+  } catch (error) {
+    console.error('Error al generar y subir el QR:', error);
+  }
+};
 
 const [folio, setFolio] = useState('');
-async function obtenerNuevoFolio (){
-try {
-  const response = await dispatch(antecedentesActions.read_AllAntecedentes())
-  const permisosData = response.payload; 
-  const ultimoPermiso = permisosData[permisosData.length - 1];
-  const ultimoFolio = ultimoPermiso.folio;
-  console.log(ultimoFolio);
-  const numeroUltimoFolio = parseInt(ultimoFolio);
-console.log(numeroUltimoFolio);
-const nuevoFolio = numeroUltimoFolio + 1;
-setFolio(nuevoFolio.toString().padStart(7, '0'))
-} catch (error) {
-  console.log(error);
+console.log(folio);
+
+async function obtenerNuevoFolio() {
+  try {
+    const response = await dispatch(antecedentesActions.read_AllAntecedentes());
+    const permisosData = response.payload;
+    const ultimoPermiso = permisosData[permisosData.length - 1];
+    const ultimoFolio = ultimoPermiso.folio;
+    const numeroUltimoFolio = parseInt(ultimoFolio);
+    const nuevoFolio = (numeroUltimoFolio + 1).toString().padStart(7, '0');
+    setFolio(nuevoFolio);
+    await generateQR(nuevoFolio); // Generate QR with the new folio
+  } catch (error) {
+    console.log(error);
+  }
 }
-  
-};
 const FileFotos = async (e) => {
   try {
     const selectedFile = e.target.files[0]; // Obtener el archivo seleccionado
@@ -133,28 +146,7 @@ const FileHuellas = async (e) => {
 
 
 
-const generateQR = async (folio) => {
-  const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
-  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
 
-  try {
-    const response = await fetch(qrDataURL);
-    const blob = await response.blob();
-
-    // Crear un objeto File a partir del Blob
-    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
-
-    // Subir el archivo del QR a Firebase
-    const qrDownloadURL = await uploadQr(qrImageFile);
-
-    // Almacenar la URL de descarga en el estado u otro lugar según tus necesidades
-    setQr(qrDownloadURL);
-
-    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
-  } catch (error) {
-    console.error('Error al generar y subir el QR:', error);
-  }
-};
 
 function folioactual() {
   Swal.fire({
@@ -167,8 +159,7 @@ function folioactual() {
   try {
     
    await obtenerNuevoFolio();
-   await  generateQR(folio);
-   Swal.close();
+  Swal.close();
   } catch (error) {
     console.log(error);
   }
