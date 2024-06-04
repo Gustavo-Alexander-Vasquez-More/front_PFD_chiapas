@@ -12,6 +12,7 @@ import Connecion from '../components/coneccion'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import userActions from '../redux/actions/userActions';
+import UpdateRol from '../components/updateRol';
 function useUserRoleVerification(usersLoaded, userss, Admin, usuario, LogOut) {
   useEffect(() => {
     if (usersLoaded && Array.isArray(userss)) {
@@ -95,7 +96,7 @@ const numberRol=parseInt(rol)
 
 return (
 <div className='w-full h-full'>
-    <div className={`absolute bg-[#17103a] lg:w-[30%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-10 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
+    <div className={`absolute bg-[#b2b42d] lg:w-[25%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-10 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
         <Anchor onClick={closeMenu}>
         <svg className="w-6 h-6 text-[white] hover:animate-spin" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -141,6 +142,12 @@ return (
           <path fill-rule="evenodd" d="M5 8a4 4 0 1 1 7.796 1.263l-2.533 2.534A4 4 0 0 1 5 8Zm4.06 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h2.172a2.999 2.999 0 0 1-.114-1.588l.674-3.372a3 3 0 0 1 .82-1.533L9.06 13Zm9.032-5a2.907 2.907 0 0 0-2.056.852L9.967 14.92a1 1 0 0 0-.273.51l-.675 3.373a1 1 0 0 0 1.177 1.177l3.372-.675a1 1 0 0 0 .511-.273l6.07-6.07a2.91 2.91 0 0 0-.944-4.742A2.907 2.907 0 0 0 18.092 8Z" clip-rule="evenodd"/>
           </svg>
           <button className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion8')}>Cambiar contraseñas</button>
+          </div>
+          <div className='flex gap-5'>
+          <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path fill-rule="evenodd" d="M5 8a4 4 0 1 1 7.796 1.263l-2.533 2.534A4 4 0 0 1 5 8Zm4.06 5H7a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h2.172a2.999 2.999 0 0 1-.114-1.588l.674-3.372a3 3 0 0 1 .82-1.533L9.06 13Zm9.032-5a2.907 2.907 0 0 0-2.056.852L9.967 14.92a1 1 0 0 0-.273.51l-.675 3.373a1 1 0 0 0 1.177 1.177l3.372-.675a1 1 0 0 0 .511-.273l6.07-6.07a2.91 2.91 0 0 0-.944-4.742A2.907 2.907 0 0 0 18.092 8Z" clip-rule="evenodd"/>
+          </svg>
+          <button className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion9')}>Cambiar Rol</button>
           </div>
           <div className='flex gap-5'>
           <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -205,13 +212,12 @@ return (
           </>
         )}
     </div>
-    <div className="w-full h-[10vh] flex items-center bg-[#17103a] justify-between lg:px-[2rem] px-[0.8rem] gap-3 lg:gap-0">
+    <div className="w-full h-[10vh] flex items-center bg-[#8b8d24] justify-between lg:px-[2rem] px-[0.8rem] gap-3 lg:gap-0">
         <Anchor className="" onClick={openMenu}>
         <svg className="w-7 h-7 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
         </svg>
         </Anchor>
-        <p className='lg:text-[2rem] text-[1rem] sm:text-[1.5rem] text-white'>Panel de Administrador</p>
         <div  className='flex'>
             <p className='text-white flex gap-3 lg:text-[1.3rem] text-[0.8rem]'>Hola {user}! <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
     <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
@@ -244,14 +250,17 @@ return (
         {opcionSelect === 'opcion8' && (
          <UpdatePassword/>
         )}
+        {opcionSelect === 'opcion9' && (
+         <UpdateRol/>
+        )}
       </>
     )}
     {!mostrarModal && (
-    <div className='w-full h-[90vh] bg-[url("https://static.vecteezy.com/system/resources/previews/005/554/444/non_2x/abstract-elegant-white-and-grey-background-abstract-white-pattern-squares-texture-free-vector.jpg")] bg-cover'>
-      <div className='flex flex-col items-center w-full h-[70vh] justify-around'>
-        <p className='lg:text-[3rem] text-[2rem]'>Sistema de Altas</p>
-        <p className='text-[1.8rem]'>Antecedentes Chiapas</p>
-        <img className='w-[10rem]' src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Coat_of_arms_of_Chiapas.svg/320px-Coat_of_arms_of_Chiapas.svg.png" alt="" />
+    <div className='w-full flex justify-center items-center h-[90vh] bg-[url("https://cdn.britannica.com/37/178937-050-21CBC6F1/Palenque-Temple-of-the-Inscriptions-Chiapas-Mexico.jpg")] bg-center bg-cover'>
+      <div className='flex flex-col justify-center items-center bg-[#ffffff93] px-[2rem] rounded-[5px] py-[2rem]'>
+        <p className='lg:text-[2rem] text-[1.5rem]'>Antecedentes Penales</p>
+      <img className='w-[10rem]' src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Coat_of_arms_of_Chiapas.svg/320px-Coat_of_arms_of_Chiapas.svg.png" alt="" />
+      <p className='lg:text-[2rem] text-[1.5rem]'>Chiapas</p>
       </div>
     </div>
     )}

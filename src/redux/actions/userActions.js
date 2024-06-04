@@ -98,5 +98,30 @@ const create_users = createAsyncThunk(
                 }
             } 
           )
-const userActions = {create_users, login_users,read_users, delete_users, update_users,update_passrowds}
+          const update_roles = createAsyncThunk(
+            'update_roles', 
+            async (payload) => {
+              const { usuario, rol} = payload;
+              console.log(usuario);
+              console.log(rol);
+              try {
+                const {data}=await axios.put(`https://backpdfchiapas-production.up.railway.app/api/admins/update/${usuario}`,{
+                  rol:rol})
+                  
+                  Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: `El rol ha sido actualizado con éxito!`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+                  window.location.reload()
+                  thunkAPI.dispatch(read_users());
+                  
+                return data.response
+                } catch (error) {
+                }
+            } 
+          )
+const userActions = {create_users, login_users,read_users, delete_users, update_users,update_passrowds, update_roles}
 export default userActions

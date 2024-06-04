@@ -111,7 +111,7 @@ export default function admiAltasrol3() {
       }).slice(0, searchTerm === AntecedentesAuth[0]?.author_id.usuario.toLowerCase() ? AntecedentesAuth.length : MAX_RESULTS)
     : Antecedentes;
   return (
-    <div className='w-full h-screen bg-[url("https://firebasestorage.googleapis.com/v0/b/validacion-de-licencias-c813d.appspot.com/o/pngtree-abstract-white-and-light-gray-wave-modern-soft-luxury-texture-with-image_1379862.jpg?alt=media&token=083e0548-05a8-404f-8bb9-6ac6703d270c")] bg-no-repeat bg-cover'>
+    <div className='w-full h-[90vh] bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
     <div className='w-full lg:h-20 h-[5vh] flex justify-center items-center'>
       <p className='lg:text-2xl text-[1.15rem]'>Administra tus licencias</p>
     </div>
@@ -174,7 +174,7 @@ export default function admiAltasrol3() {
       <div className='w-full h-[6vh] flex justify-center gap-5 items-center'>
       <button onClick={handlePrev}
         disabled={Antecedente?.prevPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Anterior</button>
-      <p>Página: {currentPage}</p>
+      <p className='text-white'>Página: {currentPage}</p>
       <button onClick={handleNext}
           disabled={ Antecedente?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
         </div>

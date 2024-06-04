@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {uploadFoto} from '../foto.js'
 import {uploadHuella} from '../huellas.js'
 import {uploadQr} from '../qr.js'
+import { createValueErrorMsg } from 'pdf-lib';
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
 console.log(foto);
@@ -81,17 +82,21 @@ const vigenciaDate = calculateVigencia(expedicion);
 const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
 
 const [folio, setFolio] = useState('');
-const obtenerNuevoFolio = () => {
-  dispatch(antecedentesActions.read_AllAntecedentes())
-  const ultimoFolio = Array.isArray(antecedentes)
-      ? antecedentes.reduce((maxFolio, antecedente) => {
-          const antecedenteFolio = parseInt(antecedente.folio, 10);
-          return antecedenteFolio > maxFolio ? antecedenteFolio : maxFolio;
-      }, 0)
-      : 0;
-
-  const nuevoFolio = ultimoFolio + 1;
-  return nuevoFolio.toString().padStart(7, '0');
+async function obtenerNuevoFolio (){
+try {
+  const response = await dispatch(antecedentesActions.read_AllAntecedentes())
+  const permisosData = response.payload; 
+  const ultimoPermiso = permisosData[permisosData.length - 1];
+  const ultimoFolio = ultimoPermiso.folio;
+  console.log(ultimoFolio);
+  const numeroUltimoFolio = parseInt(ultimoFolio);
+console.log(numeroUltimoFolio);
+const nuevoFolio = numeroUltimoFolio + 1;
+setFolio(nuevoFolio.toString().padStart(7, '0'))
+} catch (error) {
+  console.log(error);
+}
+  
 };
 const FileFotos = async (e) => {
   try {
@@ -151,15 +156,23 @@ const generateQR = async (folio) => {
   }
 };
 
-async function folioactual() {
+function folioactual() {
+  Swal.fire({
+  title: 'Generando Folio y QR...',
+  html: 'Por favor, espere mientras se genera el QR y el Folio.',
+  allowOutsideClick: false,
+  imageUrl:'https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Dino_non-birthday_version.gif',
+  didOpen: async () => {
+    Swal.showLoading();
   try {
     
-    const nuevoFolio = obtenerNuevoFolio();
-  await  setFolio(nuevoFolio); // Espera a que se actualice el estado 'folio'
-  await  generateQR(nuevoFolio); // Llama a generateQR después de establecer el 'folio'
+   await obtenerNuevoFolio();
+   await  generateQR(folio);
+   Swal.close();
   } catch (error) {
     console.log(error);
   }
+}})
 }
 
 
@@ -192,9 +205,26 @@ async function crearAltas() {
     const tieneFoliosSuficientes = foliosUser > 0 || rolUsuario === 1;
 
     if (tieneFoliosSuficientes) {
+      Swal.fire({
+        title: 'Generando Antecedente...',
+        allowOutsideClick: false,
+        imageUrl:'https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Dino_non-birthday_version.gif',
+        didOpen: async () => {
+          Swal.showLoading();
+          try {
    await dispatch(antecedentesActions.create_antecedentes(data));
    await dispatch(userActions.read_users())
       navigate(`/consultaPDF/${folio}`)
+      Swal.close();
+    } catch (error) {
+      console.error('Error al generar y subir el QR:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Hubo un problema al generar el QR. Inténtalo nuevamente.',
+      }); }
+    },
+  });
     } else {
       Swal.fire({
         position: 'center',
@@ -212,8 +242,9 @@ async function crearAltas() {
 const rol=localStorage.getItem('rol')
 const numbRol=parseInt(rol)
   return (
-    <div className='w-full h-[90vh] '>
-      <div className='w-full h-[20vh]  flex flex-col justify-center items-center'>
+    <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
+      <div className='flex flex-col gap-5 items-center lg:w-[50%] w-[95%] h-auto px-[2rem] py-[1rem] bg-[#ffffffbb] rounded-[10px]'>
+      <div className='w-full h-auto  flex flex-col justify-center items-center'>
         <p className='text-[2.5rem]'>Crea tus altas</p>
         {numbRol > 1 && (
           <p>Te quedan {foliosUser} folios por usar</p>
@@ -221,89 +252,92 @@ const numbRol=parseInt(rol)
         
       </div>
       <div className='flex sm:flex-row flex-col items-center sm:items-start'>
-        <div className='sm:w-[50%] sm:h-[45vh]  h-auto flex flex-col gap-4  w-[80%]'>
+        <div className=' h-auto flex flex-col gap-4  w-full'>
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] '>
-            <p>Nombre:</p>
+            <p className='underline font-semibold'>Nombre:</p>
             <input
               ref={inputNombre}
               onChange={captureNombre}
-              className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='w-full py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem]'>
-  <p>Foto:</p>
+  <p className='underline font-semibold'>Foto:</p>
   {fotoLoading? (
     <p>Cargando foto...</p>
   ) : (
     <>
       {fotoCargada ? (
-        <p>Foto cargada</p>
+        <>
+        <div className='flex flex-col'>
+        <img className='w-[5rem]' src={foto} alt="" />
+        </div>
+        </>
       ) : (
-        <input ref={inputFoto} className='xl:w-[40%] lg:w-[60%] sm:w-[60%] py-[0.3rem]' type='file' onChange={FileFotos} />
+        <input ref={inputFoto} className='w-full py-[0.3rem]' type='file' onChange={FileFotos} />
       )}
     </>
   )}
 </div>
 
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
-            <p>Folio</p>
-            <button className='flex gap-5 sm:mb-0 mb-[2rem]' onClick={folioactual}>Generar folio y QR'</button>
-            {folio && (
+            
+            <button className='flex gap-5 sm:mb-0 mb-[2rem] bg-[#17103a] rounded-[3px] justify-center items-center py-[0.3rem] text-white' onClick={folioactual}>Generar folio y QR'</button>
+            {folio && ( 
               <>
+              <p className='underline font-semibold'>Folio</p>
               <input
               value={folio}
-              className='xl:w-[20%] lg:w-[40%] sm:w-[40%] py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='w-full py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
               type='number'
             /> 
-            
-            <div  >
+            <div>
             <QRCode  size={80} value={`https://poderjudicialchiapas.org/validacionAntecedente/${folio}`} />
             </div>
               </>
-              
             )}
-            
-            </div>
-          </div>
-        <div className='sm:w-[50%] sm:h-[45vh] h-auto  flex flex-col gap-4 w-[80%]'>
+        </div>
+        </div>
+        <div className=' h-auto  flex flex-col gap-4 w-full'>
         <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
-  <p>Huella:</p>
+  <p className='underline font-semibold'>Huella:</p>
   {huellaLoading ? (
     <p>Cargando huella...</p>
   ) : (
     <>
       {archivoCargado ? (
-        <p>Archivo cargado</p>
+        <img className='w-[5rem]' src={huella} alt="" />
       ) : (
-        <input ref={inputHuella} className='xl:w-[40%] lg:w-[60%] w-full py-[0.3rem]' type='file' onChange={FileHuellas} />
+        <input ref={inputHuella} className=' w-full py-[0.3rem]' type='file' onChange={FileHuellas} />
       )}
     </>
   )}
 </div>
 
           <div className='w-full h-auto flex flex-col sm:px-[5rem] '>
-            <p>Expedición</p>
+            <p className='underline font-semibold'>Expedición</p>
             <input
               value={expedicion}
-              className='xl:w-[40%] lg:w-[60%] py-[0.3rem] px-[0.5rem] w-full  rounded-[5px] border-solid border-[1px] border-gray-500'
+              className=' py-[0.3rem] px-[0.5rem] w-full  rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
           <div className='w-full h-auto flex flex-col sm:px-[5rem]'>
-            <p>Vigencia</p>
+            <p className='underline font-semibold'>Vigencia</p>
             <input
               value={vigenciaDate}
-              className='xl:w-[40%] lg:w-[60%] py-[0.3rem] px-[0.5rem] w-full rounded-[5px] border-solid border-[1px] border-gray-500'
+              className='py-[0.3rem] px-[0.5rem] w-full rounded-[5px] border-solid border-[1px] border-gray-500'
               type='text'
             />
           </div>
         </div>
       </div>
       <div className="w-full h-[10vh] flex justify-center items-center">
-        <button onClick={crearAltas} className="xl:w-[15%] lg:w-[30%] px-[1rem] py-[0.5rem] bg-[#17103a] text-white rounded-[10px]">
+        <button onClick={crearAltas} className="w-full px-[1rem] py-[0.5rem] bg-[#17103a] text-white rounded-[10px]">
           {loading ? 'Creando...' : 'Crear Antecedente'}
         </button>
+      </div>
       </div>
     </div>
   );

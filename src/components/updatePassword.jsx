@@ -38,7 +38,7 @@ try {
 }
 }
 return (
-    <div className='flex justify-center items-center w-full h-[90vh] bg-[url("https://www.gc.cuny.edu/sites/default/files/styles/1135x640/public/2023-08/5%20City%20of%20Science%20Cybersecurity.webp?h=8abcec71&itok=H7jwZwN0")] bg-cover bg-no-repeat'>
+    <div className='w-full h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
       <div className='bg-[white] rounded-[10px] border-solid border-[1px] border-[gray] lg:w-[45%] w-[95%] h-auto flex flex-col'>
         <div className=' border-b-[1px] gap-2 py-[1rem] border-solid border-[gray] flex justify-center items-center'>
             <p className='lg:text-[1.5rem]'>Cambio de Contraseñas</p>

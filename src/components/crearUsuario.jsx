@@ -59,23 +59,24 @@ console.log(error);
 }
 }
 return (
-    <div className='w-full h-[90vh] bg-[url("https://static.vecteezy.com/system/resources/previews/002/848/473/non_2x/modern-white-background-with-shiny-gold-geometric-element-abstract-light-clean-silver-background-vector.jpg")] bg-cover'>
-      <div className='w-full h-[10vh] flex items-center justify-center text-[2rem] px-[1.5rem] '>
-        <p className='font-semibold'>Crea un usuario</p>
+    <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
+      <div className='flex flex-col gap-5 items-center lg:w-[50%] w-[95%] h-auto px-[2rem] py-[1rem] bg-[#ffffffbb] rounded-[10px]'>
+      <div className='w-full h-auto flex items-center justify-center text-[2rem]'>
+        <p className='font-semibold underline'>Crea un usuario</p>
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
-        <p className='sm:text-[1.2rem] text-[1rem]'>Usuario</p>
+      <div className='w-full h-auto flex flex-col  gap-2 '>
+          <p className='text-[1rem] underline font-semibold'>Usuario</p>
         <input ref={inputNombre} onChange={captureNombre}
-          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] lg:w-[30%] w-[100%]'
+          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] w-[100%]'
           type="text"
           placeholder='Nombre de Usuario'
         />
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
-        <p className='sm:text-[1.2rem] text-[1rem]'>Contraseña</p>
+      <div className='w-full h-auto flex flex-col  gap-2 '>
+        <p className='text-[1rem] underline font-semibold'>Contraseña</p>
         <div className='flex items-center gap-4'>
           <input 
-            className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem]  lg:w-[30%] w-[100%]'
+            className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem] px-[0.5rem] w-[100%]'
             type={showPassword ? 'text' : 'password'}
             placeholder='Contraseña'
             value={password}
@@ -86,7 +87,7 @@ return (
             onClick={togglePasswordVisibility}
           >
             {showPassword ? (
-             <svg class="w-6 h-6 text-black dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+             <svg class="w-6 h-6 text-black " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1.933 10.909A4.357 4.357 0 0 1 1 9c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 19 9c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M2 17 18 1m-5 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
            </svg>
             ) : (
@@ -101,31 +102,32 @@ return (
           </span>
         </div>
       </div>
-      <div className='w-full h-[12vh] flex flex-col justify-center gap-2 lg:px-[7rem] px-[3rem]'>
-        <p className='m:text-[1.2rem] text-[1rem]'>Folios</p>
+      <div className='w-full h-auto flex flex-col justify-center gap-2 '>
+        <p className='underline font-semibold text-[1rem]'>Folios</p>
         <input ref={inputFolios} onChange={captureFolios}
-          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem]  px-[0.5rem] lg:w-[30%] w-[100%]'
+          className='border-solid border-[1px] border-gray-400 rounded-[5px] py-[0.3rem]  px-[0.5rem] w-[100%]'
           type="number"
           placeholder='N° Folios'
         />
       </div>
-      <div className='w-full lg:h-[30vh] h-[30vh]  flex flex-col justify-center gap-3 lg:px-[7rem] px-[3rem]'>
-        <p className='lg:m:text-[1.2rem]  text-[1rem]'>Rol de Usuario</p>
+      <div className='w-full h-auto  flex flex-col justify-center gap-3 '>
+        <p className='text-[1rem] underline font-semibold'>Rol de Usuario</p>
         <div className='flex gap-2'>
         <input type="radio" value={1} checked={selectedRole === '1'}
-            onChange={handleRoleChange} /><p className='lg:text-[1.1rem] text-[0.8rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
+            onChange={handleRoleChange} /><p className='text-[0.8rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={2} checked={selectedRole === '2'}
-            onChange={handleRoleChange}/><p className='tlg:text-[1.1rem] text-[0.8rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
+            onChange={handleRoleChange}/><p className='text-[0.8rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={3} checked={selectedRole === '3'}
-            onChange={handleRoleChange}/><p className='tlg:text-[1.1rem] text-[0.8rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
+            onChange={handleRoleChange}/><p className='text-[0.8rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
         </div>
       </div>
-      <div className='w-full h-[12vh] flex  items-center gap-2 lg:px-[7rem] px-[3rem]'>
-        <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] lg:w-[20%] w-[60%] text-white'>Crear</button>
+      <div className='w-full h-auto flex justify-center  items-center gap-2 '>
+        <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] font-semibold w-[60%] text-white'>Crear Usuario</button>
+      </div>
       </div>
     </div>
   );

@@ -11,8 +11,8 @@ export default function coneccion() {
     const usuarios = useSelector((state) => state.users.users) || [];
     
   return (
-    <div className='w-full h-screen bg-white flex justify-center py-[2rem]'>
-      <table className='border border-gray-500 w-[60%]'>
+    <div className='w-full h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
+      <table className='border bg-[#ffffffc9] border-gray-500 w-[60%]'>
         <thead>
           <tr>
             <th className='border-[gray] border-solid border-[1px] p-2'>USUARIO</th>
