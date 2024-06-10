@@ -181,7 +181,6 @@ async function crearAltas() {
     nombre:nombre,
     foto:foto,
     huella:huella,
-    qr:qr,
     folio:folio,
     expedicion:expedicion,
     vigencia:vigenciaDate,
