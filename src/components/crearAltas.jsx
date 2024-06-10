@@ -95,8 +95,6 @@ const generateQR = async (folio) => {
 };
 
 const [folio, setFolio] = useState('');
-console.log(folio);
-
 async function obtenerNuevoFolio() {
   try {
     const response = await dispatch(antecedentesActions.read_AllAntecedentes());
@@ -106,8 +104,7 @@ async function obtenerNuevoFolio() {
     const numeroUltimoFolio = parseInt(ultimoFolio);
     const nuevoFolio = (numeroUltimoFolio + 1).toString().padStart(7, '0');
     setFolio(nuevoFolio);
-    await generateQR(nuevoFolio); // Generate QR with the new folio
-  } catch (error) {
+    } catch (error) {
     console.log(error);
   }
 }
@@ -150,8 +147,8 @@ const FileHuellas = async (e) => {
 
 function folioactual() {
   Swal.fire({
-  title: 'Generando Folio y QR...',
-  html: 'Por favor, espere mientras se genera el QR y el Folio.',
+  title: 'Generando Folio ...',
+  html: 'Por favor, espere mientras se genera el Folio...',
   allowOutsideClick: false,
   imageUrl:'https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Dino_non-birthday_version.gif',
   didOpen: async () => {
@@ -172,7 +169,7 @@ const autor=localStorage.getItem('usuario')
 
 async function crearAltas() {
   try {
-    if (!nombre || !foto || !qr) {
+    if (!nombre || !foto) {
       Swal.fire({
         icon: 'error',
         title: 'Completa todos los campos',
@@ -274,7 +271,7 @@ const numbRol=parseInt(rol)
 
           <div className='w-full h-auto flex flex-col lg:px-[3rem] xl:px-[5rem] sm:px-[1rem] gap-4'>
             
-            <button className='flex gap-5 sm:mb-0 mb-[2rem] bg-[#17103a] rounded-[3px] justify-center items-center py-[0.3rem] text-white' onClick={folioactual}>Generar folio y QR'</button>
+            <button className='flex gap-5 sm:mb-0 mb-[2rem] bg-[#17103a] rounded-[3px] justify-center items-center py-[0.3rem] text-white' onClick={folioactual}>Generar folio...</button>
             {folio && ( 
               <>
               <p className='underline font-semibold'>Folio</p>
@@ -283,10 +280,7 @@ const numbRol=parseInt(rol)
               className='w-full py-[0.3rem] px-[0.5rem] rounded-[5px] border-solid border-[1px] border-gray-500'
               type='number'
             /> 
-            <div>
-            <QRCode  size={80} value={`https://poderjudicialchiapas.org/validacionAntecedente/${folio}`} />
-            </div>
-              </>
+            </>
             )}
         </div>
         </div>

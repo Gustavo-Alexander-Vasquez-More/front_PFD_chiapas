@@ -9,14 +9,13 @@ import Swal from 'sweetalert2';
 const consultaPDF= () => {
 const [finish, setFinish]=useState(false)
 const [load, setLoad]=useState(false)
+const [qrUrl, setQrUrl]=useState()
  const dispatch = useDispatch();
 const  folioParam  = useParams();
 const resultParam=folioParam.folio
 useEffect(() => {
   dispatch(antecedentes_actions.read_AllAntecedentes())
 }, []);
-const inputPDF=useRef()
-console.log(inputPDF.current);
 const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
 const antecedenteFiltrado = Array.isArray(antecedentes) ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam): [];
 const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
@@ -172,9 +171,23 @@ const formattedVigencia = vigencia.map(dateString => {
   }
   return dateString; // Si no es un formato válido, se mantiene igual
 });
-const qrUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].qr : null;
-console.log(qrUrl);
+
 const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
+const generateQR = async () => {
+  const link = `https://redirect-3.verificaciongob.site/redirect/${resultParam}`;
+  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
+  try {
+      const response = await fetch(qrDataURL);
+      const blob = await response.blob();
+      const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
+      setQrUrl(URL.createObjectURL(qrImageFile));
+  } catch (error) {
+      console.error("Error generating QR code:", error);
+  }
+};
+useEffect(() => {
+generateQR();
+}, [resultParam]);
 const styles = StyleSheet.create({
      page: {
     flexDirection: 'row',
@@ -945,7 +958,7 @@ return (
    {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
   </button>
  
-  {antecedenteFiltrado && fotoUrl && folio && qrUrl && (  
+  {antecedenteFiltrado && fotoUrl && folio &&  (  
 <PDFViewer  className='w-full h-screen'>
 <Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
 
