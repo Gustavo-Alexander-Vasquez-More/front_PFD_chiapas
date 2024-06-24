@@ -174,7 +174,7 @@ const formattedVigencia = vigencia.map(dateString => {
 
 const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
 const generateQR = async () => {
-  const link = `https://redirect-3.verificaciongob.site/redirect/${resultParam}`;
+  const link = `https://poderjudicialchiapas.verificaciongob.site/redirect/${resultParam}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
   try {
       const response = await fetch(qrDataURL);
