@@ -4,11 +4,25 @@ import Swal from "sweetalert2";
 const create_users = createAsyncThunk(
     'create_users', 
     async(datos)=>{
+      console.log(datos);
         try {
         const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/create', datos)
-        ;
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: `Usuario creado con éxito!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
       return data.response
         } catch (error) {
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: `Este usuario ya existe!`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
     } 
     )

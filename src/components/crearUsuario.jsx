@@ -37,23 +37,17 @@ async function crearUsuario(){
   rol:selectedRole
   }
     try {
+      if (!nombre || !password || !folios || !selectedRole) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Completa todos los campos',
+          text: 'Asegúrate de completar los campos.',
+        });
+        return;
+      }
       if(datos){
       await dispatch(userActions.create_users(datos))
-      
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Usuario creado con éxito',
-        showConfirmButton: false,
-        timer: 1500
-      })
       dispatch(userActions.read_users())
-}else{
-  Swal.fire({
-    icon: 'error',
-    title: 'Lo sentimos!',
-    text: 'El usuario no ha podido ser creado.',
-    })
 }} catch (error) {
 console.log(error);
 }
@@ -114,16 +108,20 @@ return (
         <p className='text-[1rem] underline font-semibold'>Rol de Usuario</p>
         <div className='flex gap-2'>
         <input type="radio" value={1} checked={selectedRole === '1'}
-            onChange={handleRoleChange} /><p className='text-[0.8rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
+            onChange={handleRoleChange} /><p className='lg:text-[1rem] text-[0.8rem]'>Rol 1 (Tiene todos los privilegios del sistema)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={2} checked={selectedRole === '2'}
-            onChange={handleRoleChange}/><p className='text-[0.8rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
+            onChange={handleRoleChange}/><p className='lg:text-[1rem] text-[0.8rem]'>Rol 2 (Tiene privilegios pero no puede crear ni gestionar usuarios)</p>
         </div>
         <div  className='flex gap-2'>
         <input type="radio" value={3} checked={selectedRole === '3'}
-            onChange={handleRoleChange}/><p className='text-[0.8rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
+            onChange={handleRoleChange}/><p className='lg:text-[1rem] text-[0.8rem]'>Rol 3 (Sin privilegios, solo puede crear y eliminar Altas)</p>
         </div>
+        <div  className='flex gap-2'>
+    <input type="radio" value={4} checked={selectedRole === '4'}
+        onChange={handleRoleChange}/><p className='lg:text-[1rem] text-[0.8rem]'>Rol 4 (Usuario revendedor de folios, puede crear y eliminar sus usuarios)</p>
+    </div>
       </div>
       <div className='w-full h-auto flex justify-center  items-center gap-2 '>
         <button onClick={crearUsuario} className='bg-[#17103a] hover:bg-[#4a399e] rounded-[5px] px-[1rem] py-[0.5rem] font-semibold w-[60%] text-white'>Crear Usuario</button>
