@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import antecedentes_actions from '../redux/actions/antecedentesActions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-
+import Loader from './loader';
 
 export default function validacionAntecedente() {
 const  folioParam  = useParams();
 const resultParam=folioParam.folio
 const dispatch=useDispatch()
+const [loading, setLoading] = useState(true); // Estado para controlar la carga
+
 useEffect(() => {
-dispatch(antecedentes_actions.read_AllAntecedentes())
-}, []);
+  // Llamada a la acción de carga de antecedentes
+  dispatch(antecedentes_actions.read_AllAntecedentes())
+    .then(() => setLoading(false)) // Establece loading en false cuando los datos se cargan
+    .catch(() => setLoading(false)); // También se asegura de ocultar el loader en caso de error
+}, [dispatch]);
+
 const antecedentes=useSelector((store)=>store.antecedentes.AllAntecedentes)
 
 const antecedenteFiltrado = Array.isArray(antecedentes)
@@ -19,14 +25,11 @@ const antecedenteFiltrado = Array.isArray(antecedentes)
 const folio=antecedenteFiltrado.map(antecedente=> antecedente.folio)
 const expedicion=antecedenteFiltrado.map(antecedente=> antecedente.expedicion)
 console.log(expedicion);
-
-
 const hora = antecedenteFiltrado.map(antecedente => antecedente.hora )
-
-
 
 return (
     <div className='w-full h-screen'>
+      {loading && <Loader />}
       <div className='w-full h-[30¿5vh] bg-white flex flex-col'>
         <img className='hidden lg:block' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/navXl.png?alt=media&token=73fe99f5-bd24-470d-a58c-13697a6716ba&_gl=1*qo5bxp*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5NzQ2MTk4NC4zOS4xLjE2OTc0NjI1NjcuNjAuMC4w" alt="" />
       <img className='hidden  lg:hidden sm:block' src="https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/nav640.png?alt=media&token=69432b25-4d27-4324-b5c5-f145520e33c6&_gl=1*1dt59m7*_ga*MTQ4NzE3MDk0NC4xNjkzOTUwNDk1*_ga_CW55HF8NVT*MTY5NzQ2MTk4NC4zOS4xLjE2OTc0NjMyMjIuNjAuMC4w" alt="" />
