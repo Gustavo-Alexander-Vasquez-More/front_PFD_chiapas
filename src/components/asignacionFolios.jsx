@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import userActions from '../redux/actions/userActions.js';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function AsignacionFolios() {
     const [selectUser, setSelectUser] = useState('');
@@ -9,7 +10,15 @@ export default function AsignacionFolios() {
     const dispatch = useDispatch();
     const inputSelectUser = useRef();
     const AgregarFolio = useRef();
-   
+    const fecha= new Date()
+    const dia=fecha.getDate().toString().padStart(2, '0')
+    const mes=(fecha.getMonth()+1).toString().padStart(2, '0')
+    const año=fecha.getFullYear()
+    const hora=fecha.getHours().toString().padStart(2, '0')
+    const minuto=fecha.getMinutes().toString().padStart(2, '0')
+    
+    const fecha_hoy=`${dia}/${mes}/${año}`
+    const horarios=`${hora}:${minuto}`
   
     useEffect(() => {
       dispatch(userActions?.read_users());
@@ -25,6 +34,14 @@ export default function AsignacionFolios() {
   
     async function agregarMasFolios() {
       try {
+        const datos={
+          usuario_cliente:selectUser,
+          folios:addFolioValue,
+          fecha:fecha_hoy,
+          horario:horarios,
+          usuario_admin:localStorage.getItem('usuario')
+    
+        }
         const adminToUpdate = usuarios?.find((admin) => admin.usuario === selectUser);
         if (!adminToUpdate) {
           throw new Error('No se encontró el usuario');
@@ -53,6 +70,7 @@ export default function AsignacionFolios() {
           timer: 1500,
         });
   
+        await axios.post('https://backpdfchiapas-production.up.railway.app/api/registro_folios/create2', datos)
         setSelectUser('');
         setAddFolioValue('');
       } catch (error) {

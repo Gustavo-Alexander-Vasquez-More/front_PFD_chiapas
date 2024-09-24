@@ -8,7 +8,17 @@ export default function CrearUsuario() {
   const [nombre, setNombre] = useState('');
   const [folios, setFolios] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading]=useState(false)
   const [selectedRole, setSelectedRole] = useState(null);
+  const fecha= new Date()
+const dia=fecha.getDate().toString().padStart(2, '0')
+const mes=(fecha.getMonth()+1).toString().padStart(2, '0')
+const año=fecha.getFullYear()
+const hora=fecha.getHours().toString().padStart(2, '0')
+const minuto=fecha.getMinutes().toString().padStart(2, '0')
+
+const fecha_hoy=`${dia}/${mes}/${año}`
+const horarios=`${hora}:${minuto}`
   const dispatch=useDispatch()
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -36,6 +46,19 @@ async function crearUsuario(){
   folios:folios,
   rol:selectedRole
   }
+  const datos2 = {
+    usuario_admin:localStorage.getItem('usuario'),
+    usuario_cliente: nombre,
+    fecha:fecha_hoy,
+    horario:horarios
+  };
+  const datos3 = {
+    usuario_admin:localStorage.getItem('usuario'),
+    usuario_cliente: nombre,
+    folios:folios,
+    fecha:fecha_hoy,
+    horario:horarios
+  };
     try {
       if (!nombre || !password || !folios || !selectedRole) {
         Swal.fire({
@@ -46,13 +69,28 @@ async function crearUsuario(){
         return;
       }
       if(datos){
+      setLoading(true)
+      await dispatch(userActions.create_registro_usuarios(datos2))
+      await dispatch(userActions.create_registro_folios(datos3))
       await dispatch(userActions.create_users(datos))
-      dispatch(userActions.read_users())
+      await dispatch(userActions.read_users())
+      
+      setLoading(false)
 }} catch (error) {
 console.log(error);
 }
 }
 return (
+  <>
+  
+  {loading === true && (
+    <div className='w-full bg-[#ffffff9f] absolute flex justify-center items-center h-[100vh]  flex-col gap-2'>
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p className='font-semibold'>Cargando por favor espere...</p>
+    </div>
+  )}
     <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
       <div className='flex flex-col gap-5 items-center lg:w-[50%] w-[95%] h-auto px-[2rem] py-[1rem] bg-[#ffffffbb] rounded-[10px]'>
       <div className='w-full h-auto flex items-center justify-center text-[2rem]'>
@@ -128,5 +166,6 @@ return (
       </div>
       </div>
     </div>
+  </>
   );
 }

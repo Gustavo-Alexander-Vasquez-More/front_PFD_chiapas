@@ -7,22 +7,10 @@ const create_users = createAsyncThunk(
       console.log(datos);
         try {
         const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/admins/create', datos)
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: `Usuario creado con éxito!`,
-          showConfirmButton: false,
-          timer: 1500
-        });
+        
       return data.response
         } catch (error) {
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: `Este usuario ya existe!`,
-            showConfirmButton: false,
-            timer: 1500
-          });
+        console.log(error);
         }
     } 
     )
@@ -137,5 +125,66 @@ const create_users = createAsyncThunk(
                 }
             } 
           )
-const userActions = {create_users, login_users,read_users, delete_users, update_users,update_passrowds, update_roles}
+          const read_usuarios_creados = createAsyncThunk(
+            'read_usuarios_creados', 
+            async(page)=>{
+            try {
+            const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/registro_usuarios/readPag?page=${page}`)
+           console.log(data);
+            
+            return data
+            } catch (error) {
+                console.log(error);
+            }
+            } 
+            )
+            const read_folios_creados = createAsyncThunk(
+              'read_folios_creados', 
+              async(page)=>{
+              try {
+              const {data}=await axios.get(`https://backpdfchiapas-production.up.railway.app/api/registro_folios/readPag?page=${page}`)
+             console.log(data);
+              
+              return data
+              } catch (error) {
+                  console.log(error);
+              }
+              } 
+              )
+              const create_registro_usuarios = createAsyncThunk(
+                'create_registro_usuarios', 
+                async(datos2)=>{
+                    try {
+                    const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/registro_usuarios/create', datos2)
+                    Swal.fire({
+                      position: "center",
+                      icon: "success",
+                      title: `Usuario creado con éxito!`,
+                      showConfirmButton: false,
+                      timer: 1500
+                    });
+                  return data.response
+                    } catch (error) {
+                      Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: `Este usuario ya existe!`,
+                        showConfirmButton: false,
+                        timer: 1500
+                      });
+                    }
+                } 
+                )
+                const create_registro_folios = createAsyncThunk(
+                  'create_registro_folios', 
+                  async(datos3)=>{
+                      try {
+                      const {data}=await axios.post('https://backpdfchiapas-production.up.railway.app/api/registro_folios/create', datos3)
+                      
+                    return data.response
+                      } catch (error) {
+                       console.log(error);
+                  } }
+                  )
+const userActions = {create_users, login_users,read_users, delete_users, update_users,update_passrowds, update_roles, create_registro_folios, create_registro_usuarios, read_folios_creados, read_usuarios_creados}
 export default userActions

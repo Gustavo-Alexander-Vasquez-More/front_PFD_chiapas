@@ -9,6 +9,16 @@ export default function crear_usuarioRol4() {
     const [folios, setFolios] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [selectedRole, setSelectedRole] = useState(null);
+    const [loading, setLoading]=useState(false)
+    const fecha= new Date()
+    const dia=fecha.getDate().toString().padStart(2, '0')
+    const mes=(fecha.getMonth()+1).toString().padStart(2, '0')
+    const año=fecha.getFullYear()
+    const hora=fecha.getHours().toString().padStart(2, '0')
+    const minuto=fecha.getMinutes().toString().padStart(2, '0')
+    
+    const fecha_hoy=`${dia}/${mes}/${año}`
+    const horarios=`${hora}:${minuto}`
     const dispatch=useDispatch()
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
@@ -37,6 +47,12 @@ export default function crear_usuarioRol4() {
       rol:3,
       creador:localStorage.getItem('usuario')
       }
+      const datos2 = {
+        usuario_admin:localStorage.getItem('usuario'),
+        usuario_cliente: nombre,
+        fecha:fecha_hoy,
+        horario:horarios
+      };
         try {
           if (!nombre || !password) {
             Swal.fire({
@@ -47,13 +63,26 @@ export default function crear_usuarioRol4() {
             return;
           }
           if(datos){
+            setLoading(true)
+            await dispatch(userActions.create_registro_usuarios(datos2))
           await dispatch(userActions.create_users(datos))
-          dispatch(userActions.read_users())
+          await dispatch(userActions.read_users())
+          setLoading(false)
     }} catch (error) {
     console.log(error);
     }
     }
     return (
+     <>
+     
+     {loading === true && (
+        <div className='w-full bg-[#ffffff9f] absolute flex justify-center items-center h-[100vh]  flex-col gap-2'>
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p className='font-semibold'>Cargando por favor espere...</p>
+        </div>
+      )}
       <div className='w-full flex justify-center items-center h-auto py-[1rem] min-h-[90vh] bg-[url("https://cdn.britannica.com/37/178937-050-21CBC6F1/Palenque-Temple-of-the-Inscriptions-Chiapas-Mexico.jpg")] bg-cover bg-no-repeat'>
       <div className='flex flex-col lg:w-[50%] w-[95%] gap-5 bg-[#ffffffa9] rounded-[10px] py-[1rem] px-[2rem]'>
       <div className='w-full h-auto flex items-center justify-center text-[2rem]  '>
@@ -103,5 +132,6 @@ export default function crear_usuarioRol4() {
       </div>
       
     </div>
+     </>
       );
     }

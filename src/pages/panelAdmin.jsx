@@ -16,6 +16,8 @@ import UpdateRol from '../components/updateRol';
 import Crear_usuarioRol4 from '../components/crear_usuarioRol4.jsx';
 import Asing_foliosRol4 from '../components/asing_foliosRol4.jsx';
 import DeleteAdminsRol4 from '../components/deleteAdminsRol4.jsx';
+import Registro_folios from './registro_folios.jsx';
+import Registro_usuarios from './registro_usuarios.jsx';
 function useUserRoleVerification(usersLoaded, userss, Admin, usuario, LogOut) {
   useEffect(() => {
     if (usersLoaded && Array.isArray(userss)) {
@@ -99,7 +101,7 @@ const numberRol=parseInt(rol)
 
 return (
 <div className='w-full h-full'>
-    <div className={`absolute bg-[#b2b42d] lg:w-[25%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-10 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
+    <div className={`absolute bg-[#b2b42d] lg:w-[25%] w-[60%] h-full py-[2rem] lg:px-[2rem] px-[1.3rem] flex flex-col gap-4 items-start transition-transform ${menu ? 'translate-x-0' : '-translate-x-full'}`}>
         <Anchor onClick={closeMenu}>
         <svg className="w-6 h-6 text-[white] hover:animate-spin" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -158,7 +160,22 @@ return (
           </svg>
           <button  className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion7')}>Usuarios conectados</button>
           </div>
-
+          {localStorage.getItem('usuario') === 'ELGESTORMX' | localStorage.getItem('usuario') === 'gus' && (
+            <>
+            <div className='flex gap-5'>
+          <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
+          </svg>
+          <button  className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion13')}>Registro usuarios</button>
+          </div>
+          <div className='flex gap-5'>
+          <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.333 6.764a3 3 0 1 1 3.141-5.023M2.5 16H1v-2a4 4 0 0 1 4-4m7.379-8.121a3 3 0 1 1 2.976 5M15 10a4 4 0 0 1 4 4v2h-1.761M13 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-4 6h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
+          </svg>
+          <button  className='hover:text-[#370080] text-white lg:text-[1rem] text-[0.8rem]' onClick={()=>openModal('opcion14')}>Registro asignaciones</button>
+          </div>
+            </>
+          )}
           <div className='flex gap-5'>
           <svg class="lg:w-6 lg:h-6 w-4 h-4 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m13 7-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
@@ -306,6 +323,12 @@ return (
         )}
         {opcionSelect === 'opcion12' && (
          <DeleteAdminsRol4/>
+        )}
+        {opcionSelect === 'opcion13' && (
+         <Registro_usuarios/>
+        )}
+        {opcionSelect === 'opcion14' && (
+         <Registro_folios/>
         )}
       </>
     )}
