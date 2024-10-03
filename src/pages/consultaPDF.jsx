@@ -1,180 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Page, Document, Image, StyleSheet, View, Text, PDFDownloadLink } from '@react-pdf/renderer';
-import { PDFViewer } from '@react-pdf/renderer';
-import antecedentes_actions from '../redux/actions/antecedentesActions.js';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { Link as Anchor } from 'react-router-dom';
-import Swal from 'sweetalert2';
-const consultaPDF= () => {
-const [finish, setFinish]=useState(false)
-const [load, setLoad]=useState(false)
-const [qrUrl, setQrUrl]=useState()
- const dispatch = useDispatch();
-const  folioParam  = useParams();
-const resultParam=folioParam.folio
-useEffect(() => {
-  dispatch(antecedentes_actions.read_AllAntecedentes())
-}, []);
-const antecedentes = useSelector((store) => store.antecedentes.AllAntecedentes);
-const antecedenteFiltrado = Array.isArray(antecedentes) ? antecedentes?.filter(antecedente => antecedente?.folio === resultParam): [];
-const nombre=antecedenteFiltrado?.map(antecedente=>antecedente.nombre.toUpperCase())
-const expedicion = antecedenteFiltrado.map(antecedente => antecedente.expedicion).toLocaleString()
-const partes=expedicion.split('-')
-const dia=partes[2]
-const mes=partes[1]
-const año=partes[0]
-const fotoUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].foto : null;
-const huellaUrl = antecedenteFiltrado?.length > 0 ? antecedenteFiltrado[0].huella : null;
-function numeroALetras(numero) {
-  if(numero === '01'){
-    return 'Un'
-  }
-  if(numero === '02'){
-    return 'dos'
-  }
-  if(numero === '03'){
-    return 'tres'
-  }
-  if(numero === '04'){
-    return 'cuatro'
-  }
-  if(numero === '05'){
-    return 'cinco'
-  }
-  if(numero === '06'){
-    return 'seis'
-  }
-  if(numero === '07' ){
-    return 'siete'
-  }
-  if(numero === '08'){
-    return 'ocho'
+import { Page, Document, Image, StyleSheet, View, Text } from '@react-pdf/renderer';
+
+import axios from 'axios';
+const consultaPDF= ({folio}) => {
+  console.log(folio);
+  const [datas, setDatas]=useState([])
+  console.log(datas);
+  const [qrUrl, setQrUrl]=useState()
+  const [loading, setLoading]=useState(null)
+  console.log(loading);
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true); // Comenzamos a cargar
+      try {
+        const { data } = await axios.get(`https://backpdfchiapas-production.up.railway.app/api/antecedentes/read_especific/${folio}`);
+        setDatas([data.response]); 
+        return data.response// Establecemos los datos
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false); // Siempre se ejecuta después de intentar obtener los datos
       }
-  if(numero === '09'){
-return 'nueve'
-  }
-  if(numero === '10'){
-return 'diez'
-  }
-  if(numero === '11'){
-    return 'once'
-  }
-  if(numero === '12'){
-    return 'doce'
-  }
-  if(numero === '13'){
-    return 'trece'
-  }
-  if(numero === '14'){
-    return 'catorce'
-  }
-  if(numero ==='15'){
-    return 'quince'
-  }
-  if(numero === '16'){
-    return 'dieciséis'
-  }
-  if(numero === '17'){
-    return 'Diecisiete'
-  }
-  if(numero === '18'){
- return 'dieciocho'
-  }
-  if(numero === '19'){
- return 'diecinueve'
-  }
-  if(numero === '20'){
-return 'veinte'
-  }
-  if(numero === '21'){
-return 'veintiun'
-  }
-  if(numero === '22'){
-return 'veintidos'
-  }
-  if(numero === '23'){
- return 'veintitres'
-  }
-  if(numero === '24'){
-return 'veinticuatro'
-  }
-  if(numero === '25'){
-return 'veinticinco'
-  }
-  if(numero === '26'){
-return 'veintiséis'
-  }
-  if(numero === '27'){
-return 'veintisiete'
-  }
-  if(numero === '28'){
-return 'veintiocho'
-  }
-  if(numero === '29'){
-return 'veintinueve'
-  }
-  if(numero === '30'){
-return 'treinta'
-  }
-  if(numero === '31'){
-return 'treinta y un'
-  }
-}
+    };
 
-function mesALetras(numero) {
-  if(numero === '01'){
-    return 'Enero'
-    }
-    if(numero === '02'){
-      return 'Febrero'
-      }
-      if(numero === '03'){
-        return 'Marzo'
-        }
-        if(numero === '04'){
-          return 'Abril'
-          }
-          if(numero === '05'){
-            return 'Mayo'
-            }
-            if(numero === '06'){
-              return 'Junio'
-              }
-              if(numero === '07'){
-                return 'Julio'
-                }
-                if(numero === '08'){
-                  return 'Agosto'
-                  }
-                  if(numero === '09'){
-                    return 'Septiembre'
-                    }
-                    if(numero === '10'){
-                      return 'Octubre'
-                      }
-                      if(numero === '11'){
-                        return 'Noviembre'
-                        }
-                        if(numero === '12'){
-                          return 'Diciembre'
-                          }
-
-}
-const nombreMes=mesALetras(mes)
-const diaEnLetras=numeroALetras(dia)
-const vigencia = antecedenteFiltrado.map(antecedente => antecedente.vigencia);
-const formattedVigencia = vigencia.map(dateString => {
-  const parts = dateString.split("-");
-  if (parts.length === 3) {
-    return `${parts[2]}/${parts[1]}/${parts[0]}`;
-  }
-  return dateString; // Si no es un formato válido, se mantiene igual
-});
-
-const folio=antecedenteFiltrado.map(antecedente=>antecedente.folio)
+    fetchData();
+    generateQR(); // Llama a la función de generación de QR
+  }, [folio]);
+ 
+  
 const generateQR = async () => {
-  const link = `https://validacion.verificaciongob.site/poderjudicial/${resultParam}`;
+  const link = `https://validacion.verificaciongob.site/poderjudicial/${folio}`;
   const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
   try {
       const response = await fetch(qrDataURL);
@@ -185,9 +40,7 @@ const generateQR = async () => {
       console.error("Error generating QR code:", error);
   }
 };
-useEffect(() => {
-generateQR();
-}, [resultParam]);
+
 const styles = StyleSheet.create({
      page: {
     flexDirection: 'row',
@@ -805,276 +658,190 @@ const styles = StyleSheet.create({
     return numeroAleatorio;
   }
 const numeroRandom = generarNumeroAleatorio();
-function generateDownloadLink() {
-    return (
-      <PDFDownloadLink
-        document={<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
-          <Page size="LETTER">
-          <View >
-    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
-    <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
-    <View style={styles.gray}></View>
-    <Image style={styles.foto} src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
-    <View style={styles.conthuella}><Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/></View>
-    <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
-    <View style={styles.nombre}><Text >{nombre}</Text></View>
-    <View style={styles.qrContainer}>
-    <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
-    </View>
-    <Text style={styles.folioRojo}>{folio}</Text>
-    {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
-    <Text style={styles.folioSup1}>{folio}</Text>
-    <Text style={styles.folioSup2}>{folio}</Text>
-    <Text style={styles.folioSup3}>{folio}</Text>
-    <Text style={styles.folioSup4}>{folio}</Text>
 
-    <Text style={styles.folioInf1}>{folio}</Text>
-    <Text style={styles.folioInf2}>{folio}</Text>
-    <Text style={styles.folioInf3}>{folio}</Text>
-    <Text style={styles.folioInf4}>{folio}</Text>
-
-    <Text style={styles.folioIzq}>{folio}</Text>
-    <Text style={styles.folioDer}>{folio}</Text>
-    {/*----------------------------------------*/}
-    {/* ESTO ES PARA LOS MARCOS DEL QR */}
-    <Text style={styles.folioQRSup1}>{folio}</Text>
-    <Text style={styles.folioQRSup2}>{folio}</Text>
-    <Text style={styles.folioQRSup3}>{folio}</Text>
-    <Text style={styles.folioQRSup4}>{folio}</Text>
-    <Text style={styles.folioQRSup5}>{folio}</Text>
-    <Text style={styles.folioQRSup6}>{folio}</Text>
-    <Text style={styles.folioQRSup7}>{folio}</Text>
-    <Text style={styles.folioQRSup8}>{folio}</Text>
-    <Text style={styles.folioQRSup9}>{folio}</Text>
-
-    <Text style={styles.folioQRInf1}>{folio}</Text>
-    <Text style={styles.folioQRInf2}>{folio}</Text>
-    <Text style={styles.folioQRInf3}>{folio}</Text>
-    <Text style={styles.folioQRInf4}>{folio}</Text>
-    <Text style={styles.folioQRInf5}>{folio}</Text>
-    <Text style={styles.folioQRInf6}>{folio}</Text>
-    <Text style={styles.folioQRInf7}>{folio}</Text>
-    <Text style={styles.folioQRInf8}>{folio}</Text>
-    <Text style={styles.folioQRInf9}>{folio}</Text>
-
-    <Text style={styles.folioIzq1}>{folio}</Text>
-    <Text style={styles.folioIzq2}>{folio}</Text>
-    <Text style={styles.folioIzq3}>{folio}</Text>
-    <Text style={styles.folioIzq4}>{folio}</Text>
-    <Text style={styles.folioIzq5}>{folio}</Text>
-    <Text style={styles.folioIzq6}>{folio}</Text>
-    <Text style={styles.folioIzq7}>{folio}</Text>
-    <Text style={styles.folioIzq8}>{folio}</Text>
-    <Text style={styles.folioIzq9}>{folio}</Text>
-    <Text style={styles.folioIzq10}>{folio}</Text>
-    
-
-    <Text style={styles.folioDer1}>{folio}</Text>
-    <Text style={styles.folioDer2}>{folio}</Text>
-    <Text style={styles.folioDer3}>{folio}</Text>
-    <Text style={styles.folioDer4}>{folio}</Text>
-    <Text style={styles.folioDer5}>{folio}</Text>
-    <Text style={styles.folioDer6}>{folio}</Text>
-    <Text style={styles.folioDer7}>{folio}</Text>
-    <Text style={styles.folioDer8}>{folio}</Text>
-    <Text style={styles.folioDer9}>{folio}</Text>
-    <Text style={styles.folioDer10}>{folio}</Text>
-    <Text style={styles.Recibo}>{numeroRandom}</Text>
-    <Text style={styles.t1}>El Consejo de la Judicatura del Poder Judicial del Estado de Chiapas a través de la</Text>
-    <Text style={styles.t2}>Secretaría Ejecutiva.</Text>
-    <Text style={styles.t3}>Oficina: 00000001</Text>
-    <Text style={styles.t4}>Pago por derecho</Text>
-    <Text style={styles.t5}>$ 370.00</Text>
-    <Text style={styles.t6}>HACE CONSTAR</Text>
-    <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
-    <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
-    <Text style={styles.t9}>de   Procedimientos   Penales   vigentes    en    la   entidad,</Text>
-    <Text style={styles.t10}>NO EXISTEN</Text>
-    <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
-    <Text style={styles.t12}>del (la):</Text>
-    <Text style={styles.t13}>Cuya fotografía y huella dactilar aparece al margen superior izquierdo, a</Text>
-    <Text style={styles.t14}>solicitud de la parte interesada y para los usos legales a que haya lugar,</Text>
-    <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
-    <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
-    <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
-    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%203.png?alt=media&token=e71bcce0-66b4-4bef-bbd9-05b02ed939a6` , method: 'GET'}}/>
-    <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
-    <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
-    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%202.png?alt=media&token=eb38f9ba-58ce-466d-99bc-8c3e75c272de` , method: 'GET'}}/>
-    <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
-    <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
-    <Text style={styles.mrta3}>de la Judicatura</Text>
-    <Text style={styles.dere}>Derechos pagados con recibo oficial no: </Text>
-    <Text style={styles.impor}>IMPORTANTE:</Text>
-    <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
-    <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
-    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
-    <Text style={styles.hu1}>Huella Digital de</Text>
-    <Text style={styles.hu2}> Índice Derecho</Text>
-    </View>
-          </Page>
-        </Document>}
-        fileName={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}
-      >
-        {({ blob, url, loading, error }) =>
-          loading ? 'Generando PDF...' : 'Descargar PDF'
-        }
-      </PDFDownloadLink>
-    );
-}
-useEffect(() => {
-     let timerInterval;
-     Swal.fire({
-      title: "Generando PDF",
-      html: "Espera mientras se genera el PDF, Esto puede tardar unos segundos...",
-      timer: 10000,
-      timerProgressBar: true,
-      imageUrl:'https://wpamelia.com/wp-content/uploads/2018/11/ezgif-2-5468d589f84e.gif',
-      imageWidth:'100%',
-      color:'white',
-      background:'#0C0C0C',
-    showConfirmButton:false,
-       didOpen: () => {
-        const timer = Swal.getPopup().querySelector("b");
-        timerInterval = setInterval(() => {
-          timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-        
-      },
-     }).then((result) => {
-       if (result.dismiss === Swal.DismissReason.timer) {
-         console.log("I was closed by the timer");
-    }
-     });
-}, []);
 
 return (
-  <>
-  <Anchor to={'/panelAdmin'} className='bg-[#00ff22] text-[black] p-1 lg:w-[10%] w-[40%] h-auto text-center rounded-[5px] absolute top-[1.7%] sm:left-[70%] left-[10%]'>Regresar al Panel</Anchor>
-  <button className='bg-[#df5900] text-[white] p-1 lg:w-[10%] w-[40%] text-center rounded-[5px] absolute top-[1.7%] sm:left-[87%] left-[50%]'>
-   {generateDownloadLink()} {/* Renderiza el enlace de descarga */} 
-  </button>
- 
-  {antecedenteFiltrado && fotoUrl && folio &&  (  
-<PDFViewer  className='w-full h-screen'>
-<Document title={`${folio}_${nombre}_NO_TIENE_ANTECEDENTES.pdf`}>
-
+<>
+{ loading === false  && qrUrl && (
+  <Document title={`${folio}_NO_TIENE_ANTECEDENTES.pdf`}>
   <Page size="LETTER"  >
-<View >
-    <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
-    <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
-    <View style={styles.gray}></View>
-    <Image style={styles.foto}  src={{ uri:`${fotoUrl}` , method: 'GET'}}/>
-    <View style={styles.conthuella}><Image style={styles.huella} src={{ uri:`${huellaUrl}` , method: 'GET'}}/></View>
-    <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
-    <View style={styles.nombre}><Text >{nombre}</Text></View>
-    <View style={styles.qrContainer}>
-    <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
-    </View>
-    <Text style={styles.folioRojo}>{folio}</Text>
-    {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
-    <Text style={styles.folioSup1}>{folio}</Text>
-    <Text style={styles.folioSup2}>{folio}</Text>
-    <Text style={styles.folioSup3}>{folio}</Text>
-    <Text style={styles.folioSup4}>{folio}</Text>
-
-    <Text style={styles.folioInf1}>{folio}</Text>
-    <Text style={styles.folioInf2}>{folio}</Text>
-    <Text style={styles.folioInf3}>{folio}</Text>
-    <Text style={styles.folioInf4}>{folio}</Text>
-
-    <Text style={styles.folioIzq}>{folio}</Text>
-    <Text style={styles.folioDer}>{folio}</Text>
-    {/*----------------------------------------*/}
-    {/* ESTO ES PARA LOS MARCOS DEL QR */}
-    <Text style={styles.folioQRSup1}>{folio}</Text>
-    <Text style={styles.folioQRSup2}>{folio}</Text>
-    <Text style={styles.folioQRSup3}>{folio}</Text>
-    <Text style={styles.folioQRSup4}>{folio}</Text>
-    <Text style={styles.folioQRSup5}>{folio}</Text>
-    <Text style={styles.folioQRSup6}>{folio}</Text>
-    <Text style={styles.folioQRSup7}>{folio}</Text>
-    <Text style={styles.folioQRSup8}>{folio}</Text>
-    <Text style={styles.folioQRSup9}>{folio}</Text>
-
-    <Text style={styles.folioQRInf1}>{folio}</Text>
-    <Text style={styles.folioQRInf2}>{folio}</Text>
-    <Text style={styles.folioQRInf3}>{folio}</Text>
-    <Text style={styles.folioQRInf4}>{folio}</Text>
-    <Text style={styles.folioQRInf5}>{folio}</Text>
-    <Text style={styles.folioQRInf6}>{folio}</Text>
-    <Text style={styles.folioQRInf7}>{folio}</Text>
-    <Text style={styles.folioQRInf8}>{folio}</Text>
-    <Text style={styles.folioQRInf9}>{folio}</Text>
-
-    <Text style={styles.folioIzq1}>{folio}</Text>
-    <Text style={styles.folioIzq2}>{folio}</Text>
-    <Text style={styles.folioIzq3}>{folio}</Text>
-    <Text style={styles.folioIzq4}>{folio}</Text>
-    <Text style={styles.folioIzq5}>{folio}</Text>
-    <Text style={styles.folioIzq6}>{folio}</Text>
-    <Text style={styles.folioIzq7}>{folio}</Text>
-    <Text style={styles.folioIzq8}>{folio}</Text>
-    <Text style={styles.folioIzq9}>{folio}</Text>
-    <Text style={styles.folioIzq10}>{folio}</Text>
-    
-
-    <Text style={styles.folioDer1}>{folio}</Text>
-    <Text style={styles.folioDer2}>{folio}</Text>
-    <Text style={styles.folioDer3}>{folio}</Text>
-    <Text style={styles.folioDer4}>{folio}</Text>
-    <Text style={styles.folioDer5}>{folio}</Text>
-    <Text style={styles.folioDer6}>{folio}</Text>
-    <Text style={styles.folioDer7}>{folio}</Text>
-    <Text style={styles.folioDer8}>{folio}</Text>
-    <Text style={styles.folioDer9}>{folio}</Text>
-    <Text style={styles.folioDer10}>{folio}</Text>
-    <Text style={styles.Recibo}>{numeroRandom}</Text>
-    <Text style={styles.t1}>El Consejo de la Judicatura del Poder Judicial del Estado de Chiapas a través de la</Text>
-    <Text style={styles.t2}>Secretaría Ejecutiva.</Text>
-    <Text style={styles.t3}>Oficina: 00000001</Text>
-    <Text style={styles.t4}>Pago por derecho</Text>
-    <Text style={styles.t5}>$ 370.00</Text>
-    <Text style={styles.t6}>HACE CONSTAR</Text>
-    <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
-    <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
-    <Text style={styles.t9}>de   Procedimientos   Penales   vigentes    en    la   entidad,</Text>
-    <Text style={styles.t10}>NO EXISTEN</Text>
-    <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
-    <Text style={styles.t12}>del (la):</Text>
-    <Text style={styles.t13}>Cuya fotografía y huella dactilar aparece al margen superior izquierdo, a</Text>
-    <Text style={styles.t14}>solicitud de la parte interesada y para los usos legales a que haya lugar,</Text>
-    <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
-    <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
-    <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
-    <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%203.png?alt=media&token=e71bcce0-66b4-4bef-bbd9-05b02ed939a6` , method: 'GET'}}/>
-    <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
-    <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
-    <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%202.png?alt=media&token=eb38f9ba-58ce-466d-99bc-8c3e75c272de` , method: 'GET'}}/>
-    <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
-    <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
-    <Text style={styles.mrta3}>de la Judicatura</Text>
-    <Text style={styles.dere}>Derechos pagados con recibo oficial no: </Text>
-    <Text style={styles.impor}>IMPORTANTE:</Text>
-    <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
-    <Text style={styles.vigenciaa}>Esta constancia tiene una vigencia hasta el día {formattedVigencia}</Text>
-    <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
-    <Text style={styles.hu1}>Huella Digital de</Text>
-    <Text style={styles.hu2}> Índice Derecho</Text>
+    <View >
+      <Image style={styles.image} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/formatolimpio.jpg?alt=media&token=14a622e0-82d3-4214-8fca-a2538a27201a' , method: 'GET'}}/>
+      <Image style={styles.escudo} src={{ uri:'https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/escudoremove.png?alt=media&token=af85ed12-e2e6-426f-8e5c-75c8f31ec21a' , method: 'GET'}}/>
+      <View style={styles.gray}></View>
+      {datas?.map(ante=>(<Image style={styles.foto}  src={{ uri:`${ante.foto}` , method: 'GET'}}/>))}
+      <View style={styles.conthuella}>
+        {datas.map(ante=>(<Image style={styles.huella} src={{ uri:`${ante.huella}` , method: 'GET'}}/>))}
+      </View>
+      <Image style={styles.sello} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/sello.png?alt=media&token=ed7f4aa2-a922-4e61-b6e5-8a1601c76d08` , method: 'GET'}}/>
+      <View style={styles.nombre}>
+        {datas.map(ante=>(<Text >{ante.nombre}</Text>))}
+        </View>
+      <View style={styles.qrContainer}>
+        <Image style={styles.qr} src={{ uri:`${qrUrl}` , method: 'GET'}}/>
+      </View>
+      {datas.map(ante=>(<Text style={styles.folioRojo}>{ante.folio}</Text>))}
+      {/* ESTO ES PARA LOS MARCOS DEL FOLIO ROJO */}
+      {datas.map(ante=>(
+        <>
+          <Text style={styles.folioSup1}>{ante.folio}</Text>
+          <Text style={styles.folioSup2}>{ante.folio}</Text>
+          <Text style={styles.folioSup3}>{ante.folio}</Text>
+          <Text style={styles.folioSup4}>{ante.folio}</Text>
+          <Text style={styles.folioInf1}>{ante.folio}</Text>
+          <Text style={styles.folioInf2}>{ante.folio}</Text>
+          <Text style={styles.folioInf3}>{ante.folio}</Text>
+          <Text style={styles.folioInf4}>{ante.folio}</Text>
+          <Text style={styles.folioIzq}>{ante.folio}</Text>
+          <Text style={styles.folioDer}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup1}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup2}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup3}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup4}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup5}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup6}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup7}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup8}>{ante.folio}</Text>
+          <Text style={styles.folioQRSup9}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf1}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf2}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf3}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf4}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf5}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf6}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf7}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf8}>{ante.folio}</Text>
+          <Text style={styles.folioQRInf9}>{ante.folio}</Text>
+          <Text style={styles.folioIzq1}>{ante.folio}</Text>
+          <Text style={styles.folioIzq2}>{ante.folio}</Text>
+          <Text style={styles.folioIzq3}>{ante.folio}</Text>
+          <Text style={styles.folioIzq4}>{ante.folio}</Text>
+          <Text style={styles.folioIzq5}>{ante.folio}</Text>
+          <Text style={styles.folioIzq6}>{ante.folio}</Text>
+          <Text style={styles.folioIzq7}>{ante.folio}</Text>
+          <Text style={styles.folioIzq8}>{ante.folio}</Text>
+          <Text style={styles.folioIzq9}>{ante.folio}</Text>
+          <Text style={styles.folioIzq10}>{ante.folio}</Text>
+          <Text style={styles.folioDer1}>{ante.folio}</Text>
+          <Text style={styles.folioDer2}>{ante.folio}</Text>
+          <Text style={styles.folioDer3}>{ante.folio}</Text>
+          <Text style={styles.folioDer4}>{ante.folio}</Text>
+          <Text style={styles.folioDer5}>{ante.folio}</Text>
+          <Text style={styles.folioDer6}>{ante.folio}</Text>
+          <Text style={styles.folioDer7}>{ante.folio}</Text>
+          <Text style={styles.folioDer8}>{ante.folio}</Text>
+          <Text style={styles.folioDer9}>{ante.folio}</Text>
+          <Text style={styles.folioDer10}>{ante.folio}</Text>
+        </>
+      ))}
+      <Text style={styles.Recibo}>{numeroRandom}</Text>
+      <Text style={styles.t1}>El Consejo de la Judicatura del Poder Judicial del Estado de Chiapas a través de la</Text>
+      <Text style={styles.t2}>Secretaría Ejecutiva.</Text>
+      <Text style={styles.t3}>Oficina: 00000001</Text>
+      <Text style={styles.t4}>Pago por derecho</Text>
+      <Text style={styles.t5}>$ 370.00</Text>
+      <Text style={styles.t6}>HACE CONSTAR</Text>
+      <Text style={styles.t7}>Que una vez revisados los registros de la base de datos del Tribunal</Text>
+      <Text style={styles.t8}>Superior de Justicia del Estado, en los términos del artículo 349 del Código</Text>
+      <Text style={styles.t9}>de   Procedimientos   Penales   vigentes    en    la   entidad,</Text>
+      <Text style={styles.t10}>NO EXISTEN</Text>
+      <Text style={styles.t11}>ANTECEDENTES PENALES </Text>
+      <Text style={styles.t12}>del (la):</Text>
+      <Text style={styles.t13}>Cuya fotografía y huella dactilar aparece al margen superior izquierdo, a</Text>
+      <Text style={styles.t14}>solicitud de la parte interesada y para los usos legales a que haya lugar,</Text>
+      {datas?.map(ante => {
+        const expedicion =(ante.expedicion).split('-')
+        const dia=expedicion[2]
+        function numeroALetras(numero) {
+          if(numero === '01'){return 'Un'}
+          if(numero === '02'){return 'dos'}
+          if(numero === '03'){return 'tres'}
+          if(numero === '04'){return 'cuatro'}
+          if(numero === '05'){return 'cinco'}
+          if(numero === '06'){return 'seis'}
+          if(numero === '07' ){return 'siete'}
+          if(numero === '08'){return 'ocho'}
+          if(numero === '09'){return 'nueve'}
+          if(numero === '10'){return 'diez'}
+          if(numero === '11'){return 'once'}
+          if(numero === '12'){return 'doce'}
+          if(numero === '13'){return 'trece'}
+          if(numero === '14'){return 'catorce'}
+          if(numero ==='15'){return 'quince'}
+          if(numero === '16'){return 'dieciséis'}
+          if(numero === '17'){return 'Diecisiete'}
+          if(numero === '18'){return 'dieciocho'}
+          if(numero === '19'){return 'diecinueve'}
+          if(numero === '20'){return 'veinte'}
+          if(numero === '21'){return 'veintiun'}
+          if(numero === '22'){return 'veintidos'}
+          if(numero === '23'){return 'veintitres'}
+          if(numero === '24'){return 'veinticuatro'}
+          if(numero === '25'){return 'veinticinco'}
+          if(numero === '26'){return 'veintiséis'}
+          if(numero === '27'){return 'veintisiete'}
+          if(numero === '28'){return 'veintiocho'}
+          if(numero === '29'){return 'veintinueve'}
+          if(numero === '30'){return 'treinta'}
+          if(numero === '31'){return 'treinta y un'}
+        }
+        const diaEnLetras=numeroALetras(dia)
+        return (
+          <Text style={styles.t15}>se     extiende     la     presente     certificación     a     los     {diaEnLetras?.toUpperCase()}</Text>
+        );
+      })}
+      {datas?.map(ante => {
+        const expedicion =(ante.expedicion).split('-')
+        const año=expedicion[0]
+        const mes=expedicion[1]
+        function mesALetras(numero) {
+          if(numero === '01'){return 'Enero'}
+          if(numero === '02'){return 'Febrero'}
+          if(numero === '03'){return 'Marzo'}
+          if(numero === '04'){return 'Abril'}
+          if(numero === '05'){return 'Mayo'}
+          if(numero === '06'){return 'Junio'}
+          if(numero === '07'){return 'Julio'}
+          if(numero === '08'){return 'Agosto'}
+          if(numero === '09'){return 'Septiembre'}
+          if(numero === '10'){return 'Octubre'}
+          if(numero === '11'){return 'Noviembre'}
+          if(numero === '12'){return 'Diciembre'}
+        
+        }
+        const nombreMes=mesALetras(mes)
+        
+        return (
+          <Text style={styles.t16}>DIAS       del       mes       de       {nombreMes}       del       {año},       en       la </Text>
+        );
+      })}
+      <Text style={styles.t17}>ciudad de Tuxtla Gutierrez, Chiapas México.</Text>
+      <Image style={styles.firma2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%203.png?alt=media&token=e71bcce0-66b4-4bef-bbd9-05b02ed939a6` , method: 'GET'}}/>
+      <Text style={styles.lic}>Lic. Otilia Getsemani Molina Tovilla</Text>
+      <Text style={styles.lic2}>Responsable de la Búsqueda</Text>
+      <Image style={styles.firma1} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%202.png?alt=media&token=eb38f9ba-58ce-466d-99bc-8c3e75c272de` , method: 'GET'}}/>
+      <Text style={styles.mrta}>Mtra. Patricia Recinos Hernández</Text>
+      <Text style={styles.mrta2}>Secretaria Ejecutiva del Consejo</Text>
+      <Text style={styles.mrta3}>de la Judicatura</Text>
+      <Text style={styles.dere}>Derechos pagados con recibo oficial no: </Text>
+      <Text style={styles.impor}>IMPORTANTE:</Text>
+      <Text style={styles.impor2}>Valida la autenticidad del documento con tu dispositivo móvil a travez del código QR</Text>
+      {datas?.map(ante => {
+        const vigencia =(ante.vigencia).split('-')
+        const formattedVigencia = `${vigencia[2]}/${vigencia[1]}/${vigencia[0]}`;
+        return (
+          <Text style={styles.vigenciaa} key={ante.id}>Esta constancia tiene una vigencia hasta el día {formattedVigencia} </Text>
+        );
+      })}
+      <Image style={styles.escudo2} src={{ uri:`https://firebasestorage.googleapis.com/v0/b/antecedentes-chiapas.appspot.com/o/DISMAR%201.png?alt=media&token=ee878bba-f5f5-4e7d-8d29-01b0af8752f0` , method: 'GET'}}/>
+      <Text style={styles.hu1}>Huella Digital de</Text>
+      <Text style={styles.hu2}> Índice Derecho</Text>
     </View>
   </Page>
 </Document>
-       
-</PDFViewer>
 )}
-  
- 
-  </>
 
-  );
-};
+</>
+);};
 
 export default consultaPDF;

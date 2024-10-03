@@ -152,7 +152,7 @@ export default function admiAltasrol3() {
                   <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.nombre}</td>
                   <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.folio}</td>
                   <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
-                  <Anchor className='flex ' to={`/consultaPDF/${licencia.folio}`}>
+                  <Anchor className='flex ' to={`/download_pdf/${licencia?.folio}`}>
                   <button className=''>
                   <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
