@@ -201,7 +201,7 @@ async function crearAltas() {
           try {
    await dispatch(antecedentesActions.create_antecedentes(data));
    await dispatch(userActions.read_users())
-      navigate(`/consultaPDF/${folio}`)
+   window.open(`/download_pdf/${folio}`, '_blank');
       Swal.close();
     } catch (error) {
       console.error('Error al generar y subir el QR:', error);
