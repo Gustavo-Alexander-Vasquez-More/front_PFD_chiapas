@@ -4,11 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import EditarAntecedente from './editarAntecedente.jsx';
 import { Link as Anchor } from 'react-router-dom';
+import NavBar from './Navbar.jsx';
+import Download_pdf from './download_pdf.jsx';
 export default function admiAltas() {
     const dispatch = useDispatch();
 const [searchTerm, setSearchTerm] = useState('');
-const [mostrarModal, setMostrarModal]=useState(false)
+const [mostrarModal, setMostrarModal]=useState(false) //MODAL PARA EDICIONES
+const [mostrarModal2, setMostrarModal2]=useState(false) // PARA ABRIR EL MODAL DE DESCARGA PDF
 const [opcionSelect, setOpcionSelect]=useState(null)
+const [folio_selected, setFolio_selected]=useState()
 const [currentPage, setCurrentPage] = useState(
   parseInt(localStorage.getItem('pagina')) || 1 //le digo que mi estado inicial sea 1 o que sea el numero almacenado en el local storage
 );
@@ -18,9 +22,11 @@ function openModal(opcion){
   setMostrarModal(true)
 }
 const user = localStorage.getItem('usuario');
-function openModal(opcion){
-  setOpcionSelect(opcion)
-  setMostrarModal(true)
+function openModal2(){
+  setMostrarModal2(true)
+}
+function closeModal2(){
+  setMostrarModal2(false)
 }
 const antecedente = useSelector((store) => store.antecedentes?.antecedentes);
 
@@ -140,7 +146,14 @@ const pagina=localStorage.setItem('pagina', currentPage)
 const rol = localStorage.getItem('rol')
 const numbRol=parseInt(rol)
   return (
-  <div className='w-full h-[90vh] bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
+    <>
+    {mostrarModal2 === true && (
+      <div className='w-full h-screen absolute flex justify-center items-center'>
+        <Download_pdf close_modal2={closeModal2} folio={folio_selected}/>
+      </div>
+    )}
+    <NavBar/>
+    <div className='w-full h-[90vh] bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
       <div className='w-full lg:h-20 h-[5vh] flex justify-center items-center'>
         <p className='lg:text-2xl text-[1.15rem]'>Administra tus Altas</p>
       </div>
@@ -184,13 +197,13 @@ const numbRol=parseInt(rol)
                     <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.author_id?.usuario}</td>
                     
                     <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
-                    <Anchor target='_blank' className='flex ' to={`/download_pdf/${licencia?.folio}`}>
-                    <button className=''>
+                    
+                    <button className='' onClick={()=>{openModal2(), setFolio_selected(licencia.folio)}}>
                     <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
   </svg>
                     </button>
-                    </Anchor>
+                    
                     <button  onClick={() => {
     openModal('opcion1');
     handleFolioLocal(licencia.folio);
@@ -226,5 +239,6 @@ const numbRol=parseInt(rol)
                     )}
       </div>
     </div>
+    </>
   );
 }

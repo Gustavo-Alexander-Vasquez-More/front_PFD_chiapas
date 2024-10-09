@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import adminActions from '../redux/actions/userActions';
 import { useDispatch, useSelector } from 'react-redux';
+import NavBar from '../components/Navbar';
 export default function registro_usuarios() {
 const dispatch=useDispatch()
 
@@ -51,6 +52,7 @@ function handlePrev() {
 }
 return (
 <>
+<NavBar/>
 <div className='w-full h-auto min-h-[90vh] flex justify-center items-center py-[1rem]  bg-[url("https://cdn.britannica.com/37/178937-050-21CBC6F1/Palenque-Temple-of-the-Inscriptions-Chiapas-Mexico.jpg")] bg-no-repeat bg-cover bg-black bg-center'>
 <div className='flex flex-col w-[90%] lg:w-[40%] h-auto bg-[white] rounded-[10px]'>
   <div className='w-full flex justify-center border-b-[2px] border-b-[black] border-solid items-center py-[1rem]'>

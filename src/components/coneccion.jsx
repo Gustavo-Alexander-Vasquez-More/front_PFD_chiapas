@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import userActions from '../redux/actions/userActions.js';
 import { useDispatch, useSelector } from 'react-redux';
+import NavBar from './Navbar.jsx';
 
 export default function coneccion() {
     const dispatch = useDispatch();
@@ -11,7 +12,9 @@ export default function coneccion() {
     const usuarios = useSelector((state) => state.users.users) || [];
     
   return (
-    <div className='w-full h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
+   <>
+   <NavBar/>
+   <div className='w-full h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
       <table className='border bg-[#ffffffc9] border-gray-500 w-[60%]'>
         <thead>
           <tr>
@@ -49,5 +52,6 @@ export default function coneccion() {
 </tbody>
       </table>
     </div>
+   </>
   );
 }

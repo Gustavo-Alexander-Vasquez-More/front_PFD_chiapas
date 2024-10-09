@@ -3,10 +3,14 @@ import antecedentes_actions from '../redux/actions/antecedentesActions.js';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import { Link as Anchor } from 'react-router-dom';
+import NavBar from './Navbar.jsx';
+import Download_pdf from './download_pdf.jsx';
 
 export default function admiAltasrol3() {
     const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
+  const [folio_selected, setFolio_selected]=useState()
+  const [mostrarModal2, setMostrarModal2]=useState(false) 
   const [currentPage, setCurrentPage] = useState(
     parseInt(localStorage.getItem('pagina')) || 1
   );
@@ -24,7 +28,12 @@ export default function admiAltasrol3() {
     localStorage.setItem('pagina', currentPage);
     dispatch(antecedentes_actions.read_AntecedentesAuth(payload));
   }, [dispatch, currentPage]);
-
+  function openModal2(){
+    setMostrarModal2(true)
+  }
+  function closeModal2(){
+    setMostrarModal2(false)
+  }
   useEffect(() => {
   dispatch(antecedentes_actions.read_AllAntecedentes())
   }, [dispatch]);
@@ -111,6 +120,13 @@ export default function admiAltasrol3() {
       }).slice(0, searchTerm === AntecedentesAuth[0]?.author_id.usuario.toLowerCase() ? AntecedentesAuth.length : MAX_RESULTS)
     : Antecedentes;
   return (
+    <>
+    {mostrarModal2 === true && (
+      <div className='w-full h-screen absolute flex justify-center items-center'>
+        <Download_pdf close_modal2={closeModal2} folio={folio_selected}/>
+      </div>
+    )}
+    <NavBar/>
     <div className='w-full h-[90vh] bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
     <div className='w-full lg:h-20 h-[5vh] flex justify-center items-center'>
       <p className='lg:text-2xl text-[1.15rem]'>Administra tus licencias</p>
@@ -152,13 +168,13 @@ export default function admiAltasrol3() {
                   <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.nombre}</td>
                   <td className='text-center px-[1rem] bg-gray-100 text-[0.5rem] lg:text-[1rem]'>{licencia.folio}</td>
                   <td className='justify-center px-[1rem] flex lg:gap-5 gap-1 bg-gray-100 '>
-                  <Anchor className='flex ' to={`/download_pdf/${licencia?.folio}`}>
-                  <button className=''>
+                  
+                  <button className='' onClick={()=>{openModal2(), setFolio_selected(licencia.folio)}}>
                   <svg class="lg:w-6 h-6 w-[0.8rem] text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 1v11m0 0 4-4m-4 4L4 8m11 4v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3"/>
   </svg>
                   </button>
-                  </Anchor>
+                  
                  <button className='hover:bg-[#b63232] p-[0.3rem] rounded-[5px] '  onClick={() => handleFolioClick(licencia.folio)} >
                   <svg  class="lg:w-6 h-6 w-[0.8rem] text-gray-800  hover:text-[white]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"/>
@@ -179,6 +195,7 @@ export default function admiAltasrol3() {
           disabled={ Antecedente?.nextPage === null} className='bg-[#1db9b9] text-white p-1 rounded-[10px] disabled:bg-[gray]'>Siguiente</button>
         </div>
     </div>
-  </div>
+  </div>  
+  </>
   );
 }

@@ -3,6 +3,7 @@ import userActions from '../redux/actions/userActions.js';
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import NavBar from './Navbar.jsx';
 export default function asing_foliosRol4() {
     const [selectUser, setSelectUser] = useState('');
     const [addFolioValue, setAddFolioValue] = useState('');
@@ -109,7 +110,9 @@ export default function asing_foliosRol4() {
       : [];
   
   return (
-    <div className="w-full flex justify-center items-center h-auto py-[1rem] min-h-[90vh] bg-[url('https://cdn.britannica.com/37/178937-050-21CBC6F1/Palenque-Temple-of-the-Inscriptions-Chiapas-Mexico.jpg')] bg-cover bg-no-repeat">
+   <>
+   <NavBar/>
+   <div className="w-full flex justify-center items-center h-auto py-[1rem] min-h-[90vh] bg-[url('https://cdn.britannica.com/37/178937-050-21CBC6F1/Palenque-Temple-of-the-Inscriptions-Chiapas-Mexico.jpg')] bg-cover bg-no-repeat">
     <div className='flex flex-col lg:w-[50%] w-[95%] gap-5 bg-[#ffffffa9] rounded-[10px] py-[1rem] px-[2rem]'>
     <div className="w-full h-auto flex justify-center items-center gap-3">
       <p className="sm:text-[1.5rem] text-[1rem] font-semibold">Añade folios a tus empleados</p>
@@ -144,5 +147,6 @@ export default function asing_foliosRol4() {
     )}
     </div>  
   </div>
+   </>
   );
 }

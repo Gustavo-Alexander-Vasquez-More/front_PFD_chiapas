@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import userActions from '../redux/actions/userActions.js';
 import Swal from 'sweetalert2';
+import NavBar from './Navbar.jsx';
 
 export default function CrearUsuario() {
   const [password, setPassword] = useState('');
@@ -82,7 +83,7 @@ console.log(error);
 }
 return (
   <>
-  
+  <NavBar/>
   {loading === true && (
     <div className='w-full bg-[#ffffff9f] absolute flex justify-center items-center h-[100vh]  flex-col gap-2'>
       <div class="spinner-border text-primary" role="status">

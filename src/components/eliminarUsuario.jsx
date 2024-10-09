@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import userActions from '../redux/actions/userActions.js'
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
+import NavBar from './Navbar.jsx';
 
 export default function eliminarUsuario() {
     const [selectUser, setSelectUser] = useState('');
@@ -56,7 +57,9 @@ export default function eliminarUsuario() {
     setSelectUser(inputSelectUser.current.value.trim());
   }
   return (
-    <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
+   <>
+   <NavBar/>
+   <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
     <div className='flex flex-col gap-5 items-center lg:w-[50%] w-[95%] h-auto px-[2rem] py-[1rem] bg-[#ffffffbb] rounded-[10px]'>
     <div className='w-full h-auto flex justify-center items-center gap-2'>
     <p className='text-[1.5rem] underline font-semibold'>Elimina un Usuario</p>
@@ -85,5 +88,6 @@ export default function eliminarUsuario() {
     </div> 
     </div>
     </div>
+   </>
   );
 }

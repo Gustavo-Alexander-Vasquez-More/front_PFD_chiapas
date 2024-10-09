@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import {uploadFoto} from '../foto.js'
 import {uploadHuella} from '../huellas.js'
 import {uploadQr} from '../qr.js'
+import NavBar from './Navbar.jsx';
+import Download_pdf from './download_pdf.jsx';
+
 export default function crearAltas() {
 const [foto, setFoto]=useState('')
 console.log(foto);
@@ -16,7 +19,7 @@ console.log(foto);
  const [fotoLoading, setFotoLoading] = useState(false);
  const [fotoCargada, setFotoCargada] = useState(false);
 const [archivoCargado, setArchivoCargado] = useState(false);
-
+const [mostrarModal, setMostrar_modal]=useState(false)
 const [huella, setHuella]=useState('')
 console.log(huella);
 const [qr, setQr]=useState('')
@@ -34,7 +37,10 @@ useEffect(() => {
   useEffect(() => {
     dispatch(userActions.read_users())
     }, [dispatch]);
-
+function closeModal2(){
+  setMostrar_modal(false)
+  window.location.reload()
+}
   const users=useSelector((store)=>store.users.users)
   const usuarioo=localStorage.getItem('usuario')
   const userFilter = Array.isArray(users) ? users.filter(usuario => usuario?.usuario === usuarioo) : [];
@@ -77,23 +83,6 @@ const calculateVigencia = (expedicionDate) => {
 };
 const vigenciaDate = calculateVigencia(expedicion);
 const antecedentes=useSelector((store)=>store.antecedentes?.AllAntecedentes)
-const generateQR = async (folio) => {
-  console.log(folio);
-  const link = `https://poderjudicialchiapas.org/validacionAntecedente/${folio}`;
-  const qrDataURL = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(link)}`;
-
-  try {
-    const response = await fetch(qrDataURL);
-    const blob = await response.blob();
-    const qrImageFile = new File([blob], 'qr.png', { type: 'image/png' });
-    const qrDownloadURL = await uploadQr(qrImageFile);
-    setQr(qrDownloadURL);
-    console.log('QR subido a Firebase. URL de descarga:', qrDownloadURL);
-  } catch (error) {
-    console.error('Error al generar y subir el QR:', error);
-  }
-};
-
 const [folio, setFolio] = useState('');
 async function obtenerNuevoFolio() {
   try {
@@ -201,8 +190,9 @@ async function crearAltas() {
           try {
    await dispatch(antecedentesActions.create_antecedentes(data));
    await dispatch(userActions.read_users())
-   window.open(`/download_pdf/${folio}`, '_blank');
-      Swal.close();
+   Swal.close();
+   await window.scrollTo(0, 0)
+   setMostrar_modal(true)
     } catch (error) {
       console.error('Error al generar y subir el QR:', error);
       Swal.fire({
@@ -229,6 +219,13 @@ async function crearAltas() {
 const rol=localStorage.getItem('rol')
 const numbRol=parseInt(rol)
   return (
+    <>
+    {mostrarModal === true && (
+      <div className='w-full h-screen absolute flex justify-center items-center'>
+        <Download_pdf close_modal2={closeModal2} folio={folio}/>
+      </div>
+    )}
+    <NavBar/>
     <div className='w-full py-[1rem] h-auto min-h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-cover'>
       <div className='flex flex-col gap-5 items-center lg:w-[50%] w-[95%] h-auto px-[2rem] py-[1rem] bg-[#ffffffbb] rounded-[10px]'>
       <div className='w-full h-auto  flex flex-col justify-center items-center'>
@@ -324,5 +321,6 @@ const numbRol=parseInt(rol)
       </div>
       </div>
     </div>
+    </>
   );
 }

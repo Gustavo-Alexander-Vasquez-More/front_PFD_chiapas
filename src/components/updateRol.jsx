@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import userActions from '../redux/actions/userActions.js';
 import Swal from 'sweetalert2';
+import NavBar from './Navbar.jsx';
 export default function updateRol() {
     const [selectUser, setSelectUser] = useState('');
     const [rol, setRol]=useState('')
@@ -34,7 +35,9 @@ export default function updateRol() {
     }
     }
     return (
-        <div className='w-full h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
+       <>
+       <NavBar/>
+       <div className='w-full h-[90vh] flex justify-center items-center bg-[url("https://media.gq.com.mx/photos/5d503b24e640cd0009a4511a/16:9/w_2560%2Cc_limit/GettyImages-537315513.jpg")] bg-no-repeat bg-cover'>
           <div className='bg-[white] rounded-[10px] border-solid border-[1px] border-[gray] lg:w-[45%] w-[95%] h-auto flex flex-col'>
             <div className=' border-b-[1px] gap-2 py-[1rem] border-solid border-[gray] flex justify-center items-center'>
                 <p className='lg:text-[1.5rem]'>Cambiar rol a usuarios</p>
@@ -75,5 +78,6 @@ export default function updateRol() {
         </div>
           </div>
         </div>
+       </>
       );
     }
